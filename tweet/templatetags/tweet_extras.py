@@ -2,6 +2,19 @@ from django import template
 
 register = template.Library()
 
+
+@register.filter
+def has_liked(user, tweet_id):
+    from tweet.models import Tweet
+
+    tweet = Tweet.objects.get(id=tweet_id)
+    tweet_likes_users = [like.author for  like in tweet.likes.all()]
+    if user in tweet_likes_users:
+        return True
+    else:
+        return False
+
+
 @register.filter
 def format_tweet_text(text):
     word_list = text.split()

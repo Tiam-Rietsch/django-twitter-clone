@@ -16,7 +16,7 @@ def home_page_view(request):
         json_context = {}
 
         try:
-            like = tweet.tweetlike_set.filter(Q(author=request.user) & Q(tweet__id=tweetID))[0]
+            like = tweet.likes.filter(Q(author=request.user) & Q(tweet__id=tweetID))[0]
         except IndexError:
             like = None
 
@@ -28,7 +28,7 @@ def home_page_view(request):
             like.delete()
             json_context['action'] = 'disliked'
 
-        json_context['count'] = tweet.tweetlike_set.all().count()
+        json_context['count'] = tweet.likes.all().count()
         return JsonResponse(json_context)
     
     return render(request, 'pages/home_page.html', context)

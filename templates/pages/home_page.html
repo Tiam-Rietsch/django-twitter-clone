@@ -7,15 +7,24 @@
     {% include 'account/logout_form.html' %}
 </div>
 
+<div class="menu-bar">
+    <h2>All tweets</h2>
+    <div class="nav-link-wrapper">
+        <a href="">For you</a>
+        <a href="">Following</a>
+    </div>
+</div>
+
+
 <div class="container">
 
     <div class="navbar">
         {% include 'pages/navbar.html' %}
     </div>
     <div class="main-content">
-        <div class="menu-bar">
+        <!-- <div class="menu-bar">
             <h2>All tweets</h2>
-        </div>
+        </div> -->
 
         {% include 'tweet/tweet_list.html' %}
     </div>
@@ -59,10 +68,10 @@
             likeCountText.innerHTML = await data['count']
 
             if (await data['action'] == 'liked') {
-                item.innerHTML = 'dislike'
+                item.innerHTML = 'Dislike'
             }
             else {
-                item.innerHTML = 'like'
+                item.innerHTML = 'Like'
             }
 
             console.log(await data)

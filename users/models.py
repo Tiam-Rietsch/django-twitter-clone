@@ -15,9 +15,5 @@ class Profile(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     followers = models.ManyToManyField('Profile', blank=True, null=True)
 
-    def get_profile_picture(self):
-        default_url = 'localhost:8000/static/img/blank-profile-pircture.png'
-        return self.profile_picture.url if self.profile_picture else default_url
-    
     def __str__(self):
         return self.user.email

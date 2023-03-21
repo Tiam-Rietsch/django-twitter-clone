@@ -34,19 +34,28 @@
                 <img src="{{ tweet.attachement.url }}" alt="attachement" class="tweet-attachement">
             </div>
             {% endif %}
+
+            {% if request.user.is_authenticated %}
             <div class="actions-section">
                 {% csrf_token %}
                 <div>
                     <a href="{% url 'reply-tweet' tweet.id %}"><button>reply</button></a> ()
                 </div>
                 <div>
-                    <button class="tweet-like-button" value="{{ tweet.id }}">like</button> 
-                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.tweetlike_set.all.count }}</span>
+                    <button class="tweet-like-button" value="{{ tweet.id }}">
+                        {% if request.user|has_liked:tweet.id %}
+                        <span>Dislike</span>
+                        {% else %}
+                        <span>Like</span>
+                        {% endif %}
+                    </button> 
+                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.likes.all.count }}</span>
                 </div>
                 <div>
                     <button>repost</button> ({{ tweet.repost_set.all.count }})
                 </div>
             </div>
+            {% endif %}
         </div>
     
     </div>

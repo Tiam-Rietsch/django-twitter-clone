@@ -1,5 +1,5 @@
 <ul class="link-container">
-    <li><a href="">Home</a></li>
+    <li><a href="{% url 'home' %}">Home</a></li>
     <li><a href="">Profile</a></li>
     <li><a href="">Bookmarks</a></li>
     {% if request.user.is_authenticated %}

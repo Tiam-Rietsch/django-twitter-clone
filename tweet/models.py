@@ -15,7 +15,7 @@ class Tweet(models.Model):
     
 
 class TweetLike(models.Model):
-    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, related_name='likes')
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 
