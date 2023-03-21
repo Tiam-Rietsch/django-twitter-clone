@@ -1,0 +1,327 @@
+:root {
+    --main-content-width: 42.8%;
+    --main-content-left: 25.6%;
+    --main-content-top: 14.2%;
+    --main-content-height: 100vh;
+
+    --navbar-height: var(--main-content-height);
+    --navbar-width: 26%;
+    --navlink-container-height: 40vh;
+    --navlink-container-width: 50%;
+    --navuser-container-height: 10vh;
+    --navuser-container-width: var(--navlink-container-width);
+
+    --suggestions-top: 0;
+    --suggestions-right: 0;
+    --suggestions-width: 31.9%;
+    --suggestions-height: var(--main-content-height);
+
+
+    --tweet-container-max-width: 100%;
+    --tweet-container-max-height: 80%;
+
+    --profile-image-width: 60px;
+    --attachement-image-max-width: 90%;
+    --attachtment-image-max-height: 80vh;
+
+    --actions-section-min-width: 100%;
+}
+
+/*----------------------------------------------------------Main side tabs containders-----------------------------------------*/
+
+/* main container start */
+
+.container {
+    height: 100vh;
+    width: 100%;
+}
+
+.menu-bar {
+    position: fixed;
+    height: 15%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.279);
+    backdrop-filter: blur(8px);
+}
+
+/* main container end */
+
+/* navbar tab start */
+
+.navbar {
+    position: fixed;
+    box-sizing: border-box;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: var(--navbar-width);
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    background-color: white;
+}
+
+.navbar .link-container {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    height: 40vh;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.navbar .userinfo-container {
+    padding: 0;
+    margin: 0;
+    height: var(--navuser-container-height);
+    width: var(--navuser-container-width);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* navbar tab end */
+
+/* main content tab start */
+.main-content {
+    position: relative;
+    top: var(--main-content-top);
+    left: var(--main-content-left);
+    width: var(--main-content-width);
+    height: var(--main-content-height);
+    margin-left: 0px;
+}
+
+/* main content tab end */
+
+
+
+/* seggestion tab start */
+.suggestions {
+    position: fixed;
+    right: 0;
+    width: var(--suggestions-width);
+    height: var(--suggestions-height);
+    top: var(--suggestions-top);
+    z-index: 300;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    background-color: white;
+    scrollbar-color: #888 #fff;
+    border-left: 1px solid black;
+}
+
+.suggestions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.suggestions::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+    background-color: #888;
+}
+
+/* suggestion tab end */
+
+
+
+
+
+/*-----------------------------------------------substitue content of the main-content ---------------------------------------*/
+/* tweet-list body start */
+
+.tweet-body,
+.reply-body {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 3px solid green;
+}
+
+.tweet-list-wrapper,
+.tweet-detail-wrapper {
+    position: relative;
+    margin: 0;
+    border: 2px solid yellow;
+}
+
+.profile-container img {
+    position: relative;
+    width: var(--profile-image-width);
+    border-radius: 50%;
+    border: 1px solid black;
+    padding: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.name-section {
+    position: relative;
+}
+
+.body-section {
+    position: relative;
+    overflow-wrap: break-word;
+}
+
+.tweet-link {
+    text-decoration: none;
+    color: black;
+}
+
+.reference-link {
+    color: rgb(38, 90, 210);
+}
+
+.tweet-container,
+.reply-container {
+    position: relative;
+    min-width: 80%;
+    max-width: var(--tweet-container-max-width);
+    max-height: var(--tweet-container-max-height);
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 3px solid purple;
+    padding-right: 40px;
+}
+
+.attachement-section {
+    position: relative;
+}
+
+.attachement-section img {
+    position: relative;
+    object-fit: fill;
+    max-width: var(--attachement-image-max-width);
+    max-height: var(--attachtment-image-max-height);
+    width: auto;
+    border-radius: 15px;
+    border: 1px solid black;
+}
+
+.actions-section {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    min-width: var(--actions-section-min-width);
+    width: auto;
+}
+
+/* tweet body end */
+
+/*--------------------------------------------------------------data forms --------------------------------------------------*/
+
+
+.login-form-filter,
+.register-form-filter,
+.logout-form-filter,
+.tweet-form-filter,
+.reply-form-filter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.195);
+    z-index: 999;
+}
+
+/* login form */
+#login-form-container,
+#register-form-container,
+#logout-form-container,
+#tweet-form-container,
+#reply-form-container {
+    position: relative;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: white;
+    border-radius: 25px;
+    border: 2px solid black;
+    height: 60vh;
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+#logout-form-container {
+    height: 20vh;
+    width: 30%;
+    padding-bottom: 20px;
+}
+
+#tweet-form-container,
+#reply-form-container {
+    justify-content: flex-start;
+}
+
+#login-form,
+#tweet-form,
+#reply-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    position: relative;
+    height: 50%;
+}
+
+#tweet-form,
+#reply-form {
+    height: 70%;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.login-form-header,
+.signup-form-header,
+.logout-form-header,
+.tweet-form-header,
+.reply-form-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.none {
+    display: none;
+}
+
+/* login form end */

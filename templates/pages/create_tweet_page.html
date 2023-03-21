@@ -1,0 +1,24 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+    <div class="tweet-form-filter">
+        <div id="tweet-form-container">
+            <div class="tweet-form-header">
+                <h3>Create Tweet</h3>
+                <a href="{% url 'home' %}"><button>Go back</button></a>
+            </div>
+
+            <form id="tweet-form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-input">
+                    <label for="{{field.id_for_label}}">{{field.label}}</label>
+                    {{field}}
+                </div>
+                {% endfor %}
+
+                <input type="submit" value="Post">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

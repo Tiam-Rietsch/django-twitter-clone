@@ -1,0 +1,89 @@
+{% extends 'pages/base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% block content %}
+
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' %}
+    </div>
+    <div class="main-content">
+        <div class="menu-bar">
+            <h2>All tweets</h2>
+        </div>
+
+        {% include 'tweet/tweet_list.html' %}
+    </div>
+    <div class="suggestions">
+        <h2>Popular topics</h2>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+
+    //handle the double scrolling effect
+    window.addEventListener('scroll', () => {
+        const standartHeight = document.querySelector('.navbar').offsetHeight
+        let suggestionsContainer = document.querySelector('.suggestions')
+
+        const maxRemainingHeight = suggestionsContainer.scrollHeight - standartHeight
+        const stepLength = maxRemainingHeight / standartHeight
+
+        suggestionsContainer.scrollTop = window.scrollY * stepLength
+    })
+
+    //handle the liking of posts
+    let likeButtons = document.querySelectorAll('.tweet-like-button')
+    likeButtons.forEach(item => {
+        item.addEventListener('click', async () => {
+            let response = await fetch("/", {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'LikeButton',
+                    'Content-Type': 'application/json',
+                    'id': parseInt(item.value)
+                }
+            })
+
+            let data = await response.json()
+            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
+            likeCountText.innerHTML = await data['count']
+
+            if (await data['action'] == 'liked') {
+                item.innerHTML = 'dislike'
+            }
+            else {
+                item.innerHTML = 'like'
+            }
+
+            console.log(await data)
+        })
+    })
+
+    //handles the logout form
+    let logoutFormButton = document.querySelector('.logout-form-button')
+    if (logoutFormButton !== null) {
+        logoutFormButton.addEventListener('click', () => {
+            document.body.style.overflow = 'hidden'
+            let logoutFormFilter = document.querySelector('.logout-form-filter')
+            logoutFormFilter.classList.remove('none')
+            document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
+        })
+    }
+
+    function closeLogoutForm() {
+        logoutFormFilter = document.querySelector('.logout-form-filter')
+        logoutFormFilter.classList.add('none')
+        document.body.style.overflow = 'scroll'
+    }
+</script>
+{% endblock script %}

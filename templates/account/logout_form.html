@@ -1,0 +1,16 @@
+{% load i18n %}
+
+    <div id="logout-form-container">
+        <div class="logout-form-header">
+            <h3>{% trans "Log Out" %}</h3>
+            <button id="logout-cancel-button">cancel</button>
+        </div>
+
+        <p>{% trans 'Are you sure you want to log out?' %}</p>
+
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit">{% trans 'Log out' %}</button>
+        </form>
+
+    </div>

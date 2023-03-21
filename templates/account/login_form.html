@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load account socialaccount %}
+<div id="login-form-container">
+
+    <div class="login-form-header">
+        <h3>Login</h3>
+        <a href="{% url 'home' %}"><button>Go back</button></a>
+    </div>
+    {% get_providers as socialaccount_providers %}
+    
+    {% if socialaccount_providers %}
+    <!-- <p>{% blocktrans with site.name as site_name %}Please sign in with one
+    of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+    for a {{ site_name }} account and sign in below:{% endblocktrans %}</p> -->
+    
+    <div class="account-list-container">
+        <div class="account-list">
+            {% include "socialaccount/snippets/provider_list.html" with process="login" login="true" %}
+        </div>
+    
+        <div class="login-or">{% trans 'or' %}</div>
+    
+    </div>
+    
+    {% endif %}
+    
+    <form id="login-form" method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-input">
+            <label>email</label>
+            <input type="email" class="email-input" name="email" placeholder="Enter your email">
+        </div>
+
+        <div class="form-input">
+            <label>password</label>
+            <input type="password" class="password-input" name="password">
+        </div>
+
+        <div class="form-messages">
+            {% for message in messages %}
+            <span>{{message}}</span>
+            {% endfor %}
+        </div>
+
+        <!-- {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> -->
+        <button class="login-button" type="submit">{% trans "Sign In" %}</button>
+    </form>
+    <p>Don't have an account ? <a href="{% url 'register' %}">Register here</a></p>
+</div>

@@ -1,0 +1,55 @@
+{% load tweet_extras %}
+{% load user_extras %}
+
+<div class="tweet-list-wrapper">
+    {% for tweet in tweets %}
+    <div class="tweet-body">
+        <div class="profile-container">
+            <img src="{{ tweet.author|get_profile_picture }}" alt="">
+        </div>
+        <div class="tweet-container">
+    
+            <div class="name-section">
+                <span>{{ tweet.author.first_name }} {{ tweet.author.last_name }}</span>
+                <span>@{{ tweet.author.username }}</span>
+            </div>
+
+            <div class="body-section">
+                <a class="tweet-link" href="{% url 'tweet-detail' tweet.id %}">
+                <p>
+                    {% for word in tweet.body|format_tweet_text %}
+                        {% if word|get_value:'type' == 'text' %}
+                            {{ word|get_value:'word' }}
+                        {% elif word|get_value:'type' == 'username' %}
+                            <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                        {% else %}
+                            <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+                </a>
+            </div>
+            {% if tweet.attachement %}
+            <div class="attachement-section">
+                <img src="{{ tweet.attachement.url }}" alt="attachement" class="tweet-attachement">
+            </div>
+            {% endif %}
+            <div class="actions-section">
+                {% csrf_token %}
+                <div>
+                    <a href="{% url 'reply-tweet' tweet.id %}"><button>reply</button></a> ()
+                </div>
+                <div>
+                    <button class="tweet-like-button" value="{{ tweet.id }}">like</button> 
+                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.tweetlike_set.all.count }}</span>
+                </div>
+                <div>
+                    <button>repost</button> ({{ tweet.repost_set.all.count }})
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    <hr>
+    {% endfor %}
+</div>

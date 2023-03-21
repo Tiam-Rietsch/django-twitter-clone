@@ -1,0 +1,64 @@
+{% extends "pages/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+{% if register %}
+<div class="register-form-filter">
+  <div id="register-form-container">
+
+    <div class="signup-form-header">
+      <h1>{% trans "Register" %}</h1>
+      <a href="{% url 'home' %}"><button>Go back</button></a>
+    </div>
+
+    {% get_providers as socialaccount_providers %}
+
+    {% if socialaccount_providers %}
+
+
+    <!-- <p>{% blocktrans with site.name as site_name %}Please sign in with one
+      of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+      for a {{ site_name }} account and sign in below:{% endblocktrans %}</p> -->
+
+    <div class="socialaccount_ballot">
+
+      <ul class="socialaccount_providers">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" login="false" %}
+      </ul>
+
+      <div class="login-or">{% trans 'or' %}</div>
+
+    </div>
+    {% endif %}
+
+    <form class="signup" id="signup_form" method="post">
+      {% csrf_token %}
+      {% for field in form %}
+      <p>
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </p>
+      {% endfor %}
+      <button type="submit">{% trans "Register" %} &raquo;</button>
+    </form>
+    <p>Already have an account? Then please <a href="{% url 'login' %}">Log in</a></p>
+
+  </div>
+</div>
+{% else %}
+
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+
+<div class="login-form-filter">
+  {% include 'account/login_form.html' %}
+</div>
+{% endif %}
+
+
+{% endblock %}
