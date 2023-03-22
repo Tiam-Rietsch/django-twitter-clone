@@ -10,8 +10,12 @@
 <div class="menu-bar">
     <h2>All tweets</h2>
     <div class="nav-link-wrapper">
-        <a href="">For you</a>
-        <a href="">Following</a>
+        <button class="menu-btn active-menu-btn" onclick="showContent(event, 'For You')">For you</button>
+        {% if request.user.is_authenticated %}
+        <button class="menu-btn" onclick="showContent(event, 'Following')">Following</button>
+        {% else %}
+        <button class="menu-btn"><a href="{% url 'login' %}">Following</a></button>
+        {% endif %}
     </div>
 </div>
 
@@ -19,14 +23,14 @@
 <div class="container">
 
     <div class="navbar">
-        {% include 'pages/navbar.html' %}
+        {% include 'pages/navbar.html'%}
     </div>
     <div class="main-content">
         <!-- <div class="menu-bar">
             <h2>All tweets</h2>
         </div> -->
 
-        {% include 'tweet/tweet_list.html' %}
+        {% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}
     </div>
     <div class="suggestions">
         <h2>Popular topics</h2>
@@ -93,6 +97,18 @@
         logoutFormFilter = document.querySelector('.logout-form-filter')
         logoutFormFilter.classList.add('none')
         document.body.style.overflow = 'scroll'
+    }
+
+    function showContent(event, content_type) {
+        document.querySelectorAll('.menu-btn').forEach( item => {
+            item.classList.remove('active-menu-btn')
+        })
+        event.currentTarget.classList.add('active-menu-btn')
+        if (content_type == 'For You') {
+            document.querySelector('.main-content').innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}`
+        } else {
+            document.querySelector('.main-content').innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=following_tweets %}`
+        }
     }
 </script>
 {% endblock script %}

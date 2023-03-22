@@ -8,8 +8,11 @@ from .models import Tweet, TweetLike
 from replies.models import Reply
 
 def home_page_view(request):
-    tweets = Tweet.objects.all()
-    context = {'tweets': tweets}
+    all_tweets = Tweet.objects.all()
+
+    following_tweets = Tweet.objects.filter(author__profile__followers=request.user.profile) if request.user.is_authenticated else []
+    context = {'all_tweets': all_tweets, 'following_tweets': following_tweets}
+
     if request.headers.get('X-Requested-With') == 'LikeButton':
         tweetID = request.headers.get('id')
         tweet = Tweet.objects.get(id=tweetID)

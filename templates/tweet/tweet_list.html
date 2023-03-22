@@ -2,7 +2,7 @@
 {% load user_extras %}
 
 <div class="tweet-list-wrapper">
-    {% for tweet in tweets %}
+    {% for tweet in tweet_list %}
     <div class="tweet-body">
         <div class="profile-container">
             <img src="{{ tweet.author|get_profile_picture }}" alt="">

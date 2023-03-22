@@ -1,6 +1,12 @@
 <ul class="link-container">
     <li><a href="{% url 'home' %}">Home</a></li>
-    <li><a href="{% url 'profile-page' request.user.username %}">Profile</a></li>
+    <li>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'profile-page' request.user.username %}">Profile</a>
+        {% else %}
+        <a href="{% url 'login'%}">Profile</a>
+        {% endif %}
+    </li>
     <li><a href="">Bookmarks</a></li>
     {% if request.user.is_authenticated %}
     <a href="{% url 'create-tweet' %}"><button>Tweet</button></a>

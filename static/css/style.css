@@ -81,6 +81,22 @@
     align-items: center;
 }
 
+.menu-btn {
+    background-color: inherit;
+    height: 100%;
+    width:  50%;
+    border: 0;
+    transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+    background-color: #e3dfdfa8;
+}
+
+.active-menu-btn {
+    background-color: #a69d9d5c;
+}
+
 /* main container end */
 
 /* navbar tab start */
@@ -319,7 +335,7 @@
     justify-content: space-between;
 }
 
-.tab-buttons-container .tab-btn {
+.tab-btn {
     width: 33.33333%;
     background-color: white;
     height: 30px;
@@ -327,11 +343,11 @@
     transition: 0.2s ease;
 }
 
-.tab-buttons-container .tab-btn:hover {
+.tab-btn:hover {
     background-color: #e3e3e386;
 }
 
-.tab-buttons-container .active-tab-btn {
+.active-tab-btn {
     background-color: #b3aeaea4;
 }
 /* profile page end*/

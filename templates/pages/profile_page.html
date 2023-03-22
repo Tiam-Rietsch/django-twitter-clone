@@ -60,7 +60,7 @@
                 <button class="tab-btn" onclick="showContent(event, 'Liked')">Liked</button>
             </div>
             <div class="tab-content">
-
+                {% include 'tweet/tweet_list.html' with tweet_list=profile_tweets %}
             </div>
         </div>
 
@@ -139,13 +139,13 @@
         event.currentTarget.classList.add('active-tab-btn')
         let contentContainer = document.querySelector('.tab-content')
         if (content_type == 'Tweets') {
-            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweets=profile_tweets %}`
+            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=profile_tweets %}`
         }
         else if (content_type == 'Replies') {
             contentContainer.innerHTML = `<p>Showing all Replies</p>`
         }
         else {
-            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweets=liked_tweets %}`
+            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=liked_tweets %}`
         }
     }
 
