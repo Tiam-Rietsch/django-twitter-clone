@@ -59,6 +59,9 @@
         </div>
     
     </div>
+    {% if show_replies %}
+        {% include 'tweet/tweet_reply_list.html' with replies=tweet|get_specific_reply:specific_user %}
+    {% endif %}
     <hr>
     {% endfor %}
 </div>

@@ -1,0 +1,52 @@
+{% load user_extras %}
+{% load tweet_extras %}
+
+{% for reply in replies %}
+<div class="reply-body">
+    <div class="profile-container">
+        <img src="{{ reply.author|get_profile_picture }}" alt="">
+    </div>
+    <div class="reply-container">
+
+        <div class="name-section">
+            <span>{{ reply.author.first_name }} {{ reply.author.last_name }}</span>
+            <span>@{{ reply.author.username }}</span>
+        </div>
+
+        <div class="body-section">
+            <p>
+                {% for word in reply.body|format_tweet_text %}
+                {% if word|get_value:'type' == 'text' %}
+                {{ word|get_value:'word' }}
+                {% elif word|get_value:'type' == 'username' %}
+                <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                {% else %}
+                <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        {% if reply.attachement %}
+        <div class="attachement-section">
+            <img src="{{ reply.attachement.url }}" alt="attachement" class="tweet-attachement">
+        </div>
+        {% endif %}
+        <!-- <div class="actions-section">
+                {% csrf_token %}
+                <div>
+                    <button>reply</button> ()
+                </div>
+                <div>
+                    <button class="tweet-like-button" value="{{ tweet.id }}">like</button>
+                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.tweetlike_set.all.count }}</span>
+                </div>
+                <div>
+                    <button>repost</button> ({{ reply.repost_set.all.count }})
+                </div>
+            </div> -->
+    </div>
+
+</div>
+<hr>
+
+{% endfor %}

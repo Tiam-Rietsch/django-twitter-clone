@@ -158,7 +158,7 @@
             contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=profile_tweets %}`
         }
         else if (content_type == 'Replies') {
-            contentContainer.innerHTML = `<p>Showing all Replies</p>`
+            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=replied_tweets show_replies=True specific_user=profile.user %}`
         }
         else {
             contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=liked_tweets %}`

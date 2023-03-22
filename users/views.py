@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 
 from tweet.models import Tweet, TweetLike
+from replies.models import Reply
 from .forms import RegisterForm
 from .models import User, Profile
 
@@ -51,12 +52,14 @@ def profile_page_view(request, username):
     following = Profile.objects.filter(followers__user__username=username)
     profile_tweets = profile.user.tweet_set.all()
     liked_tweets = [like.tweet for like in TweetLike.objects.filter(author__username=username)]
+    replied_tweets = set(reply.tweet for reply in Reply.objects.filter(author__username=username))
     context = {
         'profile': profile,
         'followers': followers,
         'following': following,
         'profile_tweets': profile_tweets,
         'liked_tweets': liked_tweets,
+        'replied_tweets': replied_tweets
     }
     return render(request, 'pages/profile_page.html', context)
 

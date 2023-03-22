@@ -40,3 +40,8 @@ def format_tweet_text(text):
 @register.filter    
 def get_value(dictionary, key):
     return dictionary[key]
+
+@register.filter
+def get_specific_reply(tweet, user):
+    return tweet.reply_set.filter(author=user)
+    
