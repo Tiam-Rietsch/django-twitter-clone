@@ -11,7 +11,7 @@
     
             <div class="name-section">
                 <span>{{ tweet.author.first_name }} {{ tweet.author.last_name }}</span>
-                <span>@{{ tweet.author.username }}</span>
+                <a href="{% url 'profile-page' tweet.author.username %}">@{{ tweet.author.username }}</a>
             </div>
 
             <div class="body-section">

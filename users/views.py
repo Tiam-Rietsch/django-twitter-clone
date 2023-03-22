@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.http import JsonResponse
+
+from tweet.models import Tweet, TweetLike
 from .forms import RegisterForm
-from .models import User
+from .models import User, Profile
 
 def register_view(request):
 
@@ -41,3 +43,30 @@ def login_view(request):
             messages.error(request, "somehting went wrong")
 
     return render(request, 'pages/login_register_page.html')
+
+
+def profile_page_view(request, username):
+    profile = Profile.objects.get(user__username=username)
+    followers = profile.followers.all()
+    following = Profile.objects.filter(followers__user__username=username)
+    profile_tweets = profile.user.tweet_set.all()
+    liked_tweets = [like.tweet for like in TweetLike.objects.filter(author__username=username)]
+    context = {
+        'profile': profile,
+        'followers': followers,
+        'following': following,
+        'profile_tweets': profile_tweets,
+        'liked_tweets': liked_tweets,
+    }
+    return render(request, 'pages/profile_page.html', context)
+
+
+def follow_user_view(request, profile_id):
+    to_follow = User.objects.get(id=profile_id)
+
+    if request.user.profile in to_follow.profile.followers.all():
+        to_follow.profile.followers.remove(request.user.profile)
+        return JsonResponse({'followed': False})
+    else:
+        to_follow.profile.followers.add(request.user.profile)
+        return JsonResponse({'followed': True})

@@ -1,0 +1,170 @@
+{% extends 'pages/base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load user_extras %}
+{% block content %}
+
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="menu-bar profile-menu">
+    <h2>All tweets</h2>
+</div>
+
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' %}
+    </div>
+    <div class="main-content profile-content">
+
+
+        <div class="profile-content-wrapper">
+            <div class="profile-image-wrapper">
+                <div class="background-img"></div>
+                <div class="profile-container detail-profile-container">
+                    <img src="{{ profile.user|get_profile_picture }}" alt="">
+
+                </div>
+            </div>
+            <div class="profile-detail-wrapper">
+                <div class="profile-name-detail">
+                    {% if profile.user != request.user %}
+                    <button class="follow-button" onclick="followingAction()">
+                        {% if request.user.profile in followers %}
+                        <span>Un follow -</span>
+                        {% else %}
+                        <span>Follow +</span>
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                    <h3>@{{ profile.user.username }}</h3>
+                </div>
+                <div class="profile-date-detail">
+                    <h4>Date joined {{ profile.date_joined }}</h4>
+                </div>
+                <div class="profile-following-details">
+                    <h4>followers . {{ followers.count }}</h4>
+                    <h4>following . {{ following.count }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <div class="tab-buttons-container">
+                <button class="tab-btn active-tab-btn" onclick="showContent(event, 'Tweets')">Tweets</button>
+                <button class="tab-btn" onclick="showContent(event, 'Replies')">Replies</button>
+                <button class="tab-btn" onclick="showContent(event, 'Liked')">Liked</button>
+            </div>
+            <div class="tab-content">
+
+            </div>
+        </div>
+
+    </div>
+    <div class="suggestions">
+        <h2>Popular topics</h2>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+
+    //handle the double scrolling effect
+    window.addEventListener('scroll', () => {
+        const standartHeight = document.querySelector('.navbar').offsetHeight
+        let suggestionsContainer = document.querySelector('.suggestions')
+
+        const maxRemainingHeight = suggestionsContainer.scrollHeight - standartHeight
+        const stepLength = maxRemainingHeight / standartHeight
+
+        suggestionsContainer.scrollTop = window.scrollY * stepLength
+    })
+
+    //handle the liking of posts
+    let likeButtons = document.querySelectorAll('.tweet-like-button')
+    likeButtons.forEach(item => {
+        item.addEventListener('click', async () => {
+            let response = await fetch("/", {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'LikeButton',
+                    'Content-Type': 'application/json',
+                    'id': parseInt(item.value)
+                }
+            })
+
+            let data = await response.json()
+            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
+            likeCountText.innerHTML = await data['count']
+
+            if (await data['action'] == 'liked') {
+                item.innerHTML = 'Dislike'
+            }
+            else {
+                item.innerHTML = 'Like'
+            }
+
+            console.log(await data)
+        })
+    })
+
+    //handles the logout form
+    let logoutFormButton = document.querySelector('.logout-form-button')
+    if (logoutFormButton !== null) {
+        logoutFormButton.addEventListener('click', () => {
+            document.body.style.overflow = 'hidden'
+            let logoutFormFilter = document.querySelector('.logout-form-filter')
+            logoutFormFilter.classList.remove('none')
+            document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
+        })
+    }
+
+    function closeLogoutForm() {
+        logoutFormFilter = document.querySelector('.logout-form-filter')
+        logoutFormFilter.classList.add('none')
+        document.body.style.overflow = 'scroll'
+    }
+
+    function showContent(event, content_type) {
+        document.querySelectorAll('.tab-btn').forEach( item => {
+            item.classList.remove('active-tab-btn')
+        })
+        event.currentTarget.classList.add('active-tab-btn')
+        let contentContainer = document.querySelector('.tab-content')
+        if (content_type == 'Tweets') {
+            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweets=profile_tweets %}`
+        }
+        else if (content_type == 'Replies') {
+            contentContainer.innerHTML = `<p>Showing all Replies</p>`
+        }
+        else {
+            contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweets=liked_tweets %}`
+        }
+    }
+
+    async function followingAction() {
+        response = await fetch("{% url 'follow-user' profile.user.id %}", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'followButton',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        let data = await response.json()
+        if (await data['followed']) {
+            document.querySelector('.follow-button').innerHTML = `<span>Un Follow</span>`
+
+        } else {
+            document.querySelector('.follow-button').innerHTML = `<span>Follow</span>`
+        }
+    }
+</script>
+{% endblock script %}

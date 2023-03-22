@@ -4,6 +4,8 @@
     --main-content-top: 14.2%;
     --main-content-height: 100vh;
 
+    --substitute-content-top: 7.2%;
+
     --navbar-height: var(--main-content-height);
     --navbar-width: 26%;
     --navlink-container-height: 40vh;
@@ -57,13 +59,17 @@
     top: 0;
     left: var(--main-content-left);
     width: var(--main-content-width);
-    height: calc(var(--main-content-top) + 1%);
+    height: calc(var(--main-content-top) - 1%);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.profile-menu {
+    height: calc(var(--substitute-content-top) - 1%);
 }
 
 .nav-link-wrapper {
@@ -132,6 +138,10 @@
     margin-left: 0px;
 }
 
+.profile-content {
+    top: var(--substitute-content-top);
+}
+
 /* main content tab end */
 
 
@@ -186,7 +196,9 @@
 }
 
 .tweet-list-wrapper,
-.tweet-detail-wrapper {
+.tweet-detail-wrapper,
+.profile-content-wrapper,
+.profile-tabs {
     position: relative;
     margin: 0;
     border: 2px solid yellow;
@@ -195,6 +207,7 @@
 .profile-container img {
     position: relative;
     width: var(--profile-image-width);
+    height: var(--profile-image-width);
     border-radius: 50%;
     border: 1px solid black;
     padding: 0;
@@ -260,6 +273,68 @@
 }
 
 /* tweet body end */
+
+/* profile page start */
+
+.profile-image-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    height: 20vh;
+}
+
+.background-img {
+    position: relative;
+    background-color: blanchedalmond;
+    height: 100%;
+    width: 100%;
+}
+
+.detail-profile-container {
+    position: absolute;
+    top: 16%;
+    left: 5%;
+}
+
+.detail-profile-container img {
+    width: calc(var(--profile-image-width) * 2.5);
+    height: calc(var(--profile-image-width) * 2.5);
+    border: 4px solid white;
+}
+
+.profile-detail-wrapper {
+    margin-left: 15px;
+    margin-top: calc(var(--profile-image-width) * 1.5);
+}
+
+.profile-detail-wrapper h2,
+.profile-detail-wrapper h3 {
+    margin: 0;
+}
+
+.tab-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tab-buttons-container .tab-btn {
+    width: 33.33333%;
+    background-color: white;
+    height: 30px;
+    border: 0px;
+    transition: 0.2s ease;
+}
+
+.tab-buttons-container .tab-btn:hover {
+    background-color: #e3e3e386;
+}
+
+.tab-buttons-container .active-tab-btn {
+    background-color: #b3aeaea4;
+}
+/* profile page end*/
 
 /*--------------------------------------------------------------data forms --------------------------------------------------*/
 
