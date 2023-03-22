@@ -34,6 +34,51 @@
     </div>
     <div class="suggestions">
         <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topics</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Popular topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
     </div>
 </div>
 
@@ -42,18 +87,6 @@
 
 {% block script %}
 <script>
-
-    //handle the double scrolling effect
-    window.addEventListener('scroll', () => {
-        const standartHeight = document.querySelector('.navbar').offsetHeight
-        let suggestionsContainer = document.querySelector('.suggestions')
-
-        const maxRemainingHeight = suggestionsContainer.scrollHeight - standartHeight
-        const stepLength = maxRemainingHeight / standartHeight
-
-        suggestionsContainer.scrollTop = window.scrollY * stepLength
-    })
-
     //handle the liking of posts
     let likeButtons = document.querySelectorAll('.tweet-like-button')
     likeButtons.forEach(item => {
@@ -81,23 +114,6 @@
             console.log(await data)
         })
     })
-
-    //handles the logout form
-    let logoutFormButton = document.querySelector('.logout-form-button')
-    if (logoutFormButton !== null) {
-        logoutFormButton.addEventListener('click', () => {
-            document.body.style.overflow = 'hidden'
-            let logoutFormFilter = document.querySelector('.logout-form-filter')
-            logoutFormFilter.classList.remove('none')
-            document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
-        })
-    }
-
-    function closeLogoutForm() {
-        logoutFormFilter = document.querySelector('.logout-form-filter')
-        logoutFormFilter.classList.add('none')
-        document.body.style.overflow = 'scroll'
-    }
 
     function showContent(event, content_type) {
         document.querySelectorAll('.menu-btn').forEach( item => {

@@ -16,6 +16,35 @@
     {% endblock content %}
 
     <script>
+        //handle the double scrolling effect
+        window.addEventListener('scroll', () => {
+            const standartHeight = document.querySelector('.navbar').offsetHeight
+            let suggestionsContainer = document.querySelector('.suggestions')
+
+            const maxRemainingHeight = suggestionsContainer.scrollHeight - standartHeight
+            const stepLength = maxRemainingHeight / standartHeight
+
+            suggestionsContainer.scrollTop = window.scrollY * stepLength
+        })
+
+            //handles the logout form
+                let logoutFormButton = document.querySelector('.logout-form-button')
+                if (logoutFormButton !== null) {
+                    logoutFormButton.addEventListener('click', () => {
+                        document.body.style.overflow = 'hidden'
+                        let logoutFormFilter = document.querySelector('.logout-form-filter')
+                        logoutFormFilter.classList.remove('none')
+                        document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
+                    })
+                }
+
+                function closeLogoutForm() {
+                    logoutFormFilter = document.querySelector('.logout-form-filter')
+                    logoutFormFilter.classList.add('none')
+                    document.body.style.overflow = 'scroll'
+                }
+
+
     </script>
 
     {% block script %}
