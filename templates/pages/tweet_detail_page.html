@@ -71,3 +71,21 @@
 
 
 {% endblock content %}
+
+{% block script %}
+<script>
+    //handle the liking of posts
+        async function likeTweet(event) {
+            console.log('liked')
+            let item = event.currentTarget
+            fetch("/", {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'LikeButton',
+                    'Content-Type': 'application/json',
+                    'id': parseInt(item.value)
+                }
+            })
+        }
+</script>
+{% endblock script %}

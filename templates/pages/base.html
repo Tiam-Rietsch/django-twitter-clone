@@ -16,6 +16,39 @@
     {% endblock content %}
 
     <script>
+
+        LiveUpdates()
+
+        function LiveUpdates() {
+            setInterval(() => {
+                refreshLikes()
+
+                function refreshLikes() {
+                    document.querySelectorAll('.tweet-like-button').forEach(async item => {
+                        let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'refreshLikes',
+                                'Content-Type': 'application/json',
+                            }
+                        })
+
+                        let data = await response.json()
+                        let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
+                        likeCountText.innerHTML = await data['count']
+
+                        if (await data['action'] == 'liked') {
+                            item.innerHTML = 'Dislike'
+                        } else {
+                            item.innerHTML = 'Like'
+                        }
+
+                    })
+                }
+            }, 1000)
+        }
+
+
         //handle the double scrolling effect
         window.addEventListener('scroll', () => {
             const standartHeight = document.querySelector('.navbar').offsetHeight
@@ -27,22 +60,22 @@
             suggestionsContainer.scrollTop = window.scrollY * stepLength
         })
 
-            //handles the logout form
-                let logoutFormButton = document.querySelector('.logout-form-button')
-                if (logoutFormButton !== null) {
-                    logoutFormButton.addEventListener('click', () => {
-                        document.body.style.overflow = 'hidden'
-                        let logoutFormFilter = document.querySelector('.logout-form-filter')
-                        logoutFormFilter.classList.remove('none')
-                        document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
-                    })
-                }
+        //handles the logout form
+        let logoutFormButton = document.querySelector('.logout-form-button')
+        if (logoutFormButton !== null) {
+            logoutFormButton.addEventListener('click', () => {
+                document.body.style.overflow = 'hidden'
+                let logoutFormFilter = document.querySelector('.logout-form-filter')
+                logoutFormFilter.classList.remove('none')
+                document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
+            })
+        }
 
-                function closeLogoutForm() {
-                    logoutFormFilter = document.querySelector('.logout-form-filter')
-                    logoutFormFilter.classList.add('none')
-                    document.body.style.overflow = 'scroll'
-                }
+        function closeLogoutForm() {
+            logoutFormFilter = document.querySelector('.logout-form-filter')
+            logoutFormFilter.classList.add('none')
+            document.body.style.overflow = 'scroll'
+        }
 
 
     </script>

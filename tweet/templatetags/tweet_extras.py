@@ -44,4 +44,11 @@ def get_value(dictionary, key):
 @register.filter
 def get_specific_reply(tweet, user):
     return tweet.reply_set.filter(author=user)
+
+@register.filter
+def get_like_count(tweet_id):
+    from tweet.models import Tweet
+    
+    tweet = Tweet.objects.get(id=tweet_id)
+    return tweet.likes.all().count()
     

@@ -26,10 +26,6 @@
         {% include 'pages/navbar.html'%}
     </div>
     <div class="main-content">
-        <!-- <div class="menu-bar">
-            <h2>All tweets</h2>
-        </div> -->
-
         {% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}
     </div>
     <div class="suggestions">
@@ -88,35 +84,21 @@
 {% block script %}
 <script>
     //handle the liking of posts
-    let likeButtons = document.querySelectorAll('.tweet-like-button')
-    likeButtons.forEach(item => {
-        item.addEventListener('click', async () => {
-            let response = await fetch("/", {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'LikeButton',
-                    'Content-Type': 'application/json',
-                    'id': parseInt(item.value)
-                }
-            })
-
-            let data = await response.json()
-            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
-            likeCountText.innerHTML = await data['count']
-
-            if (await data['action'] == 'liked') {
-                item.innerHTML = 'Dislike'
+    async function likeTweet(event) {
+        console.log('liked')
+        let item = event.currentTarget
+        fetch("/", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'LikeButton',
+                'Content-Type': 'application/json',
+                'id': parseInt(item.value)
             }
-            else {
-                item.innerHTML = 'Like'
-            }
-
-            console.log(await data)
         })
-    })
+    }
 
     function showContent(event, content_type) {
-        document.querySelectorAll('.menu-btn').forEach( item => {
+        document.querySelectorAll('.menu-btn').forEach(item => {
             item.classList.remove('active-menu-btn')
         })
         event.currentTarget.classList.add('active-menu-btn')

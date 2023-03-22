@@ -42,14 +42,14 @@
                     <a href="{% url 'reply-tweet' tweet.id %}"><button>reply</button></a> ()
                 </div>
                 <div>
-                    <button class="tweet-like-button" value="{{ tweet.id }}">
+                    <button onclick="likeTweet(event)" class="tweet-like-button" value="{{ tweet.id }}">
                         {% if request.user|has_liked:tweet.id %}
                         <span>Dislike</span>
                         {% else %}
                         <span>Like</span>
                         {% endif %}
                     </button> 
-                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.likes.all.count }}</span>
+                    <span id="tweet-like-{{ tweet.id }}">{{ tweet.id|get_like_count }}</span>
                 </div>
                 <div>
                     <button>repost</button> ({{ tweet.repost_set.all.count }})

@@ -37,6 +37,14 @@ def home_page_view(request):
     return render(request, 'pages/home_page.html', context)
 
 
+def get_like_count(request):
+    tweet_likes = Tweet.objects.get(id=int(request.GET.get('pk'))).likes.all()
+    json_context = {
+        'count': tweet_likes.count()
+    }
+    json_context['action'] = 'liked' if request.user in [like.author for like in tweet_likes] else 'disliked'
+    return JsonResponse(json_context)
+
 def create_tweet_view(request):
     if request.method == 'POST':
         form = TweetCreationForm(request.POST, request.FILES)

@@ -120,33 +120,6 @@
 
 {% block script %}
 <script>
-    //handle the liking of posts
-    let likeButtons = document.querySelectorAll('.tweet-like-button')
-    likeButtons.forEach(item => {
-        item.addEventListener('click', async () => {
-            let response = await fetch("/", {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'LikeButton',
-                    'Content-Type': 'application/json',
-                    'id': parseInt(item.value)
-                }
-            })
-
-            let data = await response.json()
-            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
-            likeCountText.innerHTML = await data['count']
-
-            if (await data['action'] == 'liked') {
-                item.innerHTML = 'Dislike'
-            }
-            else {
-                item.innerHTML = 'Like'
-            }
-
-            console.log(await data)
-        })
-    })
 
     function showContent(event, content_type) {
         document.querySelectorAll('.tab-btn').forEach( item => {
@@ -164,6 +137,22 @@
             contentContainer.innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=liked_tweets %}`
         }
     }
+
+        //handle the liking of posts
+        async function likeTweet(event) {
+            console.log('liked')
+            let item = event.currentTarget
+            fetch("/", {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'LikeButton',
+                    'Content-Type': 'application/json',
+                    'id': parseInt(item.value)
+                }
+            })
+        }
+
+
 
     async function followingAction() {
         response = await fetch("{% url 'follow-user' profile.user.id %}", {
@@ -184,3 +173,4 @@
     }
 </script>
 {% endblock script %}
+
