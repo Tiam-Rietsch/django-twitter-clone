@@ -95,7 +95,7 @@
 .menu-btn {
     background-color: inherit;
     height: 100%;
-    width:  50%;
+    width: 50%;
     border: 0;
     transition: 0.2s ease;
 }
@@ -362,6 +362,7 @@
 .active-tab-btn {
     background-color: #b3aeaea4;
 }
+
 /* profile page end*/
 
 /*--------------------------------------------------------------data forms --------------------------------------------------*/
@@ -456,4 +457,160 @@
     display: none;
 }
 
+.android {
+    display: none;
+}
+
 /* login form end */
+
+/*--------------------------------------------- ANDROID DISPLAY --------------------------------------------------*/
+
+@media screen and (max-width: 600px) {
+    body {
+        margin: 0;
+    }
+
+    .android {
+        display: unset;
+    }
+
+    .suggestions {
+        display: none;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    .main-content {
+        left: 0;
+        width: 100%;
+    }
+
+    .tweet-container,
+    .reply-container {
+        min-width: unset;
+        padding-right: 10px;
+    }
+
+    .menu-bar {
+        width: 100%;
+        left: 0;
+        backdrop-filter: none;
+        background-color: white;
+    }
+
+    .nav-link-wrapper {
+        position: absolute;
+        bottom: 0%;
+        left: 0;
+        height: 30%;
+    }
+
+    .menu-bar h2 {
+        display: none;
+    }
+
+    .attachement-section img {
+        max-width: 100%;
+    }
+
+    .android-profile-info {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 50%;
+        padding-left: 10px;
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .android-profile-info img {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+    }
+
+    .an-profile-section img {
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+    }
+
+    .android-navbar {
+        padding-top: 10vh;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        z-index: 200;
+        background-color: beige;
+        height: 100vh;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        transition: left 0.1s ease;
+    }
+
+    .an-profile-section {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+
+    .an-user-detail-section {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 90%;
+        height: 60px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-bottom: 1px solid black;
+    }
+
+    .an-username-section,
+    .an-following-section {
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .close-an-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .an-links-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+        height: 50vh;
+    }
+
+    #login-form-container,
+    #register-form-container,
+    #logout-form-container,
+    #tweet-form-container,
+    #reply-form-container {
+        width: 95%;
+        height: fit-content;
+    }
+}

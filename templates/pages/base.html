@@ -12,6 +12,8 @@
 </head>
 
 <body>
+    {% include 'pages/android_navbar.html' %}
+
     {% block content %}
     {% endblock content %}
 
@@ -74,6 +76,17 @@
         function closeLogoutForm() {
             logoutFormFilter = document.querySelector('.logout-form-filter')
             logoutFormFilter.classList.add('none')
+            document.body.style.overflow = 'scroll'
+        }
+
+
+        function showAndroidNavbar() {
+            document.querySelector('.android-navbar').style.left = 0
+            document.body.style.overflow = 'hidden'
+        }
+
+        function closeAndroidNavbar() {
+            document.querySelector('.android-navbar').style.left = '-100%'
             document.body.style.overflow = 'scroll'
         }
 

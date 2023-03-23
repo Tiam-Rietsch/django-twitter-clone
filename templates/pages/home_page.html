@@ -1,5 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load i18n %}
+{% load user_extras %}
 {% load account socialaccount %}
 {% block content %}
 
@@ -8,6 +9,11 @@
 </div>
 
 <div class="menu-bar">
+    {% if request.user.is_authenticated %}
+    <div class="android-profile-info android">
+        <img onclick="showAndroidNavbar()" src="{{ request.user|get_profile_picture }}" alt="">
+    </div>
+    {% endif %}
     <h2>All tweets</h2>
     <div class="nav-link-wrapper">
         <button class="menu-btn active-menu-btn" onclick="showContent(event, 'For You')">For you</button>
