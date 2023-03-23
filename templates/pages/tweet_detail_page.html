@@ -5,8 +5,9 @@
         {% include 'account/logout_form.html' %}
     </div>
 
-    <div class="menu-bar">
-        <h2>Tweet Detail</h2>
+    <div class="menu-bar tweet-detail-menu">
+        <a href="{{ request.META.HTTP_REFERER }}">Go back</a>
+        <h2>All Tweets</h2>
     </div>
 
 
@@ -15,7 +16,7 @@
         <div class="navbar">
             {% include 'pages/navbar.html' %}
         </div>
-        <div class="main-content">
+        <div class="main-content tweet-detail-content">
 
             {% include 'tweet/tweet_detail.html' %}
         </div>

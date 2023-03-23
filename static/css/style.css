@@ -68,8 +68,19 @@
     align-items: center;
 }
 
-.profile-menu {
+.profile-menu,
+.tweet-detail-menu {
     height: calc(var(--substitute-content-top) - 1%);
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tweet-detail-menu a,
+.profile-menu a {
+    position: absolute;
+    left: 5%;
 }
 
 .nav-link-wrapper {
@@ -154,7 +165,8 @@
     margin-left: 0px;
 }
 
-.profile-content {
+.profile-content,
+.tweet-detail-content {
     top: var(--substitute-content-top);
 }
 

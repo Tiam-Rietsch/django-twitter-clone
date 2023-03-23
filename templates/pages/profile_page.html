@@ -9,7 +9,8 @@
 </div>
 
 <div class="menu-bar profile-menu">
-    <h2>All tweets</h2>
+    <a href="{{ request.META.HTTP_REFERER }}">Go back</a>
+    <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
 </div>
 
 
