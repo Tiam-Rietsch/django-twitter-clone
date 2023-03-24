@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load user_extras %}
+{% load tweet_extras %}
 {% load account socialaccount %}
 {% block content %}
 
@@ -62,6 +63,31 @@
                 'id': parseInt(item.value)
             }
         })
+    }
+
+    async function retweet(event) {
+        let item = event.currentTarget
+        let response = await fetch(`{% url 'retweet' %}?pk=${item.value}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'retweetButton',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        let data = await response.json()
+
+        if (await data['success'] == true) {
+            newTweetBody = document.createElement('div')
+            newTweetBody.classList.add('tweet-body')
+            newTweetBody.innerHTML = `{% include 'tweet/get_tweet.html' with tweet=request.user|get_latest_retweet %}`
+            let tweetListWrapper = document.querySelector('.tweet-list-wrapper')
+            if (tweetListWrapper !== null) {
+                tweetListWrapper.prepend(newTweetBody)
+            } else {
+                console.log("did not show")
+            }
+        }
     }
 
     function showContent(event, content_type) {

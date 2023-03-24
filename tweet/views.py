@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Q
+from django.utils import timezone
 
 from .forms import TweetCreationForm
-from .models import Tweet, TweetLike
+from .models import Tweet, TweetLike, Repost
 from replies.models import Reply
 
 def home_page_view(request):
@@ -70,3 +71,21 @@ def tweet_detail_view(request, pk):
         'replies': replies
     }
     return render(request, 'pages/tweet_detail_page.html', context)
+
+
+def retweet_view(request):
+    if request.headers['X-Requested-With'] == 'retweetButton':
+        source = Tweet.objects.get(id=int(request.GET.get('pk')))
+        new_tweet = Tweet.objects.create(
+            author=request.user,
+            body=source.body,
+            attachement=source.attachement,
+        )
+
+        repost = Repost.objects.create(
+            author=request.user,
+            source=source
+        )
+        new_tweet.save()
+        repost.save()
+        return JsonResponse({'success': True})

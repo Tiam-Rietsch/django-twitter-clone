@@ -52,3 +52,17 @@ def get_like_count(tweet_id):
     tweet = Tweet.objects.get(id=tweet_id)
     return tweet.likes.all().count()
     
+
+@register.filter
+def get_latest_retweet(user):
+    from tweet.models import Tweet, Repost
+    from users.models import User
+
+    author = User.objects.get(id=user.id)
+    latest_tweet = Tweet.objects.all()[0]
+    print(Tweet.objects.all())
+
+    if author in [repost.author for repost in Repost.objects.all()]:
+        return latest_tweet
+    else:
+        return None
