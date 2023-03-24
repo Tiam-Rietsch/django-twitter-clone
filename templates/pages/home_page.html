@@ -14,7 +14,7 @@
         <img onclick="showAndroidNavbar()" src="{{ request.user|get_profile_picture }}" alt="">
     </div>
     {% endif %}
-    <p>All tweets</p>
+    <p>Home</p>
     <div class="nav-link-wrapper">
         <button class="menu-btn active-menu-btn" onclick="showContent(event, 'For You')">For you</button>
         {% if request.user.is_authenticated %}

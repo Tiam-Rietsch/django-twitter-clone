@@ -64,14 +64,12 @@
         })
 
         //handles the logout form
-        let logoutFormButton = document.querySelector('.logout-form-button')
-        if (logoutFormButton !== null) {
-            logoutFormButton.addEventListener('click', () => {
-                document.body.style.overflow = 'hidden'
-                let logoutFormFilter = document.querySelector('.logout-form-filter')
-                logoutFormFilter.classList.remove('none')
-                document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
-            })
+        function showLogoutForm() {
+            document.body.style.overflow = 'hidden'
+            let logoutFormFilter = document.querySelector('.logout-form-filter')
+            logoutFormFilter.classList.remove('none')
+            document.querySelector('#logout-cancel-button').addEventListener('click', closeLogoutForm)
+
         }
 
         function closeLogoutForm() {

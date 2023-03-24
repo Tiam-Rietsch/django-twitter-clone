@@ -39,7 +39,8 @@
             <div class="actions-section">
                 {% csrf_token %}
                 <div class="action blue-action">
-                    <a href="{% url 'reply-tweet' tweet.id %}"><button><i class="fa fa-reply" aria-hidden="true"></i></button></a> ()
+                    <a href="{% url 'reply-tweet' tweet.id %}"><button><i class="fa fa-comment" aria-hidden="true"></i></button></a>
+                    <span>{{ tweet.reply_set.all.count }}</span> 
                 </div>
 
                 <div class="action pink-action">
@@ -54,7 +55,8 @@
                 </div>
                 
                 <div class="action green-action">
-                    <button><i class="fa fa-refresh" aria-hidden="true"></i></button> ({{ tweet.repost_set.all.count }})
+                    <button><i class="fa fa-retweet" aria-hidden="true"></i></button> 
+                    <span>{{ tweet.repost_set.all.count }}</span>
                 </div>
             </div>
             {% endif %}
