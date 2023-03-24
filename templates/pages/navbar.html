@@ -9,7 +9,7 @@
     </li>
     <li><a href="">Bookmarks</a></li>
     {% if request.user.is_authenticated %}
-    <a href="{% url 'create-tweet' %}"><button>Tweet</button></a>
+    <a href="{% url 'create-tweet' %}"><button class="tweet-button">Tweet</button></a>
     {% endif %}
 </ul>
 <div class="userinfo-container">

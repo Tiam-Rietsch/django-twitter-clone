@@ -14,7 +14,7 @@
         <img onclick="showAndroidNavbar()" src="{{ request.user|get_profile_picture }}" alt="">
     </div>
     {% endif %}
-    <h2>All tweets</h2>
+    <p>All tweets</p>
     <div class="nav-link-wrapper">
         <button class="menu-btn active-menu-btn" onclick="showContent(event, 'For You')">For you</button>
         {% if request.user.is_authenticated %}
@@ -35,52 +35,7 @@
         {% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}
     </div>
     <div class="suggestions">
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topics</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Popular topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
-        <h2>Populdfsadfsdafsdfar topicsddfdfdfdf</h2>
+        {% include 'tweet/popular_topics_list.html' %}
     </div>
 </div>
 

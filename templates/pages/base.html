@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href=" {% static 'css/Fork-Awesome/css/fork-awesome.min.css' %}?version=1">
     <link rel="stylesheet" href="{% static 'css/style.css' %}?version=1">
     <title>{% block title %}{% endblock title %}Twitter Clone</title>
 </head>
@@ -40,9 +41,9 @@
                         likeCountText.innerHTML = await data['count']
 
                         if (await data['action'] == 'liked') {
-                            item.innerHTML = 'Dislike'
+                            item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
                         } else {
-                            item.innerHTML = 'Like'
+                            item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                         }
 
                     })

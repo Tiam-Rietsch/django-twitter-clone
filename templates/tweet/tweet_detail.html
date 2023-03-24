@@ -35,12 +35,12 @@
                 <div>
                     <a href="{% url 'reply-tweet' tweet.id %}"><button>reply</button></a> ()
                 </div>
-                <div>
+                <div class="action pink-action">
                     <button onclick="likeTweet(event)" class="tweet-like-button" value="{{ tweet.id }}">
                         {% if request.user|has_liked:tweet.id %}
-                        <span>Dislike</span>
+                        <span><i class="fa fa-heart" aria-hidden="true"></i></span>
                         {% else %}
-                        <span>Like</span>
+                        <span><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                         {% endif %}
                     </button>
                     <span id="tweet-like-{{ tweet.id }}">{{ tweet.likes.all.count }}</span>
