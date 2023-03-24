@@ -10,7 +10,7 @@
 
         <div class="name-section">
             <span>{{ reply.author.first_name }} {{ reply.author.last_name }}</span>
-            <span>@{{ reply.author.username }}</span>
+            <span>@{{ reply.author.username }} | reply to @{{ reply.tweet.author.username }}</span>
         </div>
 
         <div class="body-section">
@@ -47,6 +47,5 @@
     </div>
 
 </div>
-<hr>
 
 {% endfor %}

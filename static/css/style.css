@@ -367,6 +367,15 @@ i {
     /* border: 3px solid green; */
 }
 
+.reply-body {
+    border-bottom: none;
+}
+
+.reply-tweet-body {
+    border-bottom: none;
+    border-top: 1px solid #38444D;
+}
+
 .tweet-body:hover,
 .reply-body:hover {
     background-color: #1C2732;

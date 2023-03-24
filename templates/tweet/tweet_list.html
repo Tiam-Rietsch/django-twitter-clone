@@ -3,7 +3,7 @@
 
 <div class="tweet-list-wrapper">
     {% for tweet in tweet_list %}
-    <div class="tweet-body">
+    <div {% if show_replies %} class="tweet-body reply-tweet-body" {% else %} class="tweet-body" {% endif %}>
         <div class="profile-container">
             <img src="{{ tweet.author|get_profile_picture }}" alt="">
         </div>
@@ -11,7 +11,7 @@
     
             <div class="name-section">
                 <span>{{ tweet.author.first_name }} {{ tweet.author.last_name }}</span>
-                <a href="{% url 'profile-page' tweet.author.username %}">@{{ tweet.author.username }}</a>
+                <a href="{% url 'profile-page' tweet.author.username %}">@{{ tweet.author.username }} . {{ tweet.date_created|timesince }} ago</a>
             </div>
 
             <div class="body-section">
