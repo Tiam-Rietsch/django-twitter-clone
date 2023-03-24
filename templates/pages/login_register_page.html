@@ -11,8 +11,8 @@
   <div id="register-form-container">
 
     <div class="signup-form-header">
+      <a class="back-arrow" href="{% url 'home' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
       <h1>{% trans "Register" %}</h1>
-      <a href="{% url 'home' %}"><button>Go back</button></a>
     </div>
 
     {% get_providers as socialaccount_providers %}
@@ -35,13 +35,13 @@
     </div>
     {% endif %}
 
-    <form class="signup" id="signup_form" method="post">
+    <form class="signup" id="signup-form" method="post">
       {% csrf_token %}
       {% for field in form %}
-      <p>
+      <div class="form-input">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
-      </p>
+      </div>
       {% endfor %}
       <button type="submit">{% trans "Register" %} &raquo;</button>
     </form>

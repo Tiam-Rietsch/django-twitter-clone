@@ -1,5 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load i18n %}
+{% load static %}
 {% load user_extras %}
 {% load account socialaccount %}
 {% block content %}
@@ -13,7 +14,12 @@
     <div class="android-profile-info android">
         <img onclick="showAndroidNavbar()" src="{{ request.user|get_profile_picture }}" alt="">
     </div>
+    {% else %}
+    <div class="android-profile-info android">
+        <img onclick="showAndroidNavbar()" src="{% static 'img/blank-profile-picture.png' %}" alt="profile-picture">
+    </div>
     {% endif %}
+
     <p>Home</p>
     <div class="nav-link-wrapper">
         <button class="menu-btn active-menu-btn" onclick="showContent(event, 'For You')">For you</button>

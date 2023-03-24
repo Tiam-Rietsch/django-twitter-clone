@@ -75,6 +75,7 @@ i {
     justify-content: center;
     align-items: center;
     color: #F7F9F9;
+    font-size: 1rem;
 }
 
 .profile-menu,
@@ -133,6 +134,7 @@ i {
 .back-arrow {
     box-sizing: border-box;
     padding: 0.5rem;
+    margin-right: 1rem;
     height: 2rem;
     width: 2rem;
     border-radius: 100%;
@@ -169,7 +171,6 @@ i {
     height: 100vh;
     width: var(--navbar-width);
     border-right: 1px solid #38444D;
-    ;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -420,7 +421,7 @@ i {
 }
 
 .name-section a:hover {
-    color:#00BA7C;
+    color: #00BA7C;
 }
 
 .body-section {
@@ -651,7 +652,7 @@ i {
     color: #F7F9F9;
     border-radius: 25px;
     border: 1px solid #38444D;
-    box-shadow:  0px 0px  20px #272f36c2;
+    box-shadow: 0px 0px 20px #272f36c2;
     height: 60vh;
     height: fit-content;
     width: 40%;
@@ -662,7 +663,9 @@ i {
     z-index: 1000;
 }
 
-#logout-form-container button {
+#logout-form-container button,
+#login-form-container button,
+#register-form-container button {
     background-color: #F7F9F9;
     box-sizing: border-box;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -691,13 +694,15 @@ i {
 
 #login-form,
 #tweet-form,
-#reply-form {
+#reply-form,
+#signup-form {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
     position: relative;
     height: 50%;
+    width: 100%;
 }
 
 #tweet-form,
@@ -705,12 +710,6 @@ i {
     height: 70%;
 }
 
-.form-input {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
-}
 
 .login-form-header,
 .signup-form-header,
@@ -719,9 +718,29 @@ i {
 .reply-form-header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.form-input input {
+    height: 1.9rem;
+    width: 70%;
+    border: 2px solid #F7F9F9;
+    border-radius: 3px;
+    background-color: #15202B;
+    color: #F7F9F9;
+    font-size: 1rem;
+    margin-top: 0.4rem;
 }
 
 .none {
@@ -739,7 +758,7 @@ i {
 @media screen and (max-width: 600px) {
     body {
         margin: 0;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .android {
@@ -769,17 +788,21 @@ i {
         width: 100%;
         left: 0;
         backdrop-filter: none;
-        background-color: white;
+        background-color: #15202B;
     }
 
     .nav-link-wrapper {
         position: absolute;
         bottom: 0%;
         left: 0;
-        height: 30%;
+        height: 40%;
     }
 
-    .menu-bar h2 {
+    .menu-btn:hover {
+        background-color: unset;
+    }
+
+    .menu-bar p {
         display: none;
     }
 
@@ -814,12 +837,16 @@ i {
     }
 
     .android-navbar {
+        font-size: 1rem;
         padding-top: 10vh;
         position: fixed;
         top: 0;
         left: -100%;
         z-index: 200;
-        background-color: beige;
+        background-color: #15202B;
+        color: #F7F9F9;
+        border-right: 1px solid #38444D;
+        box-shadow: 0px 0px 20px #96a1a916;
         height: 100vh;
         width: 90%;
         display: flex;
@@ -827,6 +854,12 @@ i {
         align-items: center;
         justify-content: flex-start;
         transition: left 0.1s ease;
+    }
+
+
+
+    .android-navbar a {
+        color: #F7F9F9;
     }
 
     .an-profile-section {
@@ -863,18 +896,56 @@ i {
         align-items: flex-start;
     }
 
+    .user-name {
+        font-size: 0.9rem;
+        color: #96a1a9;
+        transition: 0.3s ease-out;    
+    }
+
     .close-an-button {
+        background-color: #15202B;
+        border: 0;
+        height: 50px;
+        width: 50px;
+        padding: 10px;
+        border-radius: 50%;
         position: absolute;
         top: 5px;
         right: 5px;
     }
 
+    .close-an-button i {
+        font-size: 1.5rem;
+    }
+
+    .close-an-button:hover {
+        background-color: #e6293944;
+    }
+
+    .close-an-button:hover i {
+        color: #e62939;
+    }
+
     .an-links-section {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-around;
         flex-direction: column;
         height: 50vh;
+    }
+
+    .an-links-section i {
+        color: #F7F9F9;
+    }
+
+    .logout-form-button {
+        background-color: #00BA7C;
+        box-sizing: border-box;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        border-radius: 1.2rem;
+        color: #F7F9F9;
+        margin-top: 1rem;
+        border: 0;
     }
 
     #login-form-container,
