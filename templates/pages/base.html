@@ -24,34 +24,57 @@
 
         function LiveUpdates() {
             setInterval(() => {
-                refreshLikes()
-                refreshRepliesCount()
-                refreshTweetCount()
+                checkTweetListState()
 
-                function refreshRepliesCount() {
-                    document.querySelectorAll('.tweet-repost-button').forEach(async item => {
-                        let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
+                function checkTweetListState() {
+                    document.querySelectorAll("input[name='tweet-id']").forEach(async item => {
+                        let tweetBody = document.querySelector(`.body-${item.value}`)
+                        let response = await fetch(`{% url 'check-tweet-existence' %}?pk=${item.value}`, {
                             method: 'GET',
                             headers: {
-                                'X-Requested-With': 'repostTweetCount',
-                                'Content-Type': 'application/json',
+                                'X-Requested-With': 'checkTweetExistence',
+                                'Content-Type': 'application/json'
                             }
                         })
 
                         let data = await response.json()
-                        let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
-                        repostCountText.innerHTML = await data['count']
-
-                        if (await data['action'] == 'reposted') {
-                            console.log(`reposted - ${item.value}`)
-                            document.querySelector('.fa-retweet').classList.add('reposted')
-                        } else {
-                            console.log('not reposted')
-                            document.querySelector('.fa-retweet').classList.remove('reposted')
+                        if (await data['exists'] == false) {
+                            tweetCount = document.querySelector('#tweet-count')
+                            tweetCount.value = `${parseInt(tweetCount.value) - 1}`;
+                            tweetBody.remove()
                         }
-
                     })
+                    refreshLikes()
+                    refreshRepliesCount()
+                    refreshTweetCount()
+                }
 
+                function refreshRepliesCount() {
+                    repostButtonList = document.querySelectorAll('.tweet-repost-button')
+                    if (repostButtonList !== null) {
+                        repostButtonList.forEach(async item => {
+
+                            let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'repostTweetCount',
+                                    'Content-Type': 'application/json',
+                                }
+                            })
+
+                            let data = await response.json()
+                            let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
+
+                            if (await !data['error'] && await data['action'] == 'reposted') {
+                                repostCountText.innerHTML = await data['count']
+                                document.querySelector(`.retweet-icon-${item.value}`).classList.add('reposted')
+                            } else if (await !data['error']) {
+                                repostCountText.innerHTML = await data['count']
+                                document.querySelector(`.retweet-icon-${item.value}`).classList.remove('reposted')
+                            }
+
+                        })
+                    }
                 }
 
                 async function refreshTweetCount() {
@@ -70,7 +93,6 @@
                         document.querySelector('.new-tweet-message').classList.remove('none')
                     } else {
                         document.querySelector('.new-tweet-message').classList.add('none')
-                        console.log('none')
                     }
                 }
 
@@ -86,11 +108,12 @@
 
                         let data = await response.json()
                         let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
-                        likeCountText.innerHTML = await data['count']
 
-                        if (await data['action'] == 'liked') {
+                        if (await !data['error'] && await data['action'] == 'liked') {
+                            likeCountText.innerHTML = await data['count']
                             item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
-                        } else {
+                        } else if (await !data['error']) {
+                            likeCountText.innerHTML = await data['count']
                             item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                         }
 

@@ -6,7 +6,8 @@
         <a href="{% url 'home' %}"><h5>Show New tweets</h5></a>
     </div>
     {% for tweet in tweet_list %}
-    <div {% if show_replies %} class="tweet-body reply-tweet-body" {% else %} class="tweet-body" {% endif %}>
+    <div {% if show_replies %} class="tweet-body reply-tweet-body body-{{tweet.id}}" {% else %} class="tweet-body body-{{tweet.id}}" {% endif %}>
+        <input value="{{tweet.id}}" name="tweet-id" class="none">
         {% include 'tweet/get_tweet.html' with tweet=tweet %}
     </div>
     {% if show_replies and specific_user %}

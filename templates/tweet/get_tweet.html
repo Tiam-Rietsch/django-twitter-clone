@@ -53,7 +53,7 @@
         </div>
 
         <div class="action green-action">
-            <button class="tweet-repost-button" onclick="retweet(event)" value="{{tweet.id}}"><i class="fa fa-retweet reposted" aria-hidden="true"></i></button>
+            <button class="tweet-repost-button" onclick="retweet(event)" value="{{tweet.id}}"><i class="fa fa-retweet retweet-icon-{{tweet.id}}" aria-hidden="true"></i></button>
             <span id="tweet-repost-{{ tweet.id }}">{{ tweet.sources.all.count }}</span>
         </div>
     </div>

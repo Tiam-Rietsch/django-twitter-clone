@@ -21,6 +21,19 @@ def refresh_tweet_count(request):
         return JsonResponse(json_context)
 
 
+def check_tweet_existence(request):
+    if request.headers['X-Requested-With'] == 'checkTweetExistence':
+        try:
+            tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
+        except Tweet.DoesNotExist:
+            tweet = None
+
+        if tweet == None:
+            return JsonResponse({'exists': False})
+        else:
+            return JsonResponse({'exists': True})
+
+
 def home_page_view(request):
     if request.user.is_authenticated:
         all_tweets = Tweet.objects.exclude(author=request.user)
@@ -55,21 +68,29 @@ def home_page_view(request):
 
 
 def get_like_count(request):
-    tweet_likes = Tweet.objects.get(id=int(request.GET.get('pk'))).likes.all()
-    json_context = {
-        'count': tweet_likes.count()
-    }
-    json_context['action'] = 'liked' if request.user in [like.author for like in tweet_likes] else 'disliked'
+    try:
+        tweet_likes = Tweet.objects.get(id=int(request.GET.get('pk'))).likes.all()
+        json_context = {
+            'count': tweet_likes.count()
+        }
+        json_context['action'] = 'liked' if request.user in [like.author for like in tweet_likes] else 'disliked'
+    except Tweet.DoesNotExist:
+        json_context = {'error': True}
+
     return JsonResponse(json_context)
 
 
 def get_repost_count(request):
-    tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
-    all_repost = Repost.objects.filter(source_tweet=tweet)
-    json_context = {
-        'count': all_repost.count()
-    }
-    json_context['action'] = 'reposted' if request.user in [repost.author for repost in all_repost] else 'not reposted'
+    try:
+        tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
+        all_repost = Repost.objects.filter(source_tweet=tweet)
+        json_context = {
+            'count': all_repost.count()
+        }
+        json_context['action'] = 'reposted' if request.user in [repost.author for repost in all_repost] else 'not reposted'
+    except Tweet.DoesNotExist or Repost.DoesNotExist:
+        json_context = {'error': True}
+
     return JsonResponse(json_context)
 
 
@@ -126,4 +147,6 @@ def retweet_view(request):
         else:
             tweet = current_repost.repost_tweet
             tweet.delete()
+            return JsonResponse({'deleted': True})
+        
         return JsonResponse({'success': True})
