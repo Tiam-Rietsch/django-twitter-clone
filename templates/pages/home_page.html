@@ -10,6 +10,8 @@
     {% include 'account/logout_form.html' %}
 </div>
 
+<input  id="tweet-count" value="{{ all_tweets.count}}" class="none">
+
 <div class="menu-bar">
     {% if request.user.is_authenticated %}
     <div class="android-profile-info android">
@@ -77,17 +79,7 @@
 
         let data = await response.json()
 
-        if (await data['success'] == true) {
-            newTweetBody = document.createElement('div')
-            newTweetBody.classList.add('tweet-body')
-            newTweetBody.innerHTML = `{% if request.user.is_authenticated %}{% include 'tweet/get_tweet.html' with tweet=request.user|get_latest_retweet %} {% endif %}`
-            let tweetListWrapper = document.querySelector('.tweet-list-wrapper')
-            if (tweetListWrapper !== null) {
-                tweetListWrapper.prepend(newTweetBody)
-            } else {
-                console.log("did not show")
-            }
-        }
+        if (await data['success'] == true) {}
     }
 
     function showContent(event, content_type) {

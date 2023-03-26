@@ -7,7 +7,7 @@ class Reply(models.Model):
     tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, null=True)
     body = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
-    attachement = models.ImageField(upload_to='atachements/', null=True, blank=True)
+    attachement = models.ImageField(upload_to='attachements/', null=True, blank=True)
 
     def __str__(self):
         return self.body[:50]

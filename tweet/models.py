@@ -22,4 +22,5 @@ class TweetLike(models.Model):
 
 class Repost(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    source = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    source_tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, related_name='sources', null=True)
+    repost_tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, related_name='reposts', null=True)

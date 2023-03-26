@@ -8,9 +8,25 @@ from .forms import TweetCreationForm
 from .models import Tweet, TweetLike, Repost
 from replies.models import Reply
 
-def home_page_view(request):
-    all_tweets = Tweet.objects.all()
+def refresh_tweet_count(request):
+    if request.headers['X-Requested-With'] == 'refreshTweetCount':
+        old_count = int(request.GET.get('count'))
+       
+        if request.user.is_authenticated:
+            new_count = Tweet.objects.exclude(author=request.user).count()
+        else:
+            new_count = Tweet.objects.all().count()
 
+        json_context = {'has_new': old_count < new_count}
+        return JsonResponse(json_context)
+
+
+def home_page_view(request):
+    if request.user.is_authenticated:
+        all_tweets = Tweet.objects.exclude(author=request.user)
+    else:
+        all_tweets = Tweet.objects.all()
+    
     following_tweets = Tweet.objects.filter(author__profile__followers=request.user.profile) if request.user.is_authenticated else []
     context = {'all_tweets': all_tweets, 'following_tweets': following_tweets}
 
@@ -46,6 +62,17 @@ def get_like_count(request):
     json_context['action'] = 'liked' if request.user in [like.author for like in tweet_likes] else 'disliked'
     return JsonResponse(json_context)
 
+
+def get_repost_count(request):
+    tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
+    all_repost = Repost.objects.filter(source_tweet=tweet)
+    json_context = {
+        'count': all_repost.count()
+    }
+    json_context['action'] = 'reposted' if request.user in [repost.author for repost in all_repost] else 'not reposted'
+    return JsonResponse(json_context)
+
+
 def create_tweet_view(request):
     if request.method == 'POST':
         form = TweetCreationForm(request.POST, request.FILES)
@@ -76,16 +103,27 @@ def tweet_detail_view(request, pk):
 def retweet_view(request):
     if request.headers['X-Requested-With'] == 'retweetButton':
         source = Tweet.objects.get(id=int(request.GET.get('pk')))
-        new_tweet = Tweet.objects.create(
-            author=request.user,
-            body=source.body,
-            attachement=source.attachement,
-        )
 
-        repost = Repost.objects.create(
-            author=request.user,
-            source=source
-        )
-        new_tweet.save()
-        repost.save()
+        try:
+            current_repost = Repost.objects.get(Q(author=request.user) & Q(source_tweet=source))
+        except Repost.DoesNotExist:
+            current_repost = None
+
+        if current_repost is None:                
+            new_tweet = Tweet.objects.create(
+                author=request.user,
+                body=source.body,
+                attachement=source.attachement,
+            )
+
+            new_tweet.save()
+            repost = Repost.objects.create(
+                author=request.user,
+                source_tweet=source,
+                repost_tweet=new_tweet
+            )
+            repost.save()
+        else:
+            tweet = current_repost.repost_tweet
+            tweet.delete()
         return JsonResponse({'success': True})

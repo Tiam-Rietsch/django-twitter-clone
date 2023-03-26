@@ -50,7 +50,7 @@ a {
     color: #00A770
 }
 
-i {
+.fa {
     color: #38444D;
 }
 
@@ -355,7 +355,8 @@ i {
 /* tweet-list body start */
 
 .tweet-body,
-.reply-body {
+.reply-body,
+.new-tweet-message {
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-left: 1rem;
@@ -371,6 +372,16 @@ i {
 .reply-body {
     border-bottom: none;
 }
+
+.new-tweet-message {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .reply-tweet-body {
     border-bottom: none;
@@ -494,16 +505,16 @@ i {
 }
 
 
-.blue-action i,
-.pink-action i,
-.green-action i {
+.blue-action .fa,
+.pink-action .fa,
+.green-action .fa {
     padding: 0.7rem;
     border-radius: 50%;
     transition: 0.4s ease-out;
 }
 
 
-.blue-action:hover i {
+.blue-action:hover .fa {
     background-color: #1d9cf068;
     color: #1D9BF0;
 }
@@ -514,7 +525,7 @@ i {
     color: #F91880;
 }
 
-.pink-action:hover i {
+.pink-action:hover .fa {
     background-color: #f9188153;
     color: #F91880;
 }
@@ -523,8 +534,12 @@ i {
     color: #00BA7C;
 }
 
-.green-action:hover i {
+.green-action:hover .fa {
     background-color: #00ba7c41;
+    color: #00BA7C;
+}
+
+.green-action .reposted {
     color: #00BA7C;
 }
 
@@ -665,7 +680,8 @@ i {
 
 #logout-form-container button,
 #login-form-container button,
-#register-form-container button {
+#register-form-container button,
+#tweet-form-container button {
     background-color: #F7F9F9;
     box-sizing: border-box;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -687,7 +703,7 @@ i {
     padding-bottom: 20px;
 }
 
-#tweet-form-container,
+
 #reply-form-container {
     justify-content: flex-start;
 }
@@ -703,6 +719,7 @@ i {
     position: relative;
     height: 50%;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 #tweet-form,
@@ -732,7 +749,8 @@ i {
     width: 100%;
 }
 
-.form-input input {
+.form-input input,
+.form-input textarea {
     height: 1.9rem;
     width: 70%;
     border: 2px solid #F7F9F9;
@@ -741,6 +759,10 @@ i {
     color: #F7F9F9;
     font-size: 1rem;
     margin-top: 0.4rem;
+}
+
+.form-input textarea {
+    height: 10rem;
 }
 
 .none {
@@ -899,7 +921,7 @@ i {
     .user-name {
         font-size: 0.9rem;
         color: #96a1a9;
-        transition: 0.3s ease-out;    
+        transition: 0.3s ease-out;
     }
 
     .close-an-button {
@@ -939,18 +961,20 @@ i {
     }
 
     .logout-form-button,
+    .tweet-button,
     .login-form-button,
     .signup-form-button {
         background-color: #00BA7C;
         box-sizing: border-box;
-        padding: 0.5rem 1rem 0.5rem 1rem;
+        padding: 0.5rem 2.5rem 0.5rem 2.5rem;
         border-radius: 1.2rem;
         color: #F7F9F9;
         margin-top: 1rem;
         border: 0;
     }
 
-    .login-form-button {
+    .login-form-button,
+    .logout-form-button {
         background-color: #5a5f5d;
         color: #F7F9F9;
     }

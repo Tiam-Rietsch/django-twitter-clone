@@ -1,3 +1,5 @@
+
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from tweet.models import Tweet
 
@@ -20,3 +22,4 @@ def tweet_reply_view(request, tweet_id):
 
 
     return render(request, 'pages/tweet_reply_page.html', {'form': form, 'tweet_id': tweet_id})
+

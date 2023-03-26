@@ -2,6 +2,9 @@
 {% load user_extras %}
 
 <div class="tweet-list-wrapper">
+    <div class="new-tweet-message none">
+        <a href="{% url 'home' %}"><h5>Show New tweets</h5></a>
+    </div>
     {% for tweet in tweet_list %}
     <div {% if show_replies %} class="tweet-body reply-tweet-body" {% else %} class="tweet-body" {% endif %}>
         {% include 'tweet/get_tweet.html' with tweet=tweet %}
