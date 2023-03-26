@@ -4,6 +4,7 @@ register = template.Library()
 
 @register.filter
 def get_profile_picture(user):
+    print(user.username)
     if user.profile.profile_picture:
         return user.profile.profile_picture.url 
     else:

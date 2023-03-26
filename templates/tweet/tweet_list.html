@@ -2,12 +2,12 @@
 {% load user_extras %}
 
 <div class="tweet-list-wrapper">
-    {% for t in tweet_list %}
+    {% for tweet in tweet_list %}
     <div {% if show_replies %} class="tweet-body reply-tweet-body" {% else %} class="tweet-body" {% endif %}>
-        {% include 'tweet/get_tweet.html' with tweet=t %}
+        {% include 'tweet/get_tweet.html' with tweet=tweet %}
     </div>
-    {% if show_replies %}
-        {% include 'tweet/tweet_reply_list.html' with replies=tweet|get_specific_reply:specific_user %}
+    {% if show_replies and specific_user %}
+        {% include 'tweet/tweet_reply_list.html' with tweet=tweet replies=tweet|get_specific_reply:specific_user %}
     {% endif %}
     {% endfor %}
 </div>

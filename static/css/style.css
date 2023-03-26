@@ -938,7 +938,9 @@ i {
         color: #F7F9F9;
     }
 
-    .logout-form-button {
+    .logout-form-button,
+    .login-form-button,
+    .signup-form-button {
         background-color: #00BA7C;
         box-sizing: border-box;
         padding: 0.5rem 1rem 0.5rem 1rem;
@@ -946,6 +948,16 @@ i {
         color: #F7F9F9;
         margin-top: 1rem;
         border: 0;
+    }
+
+    .login-form-button {
+        background-color: #5a5f5d;
+        color: #F7F9F9;
+    }
+
+    .signup-form-button {
+        color: #15202B;
+        background-color: #F7F9F9;
     }
 
     #login-form-container,

@@ -80,7 +80,7 @@
         if (await data['success'] == true) {
             newTweetBody = document.createElement('div')
             newTweetBody.classList.add('tweet-body')
-            newTweetBody.innerHTML = `{% include 'tweet/get_tweet.html' with tweet=request.user|get_latest_retweet %}`
+            newTweetBody.innerHTML = `{% if request.user.is_authenticated %}{% include 'tweet/get_tweet.html' with tweet=request.user|get_latest_retweet %} {% endif %}`
             let tweetListWrapper = document.querySelector('.tweet-list-wrapper')
             if (tweetListWrapper !== null) {
                 tweetListWrapper.prepend(newTweetBody)

@@ -27,6 +27,11 @@
         {% endif %}
         <a onclick="closeAndroidNavbar()" href=""><i class="fa fa-hashtag" aria-hidden="true"></i> <span>Trending</span> </a>
         <a onclick="closeAndroidNavbar()" href=""><i class="fa fa-bell" aria-hidden="true"></i> <span>Notifications</span> </a>
-        <button onclick="closeAndroidNavbar()" class="logout-form-button">Logout</button>
+        {% if request.user.is_authenticated %}
+        <button onclick="showLogoutForm()" class="logout-form-button">Logout</button>
+        {% else %}
+        <a href="{% url 'login' %}"><button class="login-form-button">Login</button></a>
+        <a href="{% url 'register' %}"><button class="signup-form-button">Signup</button></a>
+        {% endif %}
     </div>
 </div>

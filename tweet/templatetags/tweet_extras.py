@@ -60,7 +60,6 @@ def get_latest_retweet(user):
 
     author = User.objects.get(id=user.id)
     latest_tweet = Tweet.objects.all()[0]
-    print(Tweet.objects.all())
 
     if author in [repost.author for repost in Repost.objects.all()]:
         return latest_tweet
