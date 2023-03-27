@@ -10,7 +10,7 @@
     {% include 'account/logout_form.html' %}
 </div>
 
-<input  id="tweet-count" value="{{ all_tweets.count}}" class="none">
+<input id="tweet-count" value="{{ all_tweets.count}}" class="none">
 
 <div class="menu-bar">
     {% if request.user.is_authenticated %}
@@ -67,6 +67,7 @@
         })
     }
 
+    
     async function retweet(event) {
         let item = event.currentTarget
         let response = await fetch(`{% url 'retweet' %}?pk=${item.value}`, {
@@ -78,6 +79,12 @@
         })
 
         let data = await response.json()
+    }
+
+
+    function showTweetDetail(event) {
+        let id = event.currentTarget.firstElementChild.value
+        location.href = `{% url 'tweet-detail2' %}?pk=${parseInt(id)}`
     }
 
     function showContent(event, content_type) {

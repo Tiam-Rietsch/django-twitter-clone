@@ -121,6 +121,16 @@ def tweet_detail_view(request, pk):
     return render(request, 'pages/tweet_detail_page.html', context)
 
 
+def tweet_detail_view2(request):
+    tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
+    replies = Reply.objects.filter(tweet=tweet)
+    context = {
+        'tweet': tweet,
+        'replies': replies
+    }
+    return render(request, 'pages/tweet_detail_page.html', context)
+
+
 def retweet_view(request):
     if request.headers['X-Requested-With'] == 'retweetButton':
         source = Tweet.objects.get(id=int(request.GET.get('pk')))

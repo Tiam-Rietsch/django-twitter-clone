@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.home_page_view, name='home'),
     path('create-tweet/', views.create_tweet_view, name='create-tweet'),
     path('tweet-detail/<int:pk>/', views.tweet_detail_view, name='tweet-detail'),
+    path('tweet-detail2/', views.tweet_detail_view2, name='tweet-detail2'),
 
     path('retweet/', views.retweet_view, name='retweet'),
 

@@ -54,74 +54,80 @@
                     if (repostButtonList !== null) {
                         repostButtonList.forEach(async item => {
 
-                            let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
-                                method: 'GET',
-                                headers: {
-                                    'X-Requested-With': 'repostTweetCount',
-                                    'Content-Type': 'application/json',
+                            if (item !== null ) {
+                                let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'X-Requested-With': 'repostTweetCount',
+                                        'Content-Type': 'application/json',
+                                    }
+                                })
+
+                                let data = await response.json()
+                                let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
+
+                                if (await !data['error'] && await data['action'] == 'reposted') {
+                                    repostCountText.innerHTML = await data['count']
+                                    document.querySelector(`.retweet-icon-${item.value}`).classList.add('reposted')
+                                } else if (await !data['error']) {
+                                    repostCountText.innerHTML = await data['count']
+                                    document.querySelector(`.retweet-icon-${item.value}`).classList.remove('reposted')
                                 }
-                            })
-
-                            let data = await response.json()
-                            let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
-
-                            if (await !data['error'] && await data['action'] == 'reposted') {
-                                repostCountText.innerHTML = await data['count']
-                                document.querySelector(`.retweet-icon-${item.value}`).classList.add('reposted')
-                            } else if (await !data['error']) {
-                                repostCountText.innerHTML = await data['count']
-                                document.querySelector(`.retweet-icon-${item.value}`).classList.remove('reposted')
                             }
-
                         })
                     }
                 }
 
                 async function refreshTweetCount() {
-                    let count = parseInt(document.querySelector('#tweet-count').value)
-                    let response = await fetch(`{% url 'refresh-tweet-count' %}?count=${count}`, {
-                        method: 'GET',
-                        headers: {
-                            'X-Requested-With': 'refreshTweetCount',
-                            'Content-Type': 'application/json'
+                    let countElement = document.querySelector('#tweet-count')
+                    if (countElement !== null ) {
+                        let count = parseInt(countElement.value)
+                        let response = await fetch(`{% url 'refresh-tweet-count' %}?count=${count}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'refreshTweetCount',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+
+                        data = await response.json()
+
+                        if (await data['has_new']) {
+                            document.querySelector('.new-tweet-message').classList.remove('none')
+                        } else {
+                            document.querySelector('.new-tweet-message').classList.add('none')
                         }
-                    })
 
-                    data = await response.json()
-
-                    if (await data['has_new']) {
-                        document.querySelector('.new-tweet-message').classList.remove('none')
-                    } else {
-                        document.querySelector('.new-tweet-message').classList.add('none')
                     }
                 }
 
                 function refreshLikes() {
                     document.querySelectorAll('.tweet-like-button').forEach(async item => {
-                        let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
-                            method: 'GET',
-                            headers: {
-                                'X-Requested-With': 'refreshLikes',
-                                'Content-Type': 'application/json',
+                        if (item !== null ) {
+                            let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'refreshLikes',
+                                    'Content-Type': 'application/json',
+                                }
+                            })
+
+                            let data = await response.json()
+                            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
+
+                            if (await !data['error'] && await data['action'] == 'liked') {
+                                likeCountText.innerHTML = await data['count']
+                                item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
+                            } else if (await !data['error']) {
+                                likeCountText.innerHTML = await data['count']
+                                item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                             }
-                        })
 
-                        let data = await response.json()
-                        let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
-
-                        if (await !data['error'] && await data['action'] == 'liked') {
-                            likeCountText.innerHTML = await data['count']
-                            item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
-                        } else if (await !data['error']) {
-                            likeCountText.innerHTML = await data['count']
-                            item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                         }
-
                     })
                 }
-            }, 1000)
+            }, 100)
         }
-
 
         //handle the double scrolling effect
         window.addEventListener('scroll', () => {

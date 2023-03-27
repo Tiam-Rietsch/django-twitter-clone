@@ -9,7 +9,7 @@
 </div>
 
 <div class="menu-bar profile-menu">
-    <a class="back-arrow" href="{{ request.META.HTTP_REFERER }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <a class="back-arrow" href="{% url 'home' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
 </div>
 
@@ -78,7 +78,7 @@
 <script>
 
     function showContent(event, content_type) {
-        document.querySelectorAll('.tab-btn').forEach( item => {
+        document.querySelectorAll('.tab-btn').forEach(item => {
             item.classList.remove('active-tab-btn')
         })
         event.currentTarget.classList.add('active-tab-btn')
@@ -94,19 +94,37 @@
         }
     }
 
-        //handle the liking of posts
-        async function likeTweet(event) {
-            console.log('liked')
-            let item = event.currentTarget
-            fetch("/", {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'LikeButton',
-                    'Content-Type': 'application/json',
-                    'id': parseInt(item.value)
-                }
-            })
-        }
+    async function likeTweet(event) {
+        console.log('liked')
+        let item = event.currentTarget
+        fetch("/", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'LikeButton',
+                'Content-Type': 'application/json',
+                'id': parseInt(item.value)
+            }
+        })
+    }
+
+    function showTweetDetail(event) {
+        let id = event.currentTarget.firstElementChild.value
+        location.href = `{% url 'tweet-detail2' %}?pk=${parseInt(id)}`
+    }
+
+
+    async function retweet(event) {
+        let item = event.currentTarget
+        let response = await fetch(`{% url 'retweet' %}?pk=${item.value}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'retweetButton',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        let data = await response.json()
+    }
 
 
 
@@ -129,4 +147,3 @@
     }
 </script>
 {% endblock script %}
-

@@ -1,47 +1,59 @@
 {% extends 'pages/base.html' %}
 
-{% block content %} 
-    <div class="logout-form-filter none">
-        {% include 'account/logout_form.html' %}
+{% block content %}
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="menu-bar tweet-detail-menu">
+    <a class="back-arrow" href="{{ request.META.HTTP_REFERER }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <h2>All Tweets</h2>
+</div>
+
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' %}
     </div>
+    <div class="main-content tweet-detail-content">
 
-    <div class="menu-bar tweet-detail-menu">
-        <a class="back-arrow" href="{{ request.META.HTTP_REFERER }}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-        <h2>All Tweets</h2>
+        {% include 'tweet/tweet_detail.html' %}
     </div>
-
-
-    <div class="container">
-    
-        <div class="navbar">
-            {% include 'pages/navbar.html' %}
-        </div>
-        <div class="main-content tweet-detail-content">
-
-            {% include 'tweet/tweet_detail.html' %}
-        </div>
-        <div class="suggestions">
-            {% include 'tweet/popular_topics_list.html' %}
-        </div>
+    <div class="suggestions">
+        {% include 'tweet/popular_topics_list.html' %}
     </div>
+</div>
 
 
 {% endblock content %}
 
 {% block script %}
 <script>
-    //handle the liking of posts
-        async function likeTweet(event) {
-            console.log('liked')
-            let item = event.currentTarget
-            fetch("/", {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'LikeButton',
-                    'Content-Type': 'application/json',
-                    'id': parseInt(item.value)
-                }
-            })
-        }
+    async function likeTweet(event) {
+        console.log('liked')
+        let item = event.currentTarget
+        fetch("/", {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'LikeButton',
+                'Content-Type': 'application/json',
+                'id': parseInt(item.value)
+            }
+        })
+    }
+
+    async function retweet(event) {
+        let item = event.currentTarget
+        let response = await fetch(`{% url 'retweet' %}?pk=${item.value}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'retweetButton',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        let data = await response.json()
+    }
 </script>
 {% endblock script %}
