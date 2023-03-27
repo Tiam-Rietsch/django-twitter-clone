@@ -802,6 +802,26 @@ a {
         width: 100%;
     }
 
+
+    .floating-tweet-button {
+        position: fixed;
+        bottom: 10vh;
+        bottom: 10dvh;
+        right: 10%;
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        border: 0;
+        background-color: #00BA7C;
+        font-size: 1.5rem;
+        z-index: 199; 
+        box-shadow: 3px 5px 10px #00000058;
+    }
+
+    .floating-tweet-button i {
+        color: #F7F9F9;
+    }
+
     .tweet-container,
     .reply-container {
         min-width: unset;
