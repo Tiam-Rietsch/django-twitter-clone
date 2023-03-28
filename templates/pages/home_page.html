@@ -7,7 +7,7 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<a href="{% url 'create-tweet'%}"><button class="floating-tweet-button android"><i class="fa fa-plus" aria-hidden="true"></i></button></a>
+<a href="{% url 'create-tweet' %}"><button class="floating-tweet-button android"><i class="fa fa-plus" aria-hidden="true"></i></button></a>
 {% endif %}
 
 

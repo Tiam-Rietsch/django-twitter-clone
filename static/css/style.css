@@ -643,7 +643,6 @@ a {
 .logout-form-filter,
 .tweet-form-filter,
 .reply-form-filter {
-    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -653,6 +652,10 @@ a {
     align-items: center;
     background-color: #2e3741a9;
     z-index: 999;
+}
+
+.logout-form-filter {
+    position: fixed;
 }
 
 /* login form */
@@ -805,17 +808,19 @@ a {
 
     .floating-tweet-button {
         position: fixed;
-        bottom: 10vh;
-        bottom: 10dvh;
-        right: 10%;
+        bottom: 10px;
+        right: 20px;
         height: 60px;
         width: 60px;
         border-radius: 50%;
         border: 0;
         background-color: #00BA7C;
-        font-size: 1.5rem;
         z-index: 199; 
         box-shadow: 3px 5px 10px #00000058;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .floating-tweet-button i {

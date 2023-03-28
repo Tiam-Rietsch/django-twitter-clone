@@ -66,13 +66,14 @@
 
                                 let data = await response.json()
                                 let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
+                                let retweetIcon = document.querySelector(`.retweet-icon-${item.value}`)
 
                                 if (await !data['error'] && await data['action'] == 'reposted') {
-                                    repostCountText.innerHTML = await data['count']
-                                    document.querySelector(`.retweet-icon-${item.value}`).classList.add('reposted')
+                                    if (repostCountText !== null) repostCountText.innerHTML = await data['count']
+                                    if (retweetIcon !== null) retweetIcon.classList.add('reposted')
                                 } else if (await !data['error']) {
-                                    repostCountText.innerHTML = await data['count']
-                                    document.querySelector(`.retweet-icon-${item.value}`).classList.remove('reposted')
+                                    if (repostCountText !== null) repostCountText.innerHTML = await data['count']
+                                    if (retweetIcon !== null) retweetIcon.classList.remove('reposted')
                                 }
                             }
                         })
@@ -117,10 +118,10 @@
                             let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
 
                             if (await !data['error'] && await data['action'] == 'liked') {
-                                likeCountText.innerHTML = await data['count']
+                                if (likeCountText !== null) likeCountText.innerHTML = await data['count']
                                 item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
                             } else if (await !data['error']) {
-                                likeCountText.innerHTML = await data['count']
+                                if (likeCountText !== null) likeCountText.innerHTML = await data['count']
                                 item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
                             }
 
