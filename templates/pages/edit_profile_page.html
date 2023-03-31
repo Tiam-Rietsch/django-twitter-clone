@@ -1,0 +1,39 @@
+{% extends 'pages/base.html' %}
+{% load user_extras %}
+
+{% block content %}
+<div class="edit-profile-form-filter">
+    <div id="edit-profile-form-container">
+        <div class="edit-profile-form-header">
+            <a class="back-arrow" href="{% url 'profile-page' profile.user.username %}"><i class="fa fa-solid fa-arrow-left"></i></a>
+            <h3>Edit profile</h3>
+        </div>
+
+        <form id="edit-profile-form" action="" method="POST" enctype="multipart/form-data">
+            <div class="edit-profile-image-section">
+                <div class="form-input">
+                    <label for="cover-image">
+                        <img src="{{ profile.user|get_cover_photo }}" alt="">
+                        <span><i class="fa-regular fa-image"></i></span>
+                    </label>
+                </div>
+                <div class="form-input">
+                    <label for="profile-picture">
+                        <img src="{{ profile.user|get_profile_picture }}" alt="">
+                        <span><i class="fa-solid fa-arrow-left"></i></span>
+                        <div class="hover-filter"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="form-input">
+                <label for="">username</label>
+                <input type="text" value="@{{ profile.user.username }}">
+            </div>
+            <div class="form-input">
+                <label for="">Bio</label>
+                <textarea type="text" value="@{{ profile.bio }}">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -76,6 +76,7 @@ a {
     align-items: center;
     color: #F7F9F9;
     font-size: 1rem;
+
 }
 
 .profile-menu,
@@ -148,11 +149,13 @@ a {
     color: #F7F9F9
 }
 
-.back-arrow:hover, .back-arrow:active {
+.back-arrow:hover,
+.back-arrow:active {
     background-color: #0c704f61;
 }
 
-.back-arrow:hover i, .back-arrow:active  i {
+.back-arrow:hover i,
+.back-arrow:active i {
     color: #00A770;
 }
 
@@ -197,7 +200,7 @@ a {
     transition: 0.3s ease-out;
 }
 
-.navbar .nav-link:hover, 
+.navbar .nav-link:hover,
 .navbar .nav-link:active {
     background-color: #1C2732;
 }
@@ -390,8 +393,10 @@ a {
     border-top: 1px solid #38444D;
 }
 
-.tweet-body:hover, .tweet-body:active,
-.reply-body:hover, .reply-body:active {
+.tweet-body:hover,
+.tweet-body:active,
+.reply-body:hover,
+.reply-body:active {
     background-color: #1C2732;
 }
 
@@ -433,7 +438,8 @@ a {
     transition: 0.3s ease-out;
 }
 
-.name-section a:hover, .name-section a:active {
+.name-section a:hover,
+.name-section a:active {
     color: #00BA7C;
 }
 
@@ -502,7 +508,8 @@ a {
 } */
 
 
-.blue-action:hover, .blue-action:active {
+.blue-action:hover,
+.blue-action:active {
     color: #1D9BF0;
 }
 
@@ -516,18 +523,21 @@ a {
 }
 
 
-.blue-action:hover .fa, .blue-action:active .fa {
+.blue-action:hover .fa,
+.blue-action:active .fa {
     background-color: #1d9cf068;
     color: #1D9BF0;
 }
 
 
 
-.pink-action:hover, .pink-action:active {
+.pink-action:hover,
+.pink-action:active {
     color: #F91880;
 }
 
-.pink-action:hover .fa, .pink-action:active .fa {
+.pink-action:hover .fa,
+.pink-action:active .fa {
     background-color: #f9188153;
     color: #F91880;
 }
@@ -536,7 +546,8 @@ a {
     color: #00BA7C;
 }
 
-.green-action:hover .fa, .green-action:active .fa {
+.green-action:hover .fa,
+.green-action:active .fa {
     background-color: #00ba7c41;
     color: #00BA7C;
 }
@@ -550,7 +561,7 @@ a {
     border: 0;
 }
 
-.fa-heart {
+.fa-solid.fa-heart {
     color: #F91880;
 }
 
@@ -566,13 +577,6 @@ a {
     height: 20vh;
 }
 
-.background-img {
-    position: relative;
-    background-color: #29333c;
-    height: 100%;
-    width: 100%;
-}
-
 .detail-profile-container {
     position: absolute;
     top: 16%;
@@ -584,6 +588,8 @@ a {
     height: calc(var(--profile-image-width) * 2.5);
     border: 4px solid #15202B;
 }
+
+
 
 .profile-detail-wrapper {
     margin-left: 15px;
@@ -615,7 +621,8 @@ a {
     transition: 0.4s ease;
 }
 
-.tab-btn:hover, .tab-btn:active {
+.tab-btn:hover,
+.tab-btn:active {
     background-color: #e3e3e342;
 }
 
@@ -642,7 +649,8 @@ a {
 .register-form-filter,
 .logout-form-filter,
 .tweet-form-filter,
-.reply-form-filter {
+.reply-form-filter,
+.edit-profile-form-filter {
     top: 0;
     left: 0;
     height: 100vh;
@@ -663,7 +671,8 @@ a {
 #register-form-container,
 #logout-form-container,
 #tweet-form-container,
-#reply-form-container {
+#reply-form-container,
+#edit-profile-form-container {
     position: relative;
     box-sizing: border-box;
     padding-left: 20px;
@@ -686,7 +695,8 @@ a {
 #logout-form-container button,
 #login-form-container button,
 #register-form-container button,
-#tweet-form-container button {
+#tweet-form-container button,
+#edit-profile-form-container button {
     background-color: #F7F9F9;
     box-sizing: border-box;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -716,7 +726,8 @@ a {
 #login-form,
 #tweet-form,
 #reply-form,
-#signup-form {
+#signup-form,
+#edit-profile-form {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -728,7 +739,8 @@ a {
 }
 
 #tweet-form,
-#reply-form {
+#reply-form,
+#edit-profile-form {
     height: 70%;
 }
 
@@ -737,7 +749,8 @@ a {
 .signup-form-header,
 .logout-form-header,
 .tweet-form-header,
-.reply-form-header {
+.reply-form-header,
+.edit-profile-form-header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -769,6 +782,62 @@ a {
 .form-input textarea {
     height: 10rem;
 }
+
+.form-input label[for="profile-picture"] {
+    position: absolute;
+    top: 16%;
+    left: 5%;
+    /* //overflow: hidden; */
+}
+
+.form-input label[for="profile-picture"] img {
+    width: calc(var(--profile-image-width) * 2);
+    height: calc(var(--profile-image-width) * 2);
+    border: 4px solid #15202B;
+    border-radius: 50%;
+    transition: 0.3s ease-in;
+}
+
+label[for="profile-picture"] .hover-filter {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: #00000000;
+    width: calc(var(--profile-image-width) * 2);
+    height: calc(var(--profile-image-width) * 2);
+    border: 4px solid #ffffff00;
+    border-radius: 50%;
+    transition: 0.3s ease-in;
+}
+
+label[for="profile-picture"]:hover img {
+    filter: brightness(50%);
+}
+
+.background-img,
+.edit-profile-image-section:first-child,
+label[for="cover-image"] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.background-img img,
+label[for="cover-image"] img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+}
+
+.form-input label span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 
 .none {
     display: none;
@@ -815,7 +884,7 @@ a {
         border-radius: 50%;
         border: 0;
         background-color: #00BA7C;
-        z-index: 199; 
+        z-index: 199;
         box-shadow: 3px 5px 10px #00000058;
         font-size: 1.2rem;
         display: flex;
@@ -847,7 +916,8 @@ a {
         height: 40%;
     }
 
-    .menu-btn:hover, .menu-btn:active {
+    .menu-btn:hover,
+    .menu-btn:active {
         background-color: unset;
     }
 

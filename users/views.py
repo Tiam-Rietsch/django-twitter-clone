@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 from tweet.models import Tweet, TweetLike
 from replies.models import Reply
-from .forms import RegisterForm
+from .forms import RegisterForm, EditProfileForm
 from .models import User, Profile
 
 def register_view(request):
@@ -62,6 +62,19 @@ def profile_page_view(request, username):
         'replied_tweets': replied_tweets
     }
     return render(request, 'pages/profile_page.html', context)
+
+
+def edit_profile_view(request, profile_id):
+    if request.method == 'POST':
+        pass
+    else:
+        form = EditProfileForm()
+
+    context = {
+        'profile' :User.objects.get(id=profile_id).profile,
+        'form': form
+    }
+    return render(request, 'pages/edit_profile_page.html', context)
 
 
 def follow_user_view(request, profile_id):

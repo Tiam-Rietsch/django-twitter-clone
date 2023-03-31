@@ -9,7 +9,7 @@
 </div>
 
 <div class="menu-bar profile-menu">
-    <a class="back-arrow" href="{% url 'home' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <a class="back-arrow" href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
 </div>
 
@@ -23,11 +23,13 @@
 
 
         <div class="profile-content-wrapper">
+            <a href="{% url 'edit-profile' profile.user.id %}"><button>Edit profile</button></a>
             <div class="profile-image-wrapper">
-                <div class="background-img"></div>
+                <div class="background-img">
+                    <img src="{{ profile.user|get_cover_photo }}" alt="">
+                </div>
                 <div class="profile-container detail-profile-container">
                     <img src="{{ profile.user|get_profile_picture }}" alt="">
-
                 </div>
             </div>
             <div class="profile-detail-wrapper">
@@ -105,11 +107,6 @@
                 'id': parseInt(item.value)
             }
         })
-    }
-
-    function showTweetDetail(event) {
-        let id = event.currentTarget.firstElementChild.value
-        location.href = `{% url 'tweet-detail2' %}?pk=${parseInt(id)}`
     }
 
 

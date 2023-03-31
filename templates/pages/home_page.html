@@ -60,7 +60,6 @@
 <script>
     //handle the liking of posts
     async function likeTweet(event) {
-        console.log('liked')
         let item = event.currentTarget
         fetch("/", {
             method: 'GET',
@@ -86,11 +85,6 @@
         let data = await response.json()
     }
 
-
-    function showTweetDetail(event) {
-        let id = event.currentTarget.firstElementChild.value
-        location.href = `{% url 'tweet-detail2' %}?pk=${parseInt(id)}`
-    }
 
     function showContent(event, content_type) {
         document.querySelectorAll('.menu-btn').forEach(item => {

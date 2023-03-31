@@ -11,7 +11,9 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(blank=True, null=True, upload_to='profiles/')
+    cover_photo = models.ImageField(blank=True, null=True,  upload_to='profiles/')
     date_joined = models.DateField(auto_now_add=True)
     followers = models.ManyToManyField('Profile', blank=True, null=True)
 

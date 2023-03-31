@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href=" {% static 'css/Fork-Awesome/css/fork-awesome.min.css' %}?version=1">
+    <!-- <link rel="stylesheet" href=" {% static 'css/Fork-Awesome/css/fork-awesome.min.css' %}?version=1"> -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}?version=1">
     <title>{% block title %}{% endblock title %}Twitter Clone</title>
 </head>
@@ -15,10 +15,10 @@
 <body>
     {% include 'pages/android_navbar.html' %}
 
-    
+
     {% block content %}
     {% endblock content %}
-
+    <script src="https://kit.fontawesome.com/64fc8803a9.js" crossorigin="anonymous"></script>
     <script>
 
         LiveUpdates()
@@ -55,7 +55,7 @@
                     if (repostButtonList !== null) {
                         repostButtonList.forEach(async item => {
 
-                            if (item !== null ) {
+                            if (item !== null) {
                                 let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
                                     method: 'GET',
                                     headers: {
@@ -82,7 +82,7 @@
 
                 async function refreshTweetCount() {
                     let countElement = document.querySelector('#tweet-count')
-                    if (countElement !== null ) {
+                    if (countElement !== null) {
                         let count = parseInt(countElement.value)
                         let response = await fetch(`{% url 'refresh-tweet-count' %}?count=${count}`, {
                             method: 'GET',
@@ -105,7 +105,7 @@
 
                 function refreshLikes() {
                     document.querySelectorAll('.tweet-like-button').forEach(async item => {
-                        if (item !== null ) {
+                        if (item !== null) {
                             let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
                                 method: 'GET',
                                 headers: {
@@ -119,10 +119,10 @@
 
                             if (await !data['error'] && await data['action'] == 'liked') {
                                 if (likeCountText !== null) likeCountText.innerHTML = await data['count']
-                                item.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i>`
+                                item.innerHTML = `<i class="fa fa-solid fa-heart"></i>`
                             } else if (await !data['error']) {
                                 if (likeCountText !== null) likeCountText.innerHTML = await data['count']
-                                item.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i>`
+                                item.innerHTML = `<i class="fa fa-regular fa-heart"></i>`
                             }
 
                         }

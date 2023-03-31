@@ -10,7 +10,7 @@
         <form method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}
             <button type="submit">{% trans 'Log out' %}</button>
-            <button id="logout-cancel-button">cancel</button>
+            <button  type="button" id="logout-cancel-button">cancel</button>
         </form>
 
     </div>
