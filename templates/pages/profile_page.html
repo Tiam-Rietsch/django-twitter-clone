@@ -33,8 +33,9 @@
             </div>
             <div class="profile-detail-wrapper">
                 <div class="profile-name-detail">
-                    {% if profile.user != request.user %}
-                    <div class="actions">
+                    <div>
+                        {% if profile.user != request.user %}
+
                         <button class="follow-button" onclick="followingAction()">
                             {% if request.user.profile in followers %}
                             <span>Un follow -</span>
@@ -42,10 +43,12 @@
                             <span>Follow +</span>
                             {% endif %}
                         </button>
+                        {% endif %}
 
-                        <a class="edit-profile-button" href="{% url 'edit-profile' profile.id %}"><button>Edit profile</button></a>
+                        {% if request.user == profile.user %}
+                        <a class="edit-profile-button" href="{% url 'edit-profile' profile.id %}"><button>Editprofile</button></a>
+                        {% endif %}
                     </div>
-                    {% endif %}
                     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
                     <p>@{{ profile.user.username }}</p>
                 </div>

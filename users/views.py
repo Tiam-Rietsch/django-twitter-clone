@@ -1,4 +1,5 @@
 import json, os
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
@@ -72,8 +73,25 @@ def edit_profile_view(request, profile_id):
         username = request.POST.get('username')
         bio = request.POST.get('bio')
 
-        profile.cover_photo = cover_photo
-        profile.profile_picture = profile_picture
+        if cover_photo:
+            if profile.cover_photo.url != '/static/img/blank-cover-photo.png': 
+                try: 
+                    os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
+                except:
+                    pass
+
+            profile.cover_photo = cover_photo
+
+        if profile_picture:
+            print(profile_picture)
+            if profile.profile_picture.url != '/static/img/blank-profile-picture.png':
+                try:
+                    os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
+                except:
+                    pass
+    
+            profile.profile_picture = profile_picture
+
         profile.bio = bio
         profile.save()
         profile.user.username = username

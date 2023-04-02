@@ -564,19 +564,21 @@ a {
 /* profile page start */
 
 .profile-image-wrapper {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    height: 20vh;
+    height: 30vh;
 }
 
 
 
 .detail-profile-container {
     position: absolute;
-    top: 16%;
+    top: 60%;
     left: 5%;
+    transform: translateY(-50%);
 }
 
 .detail-profile-container img {
@@ -589,7 +591,6 @@ a {
 
 .profile-detail-wrapper {
     margin-left: 15px;
-    margin-top: calc(var(--profile-image-width) * 1.5);
     padding-right: 20px;
     padding-bottom: 20px;
     overflow-wrap: break-word;
