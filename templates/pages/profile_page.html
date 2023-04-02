@@ -23,7 +23,6 @@
 
 
         <div class="profile-content-wrapper">
-            <a href="{% url 'edit-profile' profile.user.id %}"><button>Edit profile</button></a>
             <div class="profile-image-wrapper">
                 <div class="background-img">
                     <img src="{{ profile.user|get_cover_photo }}" alt="">
@@ -35,16 +34,20 @@
             <div class="profile-detail-wrapper">
                 <div class="profile-name-detail">
                     {% if profile.user != request.user %}
-                    <button class="follow-button" onclick="followingAction()">
-                        {% if request.user.profile in followers %}
-                        <span>Un follow -</span>
-                        {% else %}
-                        <span>Follow +</span>
-                        {% endif %}
-                    </button>
+                    <div class="actions">
+                        <button class="follow-button" onclick="followingAction()">
+                            {% if request.user.profile in followers %}
+                            <span>Un follow -</span>
+                            {% else %}
+                            <span>Follow +</span>
+                            {% endif %}
+                        </button>
+
+                        <a class="edit-profile-button" href="{% url 'edit-profile' profile.id %}"><button>Edit profile</button></a>
+                    </div>
                     {% endif %}
                     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                    <h3>@{{ profile.user.username }}</h3>
+                    <p>@{{ profile.user.username }}</p>
                 </div>
                 <div class="profile-date-detail">
                     <h4>Date joined {{ profile.date_joined }}</h4>
@@ -52,6 +55,9 @@
                 <div class="profile-following-details">
                     <h4>followers . {{ followers.count }}</h4>
                     <h4>following . {{ following.count }}</h4>
+                </div>
+                <div class="profile-bio-detail">
+                    <p>{{ profile.bio }}</p>
                 </div>
             </div>
         </div>

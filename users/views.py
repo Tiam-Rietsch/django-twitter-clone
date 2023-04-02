@@ -1,4 +1,4 @@
-import json
+import json, os
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
@@ -66,13 +66,23 @@ def profile_page_view(request, username):
 
 def edit_profile_view(request, profile_id):
     if request.method == 'POST':
-        pass
-    else:
-        form = EditProfileForm()
+        profile = Profile.objects.get(id=profile_id)
+        cover_photo = request.FILES.get('cover-image')
+        profile_picture = request.FILES.get('profile-picture')
+        username = request.POST.get('username')
+        bio = request.POST.get('bio')
 
+        profile.cover_photo = cover_photo
+        profile.profile_picture = profile_picture
+        profile.bio = bio
+        profile.save()
+        profile.user.username = username
+        profile.user.save()
+
+        return redirect('profile-page', username=username)
+        
     context = {
-        'profile' :User.objects.get(id=profile_id).profile,
-        'form': form
+        'profile' :Profile.objects.get(id=profile_id)
     }
     return render(request, 'pages/edit_profile_page.html', context)
 
@@ -86,3 +96,5 @@ def follow_user_view(request, profile_id):
     else:
         to_follow.profile.followers.add(request.user.profile)
         return JsonResponse({'followed': True})
+
+

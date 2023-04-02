@@ -1,39 +1,73 @@
 {% extends 'pages/base.html' %}
 {% load user_extras %}
 
+
 {% block content %}
 <div class="edit-profile-form-filter">
     <div id="edit-profile-form-container">
         <div class="edit-profile-form-header">
-            <a class="back-arrow" href="{% url 'profile-page' profile.user.username %}"><i class="fa fa-solid fa-arrow-left"></i></a>
+            <a class="back-arrow" href="{% url 'profile-page' profile.user.username %}">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
             <h3>Edit profile</h3>
         </div>
 
         <form id="edit-profile-form" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="edit-profile-image-section">
-                <div class="form-input">
+                <div class="form-input cover-section">
                     <label for="cover-image">
-                        <img src="{{ profile.user|get_cover_photo }}" alt="">
+                        <img id="current-cover-image" src="{{ profile.user|get_cover_photo }}" alt="">
+                        <img id="preview-cover-image" class="none" src="" alt="">
                         <span><i class="fa-regular fa-image"></i></span>
                     </label>
+                    <input type="file" id="cover-image" class="none" name="cover-image" accept="png, jpeg, peng, jpg" onchange="loadCoverImage()">
                 </div>
-                <div class="form-input">
+                <div class="form-input profile-section">
                     <label for="profile-picture">
-                        <img src="{{ profile.user|get_profile_picture }}" alt="">
-                        <span><i class="fa-solid fa-arrow-left"></i></span>
+                        <img id="current-profile-picture" src="{{ profile.user|get_profile_picture }}" alt="">
+                        <img id="preview-profile-picture" class="none"  src="" alt="">
+                        <span><i class="fa-regular fa-image"></i></span>
                         <div class="hover-filter"></div>
                     </label>
+                    <input type="file" id="profile-picture" class="none" name="profile-picture" accept="png, jpeg, peng, jpg" onchange="loadProfilePicture()">
                 </div>
             </div>
             <div class="form-input">
                 <label for="">username</label>
-                <input type="text" value="@{{ profile.user.username }}">
+                <input type="text" value="{{ profile.user.username }}" name="username">
             </div>
             <div class="form-input">
                 <label for="">Bio</label>
-                <textarea type="text" value="@{{ profile.bio }}">
+                <textarea type="text" value="{{ profile.bio }}" name="bio"></textarea>
             </div>
+            <button type="submit" value="save changes">save changes</button>
         </form>
     </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+<script>
+        function loadCoverImage() {
+            profileImage = document.querySelector('#cover-image').files[0]
+            if (profileImage !== null) {
+                currentImage = document.querySelector('#current-cover-image')
+                previewImage = document.querySelector('#preview-cover-image')
+                currentImage.classList.add('none')
+                previewImage.src = URL.createObjectURL(profileImage)
+                previewImage.classList.remove('none')
+            }
+        }
+        function loadProfilePicture() {
+            profileImage = document.querySelector('#profile-picture').files[0]
+            if (profileImage !== null) {
+                currentImage = document.querySelector('#current-profile-picture')
+                previewImage = document.querySelector('#preview-profile-picture')
+                currentImage.classList.add('none')
+                previewImage.src = URL.createObjectURL(profileImage)
+                previewImage.classList.remove('none')
+            }
+        }
+</script>
+{% endblock script%}
