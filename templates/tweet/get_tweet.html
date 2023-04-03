@@ -3,13 +3,17 @@
 
 {% if tweet is not None %}
 <div class="profile-container">
-    <img src="{{ tweet.author|get_profile_picture }}" alt="">
+    <a href="{% url 'profile-page' tweet.author.username %}">
+        <img src="{{ tweet.author|get_profile_picture }}" alt="">
+    </a>
 </div>
 <div class="tweet-container">
 
     <div class="name-section">
-        <span>{{ tweet.author.first_name }} {{ tweet.author.last_name }}</span>
-        <a href="{% url 'profile-page' tweet.author.username %}">@{{ tweet.author.username }} . {{tweet.date_created|timesince }} ago</a>
+        <a  href="{% url 'profile-page' tweet.author.username %}">
+            <span>{{ tweet.author.first_name }} {{ tweet.author.last_name }}</span>
+        </a>
+        <small>@{{ tweet.author.username }} . {{tweet.date_created|timesince }} ago</small>
     </div>
 
     <div class="body-section">

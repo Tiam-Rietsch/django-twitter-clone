@@ -114,5 +114,16 @@ def follow_user_view(request, profile_id):
     else:
         to_follow.profile.followers.add(request.user.profile)
         return JsonResponse({'followed': True})
+    
 
+def following_list_view(request, user_id):
+    user = User.objects.get(id=user_id)
+    following = Profile.objects.filter(followers__user=user)
+    return render(request, 'pages/followers_following_page.html', {'connections': following})
+
+
+def followers_list_view(request, user_id):
+    user = User.objects.get(id=user_id)
+    followers = user.profile.followers.all()
+    return render(request, 'pages/followers_following_page.html', {'connections': followers})
 

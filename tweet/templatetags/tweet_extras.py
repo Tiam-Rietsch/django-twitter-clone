@@ -65,3 +65,11 @@ def get_latest_retweet(user):
         return latest_tweet
     else:
         return None
+    
+
+@register.filter
+def get_bio_summary(bio):
+    if bio is not None:
+        return bio[:100] + "..."
+    else:
+        return "..."

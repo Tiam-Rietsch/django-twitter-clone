@@ -362,6 +362,7 @@ a {
 
 .tweet-body,
 .reply-body,
+.connection-body,
 .new-tweet-message {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -408,6 +409,7 @@ a {
 .tweet-list-wrapper,
 .tweet-detail-wrapper,
 .profile-content-wrapper,
+.connections-wrapper,
 .profile-tabs {
     position: relative;
     margin: 0;
@@ -434,8 +436,9 @@ a {
     font-weight: 700;
 }
 
-.name-section a {
-    color: #96a1a9;
+.name-section a,
+.name-section {
+    color: #F7F9F9;
     transition: 0.3s ease-out;
 }
 
@@ -449,6 +452,13 @@ a {
     overflow-wrap: break-word;
 }
 
+.bio-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
 .tweet-link {
     text-decoration: none;
     color: #F7F9F9;
@@ -459,7 +469,8 @@ a {
 }
 
 .tweet-container,
-.reply-container {
+.reply-container,
+.connection-container {
     position: relative;
     min-width: 80%;
     max-width: var(--tweet-container-max-width);

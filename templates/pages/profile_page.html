@@ -38,15 +38,15 @@
 
                         <button class="follow-button" onclick="followingAction()">
                             {% if request.user.profile in followers %}
-                            <span>Un follow -</span>
+                            <span><i class="fa-solid fa-user-minus"></i> Un follow</span>
                             {% else %}
-                            <span>Follow +</span>
+                            <span><i class="fa-solid fa-user-plus"></i> Follow</span>
                             {% endif %}
                         </button>
                         {% endif %}
 
                         {% if request.user == profile.user %}
-                        <a class="edit-profile-button" href="{% url 'edit-profile' profile.id %}"><button>Editprofile</button></a>
+                        <a class="edit-profile-button" href="{% url 'edit-profile' profile.id %}"><button><i class="fa-solid fa-pen-to-square"></i> Editprofile</button></a>
                         {% endif %}
                     </div>
                     <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
@@ -56,8 +56,8 @@
                     <h4>Date joined {{ profile.date_joined }}</h4>
                 </div>
                 <div class="profile-following-details">
-                    <h4>followers . {{ followers.count }}</h4>
-                    <h4>following . {{ following.count }}</h4>
+                    <a href="{% url 'followers-list' profile.user.id %}"><h4>followers . {{ followers.count }}</h4></a>
+                    <a href="{% url 'following-list' profile.user.id %}"><h4>following . {{ following.count }}</h4></a>
                 </div>
                 <div class="profile-bio-detail">
                     <p>{{ profile.bio }}</p>
@@ -145,10 +145,10 @@
 
         let data = await response.json()
         if (await data['followed']) {
-            document.querySelector('.follow-button').innerHTML = `<span>Un Follow</span>`
+            document.querySelector('.follow-button').innerHTML = `<span><i class="fa-solid fa-user-minus"></i> Un Follow</span>`
 
         } else {
-            document.querySelector('.follow-button').innerHTML = `<span>Follow</span>`
+            document.querySelector('.follow-button').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Follow</span>`
         }
     }
 </script>
