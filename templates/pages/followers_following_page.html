@@ -17,7 +17,7 @@
     <div class="navbar">
         {% include 'pages/navbar.html' %}
     </div>
-    <div class="main-content">
+    <div class="main-content connection-content">
         <div class="connections-wrapper">
             {% for profile in connections %}
             <div class="connection-body">
@@ -40,11 +40,11 @@
                     </div>
 
                     {% if profile.user != request.user %}
-                    <button class="follow-button" onclick="followingAction()">
-                        {% if request.user.profile in connections %}
-                        <span><i class="fa-solid fa-user-minus"></i> Un follow</span>
+                    <button class="follow-button" onclick="followingAction(event)" value="{{ profile.user.id }}">
+                        {% if request.user|is_following:profile %}
+                        <span>Following <i class="fa-solid fa-user-check"></i></span>
                         {% else %}
-                        <span><i class="fa-solid fa-user-plus"></i> Follow</span>
+                        <span>Follow <i class="fa-solid fa-user-plus"></i></span>
                         {% endif %}
                     </button>
                     {% endif %}
@@ -59,3 +59,28 @@
     </div>
 </div>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+    async function followingAction(event) {
+        followButton = event.currentTarget
+        response = await fetch(`{% url 'follow-connection' %}?user_id=${parseInt(followButton.value)}`, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'followButton',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        let data = await response.json()
+        if (await data['followed']) {
+            followButton.innerHTML = `<span>Following  <i class="fa-solid fa-user-check"></i></span>`
+
+        } else {
+            followButton.innerHTML = `<span>Follow  <i class="fa-solid fa-user-plus"></i></span>`
+        }
+    }
+
+</script>
+{% endblock script %}

@@ -24,3 +24,11 @@ def get_cover_photo(user):
         get_cover_photo(user)
 
 
+@register.filter
+def is_following(user, connection):
+    if user.profile in connection.followers.all():
+        return True
+    else:
+        return False
+
+

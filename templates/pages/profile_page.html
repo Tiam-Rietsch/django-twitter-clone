@@ -37,10 +37,10 @@
                         {% if profile.user != request.user %}
 
                         <button class="follow-button" onclick="followingAction()">
-                            {% if request.user.profile in followers %}
-                            <span><i class="fa-solid fa-user-minus"></i> Un follow</span>
+                            {% if request.user|is_following:profile %}
+                            <span>Following  <i class="fa-solid fa-user-check"></i></span>
                             {% else %}
-                            <span><i class="fa-solid fa-user-plus"></i> Follow</span>
+                            <span>Follow  <i class="fa-solid fa-user-plus"></i></span>
                             {% endif %}
                         </button>
                         {% endif %}
@@ -145,10 +145,10 @@
 
         let data = await response.json()
         if (await data['followed']) {
-            document.querySelector('.follow-button').innerHTML = `<span><i class="fa-solid fa-user-minus"></i> Un Follow</span>`
+            document.querySelector('.follow-button').innerHTML = `<span>Following  <i class="fa-solid fa-user-check"></i></span>`
 
         } else {
-            document.querySelector('.follow-button').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Follow</span>`
+            document.querySelector('.follow-button').innerHTML = `<span>Follow  <i class="fa-solid fa-user-plus"></i></span>`
         }
     }
 </script>

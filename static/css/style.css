@@ -300,7 +300,8 @@ a {
 }
 
 .profile-content,
-.tweet-detail-content {
+.tweet-detail-content,
+.connection-content {
     top: var(--substitute-content-top);
 }
 
@@ -607,7 +608,8 @@ a {
     overflow-wrap: break-word;
 }
 
-.profile-name-detail button {
+.profile-name-detail button,
+.connection-container button {
     background-color: #F7F9F9;
     box-sizing: border-box;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -617,6 +619,12 @@ a {
     margin-bottom: 10px;
     border: 0;
     cursor: pointer;
+    font-size: 1rem;
+}
+
+.connection-container button {
+    margin-top: 10px;
+    font-size: 0.8rem;
 }
 
 .profile-detail-wrapper h2,

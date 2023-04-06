@@ -105,8 +105,8 @@ def edit_profile_view(request, profile_id):
     return render(request, 'pages/edit_profile_page.html', context)
 
 
-def follow_user_view(request, profile_id):
-    to_follow = User.objects.get(id=profile_id)
+def follow_user_view(request, user_id):
+    to_follow = User.objects.get(id=user_id)
 
     if request.user.profile in to_follow.profile.followers.all():
         to_follow.profile.followers.remove(request.user.profile)
@@ -114,7 +114,19 @@ def follow_user_view(request, profile_id):
     else:
         to_follow.profile.followers.add(request.user.profile)
         return JsonResponse({'followed': True})
-    
+
+
+def follow_connection_view(request):
+    to_follow = User.objects.get(id=int(request.GET.get('user_id')))
+
+    if request.user.profile in to_follow.profile.followers.all():
+        to_follow.profile.followers.remove(request.user.profile)
+        return JsonResponse({'followed': False})
+    else:
+        to_follow.profile.followers.add(request.user.profile)
+        return JsonResponse({'followed': True})
+
+
 
 def following_list_view(request, user_id):
     user = User.objects.get(id=user_id)

@@ -8,7 +8,8 @@ urlpatterns = [
     path('profile/<str:username>/', views.profile_page_view, name='profile-page'),
     path('edit-profile/<int:profile_id>/', views.edit_profile_view, name='edit-profile'),
 
-    path('follow-user/<int:profile_id>/', views.follow_user_view, name='follow-user'),
+    path('follow-user/<int:user_id>/', views.follow_user_view, name='follow-user'),
+    path('follow-connection', views.follow_connection_view, name='follow-connection'),
     path('profile/<int:user_id>/followers/', views.followers_list_view, name='followers-list'),
     path('profile/<int:user_id>/following/', views.following_list_view, name='following-list'),
 ]
