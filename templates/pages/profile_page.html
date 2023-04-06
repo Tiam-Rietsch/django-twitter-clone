@@ -106,16 +106,16 @@
     }
 
     async function likeTweet(event) {
-        console.log('liked')
         let item = event.currentTarget
-        fetch("/", {
+        let response = await fetch(`{% url 'like-action' %}?pk=${item.value}`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'LikeButton',
                 'Content-Type': 'application/json',
-                'id': parseInt(item.value)
             }
         })
+
+        document.location.href = '{% url "profile-page" profile.user.username %}'
     }
 
 
@@ -130,6 +130,11 @@
         })
 
         let data = await response.json()
+        if (await data['deleted']) {
+            document.querySelector(`.body-${item.value}`).classList.add('none')
+        }
+
+
     }
 
 

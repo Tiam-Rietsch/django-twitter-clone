@@ -43,8 +43,13 @@ def home_page_view(request):
     following_tweets = Tweet.objects.filter(author__profile__followers=request.user.profile) if request.user.is_authenticated else []
     context = {'all_tweets': all_tweets, 'following_tweets': following_tweets}
 
+    
+    return render(request, 'pages/home_page.html', context)
+
+
+def like_action(request):
     if request.headers.get('X-Requested-With') == 'LikeButton':
-        tweetID = request.headers.get('id')
+        tweetID = int(request.GET.get('pk'))
         tweet = Tweet.objects.get(id=tweetID)
         json_context = {}
 
@@ -56,15 +61,11 @@ def home_page_view(request):
         if like is None:
             like = TweetLike.objects.create(tweet=Tweet.objects.get(id=tweetID), author=request.user)
             like.save()
-            json_context['action'] = 'liked'
         elif like is not None:
             like.delete()
-            json_context['action'] = 'disliked'
+            json_context['disliked'] = True
 
-        json_context['count'] = tweet.likes.all().count()
         return JsonResponse(json_context)
-    
-    return render(request, 'pages/home_page.html', context)
 
 
 def get_like_count(request):
@@ -84,10 +85,12 @@ def get_repost_count(request):
     try:
         tweet = Tweet.objects.get(id=int(request.GET.get('pk')))
         all_repost = Repost.objects.filter(source_tweet=tweet)
+        all_sources = Repost.objects.filter(repost_tweet=tweet)
         json_context = {
             'count': all_repost.count()
         }
         json_context['action'] = 'reposted' if request.user in [repost.author for repost in all_repost] else 'not reposted'
+        json_context['is_a_repost'] = True if all_sources.count() > 0 else False
     except Tweet.DoesNotExist or Repost.DoesNotExist:
         json_context = {'error': True}
 
@@ -123,30 +126,46 @@ def tweet_detail_view(request, pk):
 
 def retweet_view(request):
     if request.headers['X-Requested-With'] == 'retweetButton':
-        source = Tweet.objects.get(id=int(request.GET.get('pk')))
+        tweet_to_repost = Tweet.objects.get(id=int(request.GET.get('pk')))
 
         try:
-            current_repost = Repost.objects.get(Q(author=request.user) & Q(source_tweet=source))
+            primary_source = Repost.objects.get(Q(repost_tweet=tweet_to_repost) & Q(author=request.user)).source_tweet
+            print(primary_source.author)
+            print(Repost.objects.get(Q(source_tweet=primary_source) & Q(repost_tweet=tweet_to_repost)).author)
+            is_retweeted = False
+            if primary_source is not None:
+                is_retweeted = True if request.user == Repost.objects.get(Q(source_tweet=primary_source) & Q(repost_tweet=tweet_to_repost)).author else False
+        except Repost.DoesNotExist:
+            primary_source = None
+            is_retweeted = False
+
+
+        try:
+            current_repost = Repost.objects.get(Q(author=request.user) & Q(source_tweet=tweet_to_repost))
         except Repost.DoesNotExist:
             current_repost = None
 
-        if current_repost is None:                
+        if current_repost is None and is_retweeted == False:                
             new_tweet = Tweet.objects.create(
                 author=request.user,
-                body=source.body,
-                attachement=source.attachement,
+                body=tweet_to_repost.body,
+                attachement=tweet_to_repost.attachement,
             )
 
             new_tweet.save()
             repost = Repost.objects.create(
                 author=request.user,
-                source_tweet=source,
+                source_tweet=tweet_to_repost,
                 repost_tweet=new_tweet
             )
             repost.save()
-        else:
+        elif current_repost is not None:
             tweet = current_repost.repost_tweet
             tweet.delete()
             return JsonResponse({'deleted': True})
+        elif is_retweeted == True:
+            tweet_to_repost.delete()
+            return JsonResponse({'deleted': True})
+
         
         return JsonResponse({'success': True})

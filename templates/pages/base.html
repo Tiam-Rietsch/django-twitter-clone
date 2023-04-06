@@ -27,23 +27,25 @@
                 checkTweetListState()
 
                 function checkTweetListState() {
-                    document.querySelectorAll("input[name='tweet-id']").forEach(async item => {
-                        let tweetBody = document.querySelector(`.body-${item.value}`)
-                        let response = await fetch(`{% url 'check-tweet-existence' %}?pk=${item.value}`, {
-                            method: 'GET',
-                            headers: {
-                                'X-Requested-With': 'checkTweetExistence',
-                                'Content-Type': 'application/json'
+                    tweetCount = document.querySelector('#tweet-count')
+                    if (tweetCount !== null) {
+                        document.querySelectorAll("input[name='tweet-id']").forEach(async item => {
+                            let tweetBody = document.querySelector(`.body-${item.value}`)
+                            let response = await fetch(`{% url 'check-tweet-existence' %}?pk=${item.value}`, {
+                                method: 'GET',
+                                headers: {
+                                    'X-Requested-With': 'checkTweetExistence',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+
+                            let data = await response.json()
+                            if (await data['exists'] == false) {
+                                tweetCount.value = `${parseInt(tweetCount.value) - 1}`;
+                                tweetBody.remove()
                             }
                         })
-
-                        let data = await response.json()
-                        if (await data['exists'] == false) {
-                            tweetCount = document.querySelector('#tweet-count')
-                            tweetCount.value = `${parseInt(tweetCount.value) - 1}`;
-                            tweetBody.remove()
-                        }
-                    })
+                    }
                     refreshLikes()
                     refreshRepliesCount()
                     refreshTweetCount()
@@ -67,7 +69,7 @@
                                 let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
                                 let retweetIcon = document.querySelector(`.retweet-icon-${item.value}`)
 
-                                if (await !data['error'] && await data['action'] == 'reposted') {
+                                if (await !data['error'] && (await data['action'] == 'reposted' || await data['is_a_repost'] == true)) {
                                     if (repostCountText !== null) repostCountText.innerHTML = await data['count']
                                     if (retweetIcon !== null) retweetIcon.classList.add('reposted')
                                 } else if (await !data['error']) {

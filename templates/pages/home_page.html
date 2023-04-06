@@ -15,7 +15,7 @@
     {% include 'account/logout_form.html' %}
 </div>
 
-<input id="tweet-count" value="{{ all_tweets.count}}" class="none">
+<input id="tweet-count" value="{{ all_tweets.count }}" class="none">
 
 <div class="menu-bar">
     {% if request.user.is_authenticated %}
@@ -61,12 +61,11 @@
     //handle the liking of posts
     async function likeTweet(event) {
         let item = event.currentTarget
-        fetch("/", {
+        fetch(`{% url 'like-action' %}?pk=${item.value}`, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'LikeButton',
                 'Content-Type': 'application/json',
-                'id': parseInt(item.value)
             }
         })
     }
