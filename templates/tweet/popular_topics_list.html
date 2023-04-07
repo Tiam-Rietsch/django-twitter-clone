@@ -1,3 +1,10 @@
+<div class="topics-search-container">
+    <form class="search-form" action="">
+        <label id="label" for="topic-search-box"><i class="fa-solid fa-magnifying-glass"></i></label>
+        <input id="topic-search-box" type="text" name="search-topic" placeholder="search topic..." aria-label="#label" onfocus="changeSearchBar(event, 'focused')" onblur="changeSearchBar(event, 'blur')">
+    </form>
+</div>
+
 <div class="topics-list">
     {% for topic in topics %}
     <div class="topic-container">

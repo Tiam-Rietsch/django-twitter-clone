@@ -322,7 +322,6 @@ a {
     background-color: #15202B;
     scrollbar-color: #888 #fff;
     border-left: 1px solid #38444D;
-    ;
 }
 
 .suggestions::-webkit-scrollbar {
@@ -337,10 +336,64 @@ a {
     background-color: #888;
 }
 
-.topics-list {
+.topics-search-container {
+    position: fixed;
+    right: 8.5%;
+    top: var(--suggestions-top);
+    width: calc(var(--suggestions-width) - 8.5%);
+    z-index: 50000000000;
+    background-color: #15202B;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form {
+    box-sizing: border-box;
+    height: 7vh;
+    width: 100%;
+    border-radius: 50px;
+    padding-left: 15px;
+    margin-left: 10px;
+    border: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #4c4d4f3f;
+}
+
+.focused-search {
+    background-color: #15202B;
+    border: 2px solid #F7F9F9;
+}
+
+.search-form input {
     position: relative;
+    height: 70%;
+    width: 80%;
+    background-color: transparent;
+    border: 0;
+    color: #F7F9F9;
+    font-size: 1rem;
+}
+
+
+.search-form input:focus {
+    outline: none;
+}
+
+.search-form label {
+    position: relative;
+    font-size: 1.3em;
+    margin-right: 0.8rem;
+}
+
+.topics-list {
+    position: absolute;
     background-color: #24303d;
     box-sizing: border-box;
+    top: 10vh;
     width: 70%;
     margin: 1rem;
     padding: 1.2rem;

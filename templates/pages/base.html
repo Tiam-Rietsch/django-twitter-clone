@@ -170,6 +170,15 @@
         }
 
 
+        function changeSearchBar(event, state) {
+            if (state == 'focused') {
+                document.querySelector('.search-form').classList.add('focused-search')
+            } else {
+                document.querySelector('.search-form').classList.remove('focused-search')
+            }
+        }
+
+
     </script>
 
     {% block script %}
