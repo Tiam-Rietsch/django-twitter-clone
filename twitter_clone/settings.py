@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'tweet.apps.TweetConfig',
     'replies.apps.RepliesConfig',
+    'trends.apps.TrendsConfig',
 
     #3rd party apps
     'allauth',

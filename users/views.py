@@ -1,14 +1,15 @@
-import json, os
+import os
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.http import JsonResponse
 
-from tweet.models import Tweet, TweetLike
+from tweet.models import TweetLike
 from replies.models import Reply
-from .forms import RegisterForm, EditProfileForm
+from .forms import RegisterForm
 from .models import User, Profile
+from trends.models import Trend
 
 def register_view(request):
 
@@ -60,7 +61,8 @@ def profile_page_view(request, username):
         'following': following,
         'profile_tweets': profile_tweets,
         'liked_tweets': liked_tweets,
-        'replied_tweets': replied_tweets
+        'replied_tweets': replied_tweets,
+        'topics': Trend.objects.all(),
     }
     return render(request, 'pages/profile_page.html', context)
 
@@ -75,20 +77,13 @@ def edit_profile_view(request, profile_id):
 
         if cover_photo:
             if profile.cover_photo.url != '/static/img/blank-cover-photo.png': 
-                try: 
-                    os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
-                except:
-                    pass
+                os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
 
             profile.cover_photo = cover_photo
 
         if profile_picture:
-            print(profile_picture)
             if profile.profile_picture.url != '/static/img/blank-profile-picture.png':
-                try:
-                    os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
-                except:
-                    pass
+                os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
     
             profile.profile_picture = profile_picture
 
@@ -131,11 +126,11 @@ def follow_connection_view(request):
 def following_list_view(request, user_id):
     user = User.objects.get(id=user_id)
     following = Profile.objects.filter(followers__user=user)
-    return render(request, 'pages/followers_following_page.html', {'connections': following})
+    return render(request, 'pages/followers_following_page.html', {'connections': following, 'topics': Trend.objects.all()})
 
 
 def followers_list_view(request, user_id):
     user = User.objects.get(id=user_id)
     followers = user.profile.followers.all()
-    return render(request, 'pages/followers_following_page.html', {'connections': followers})
+    return render(request, 'pages/followers_following_page.html', {'connections': followers, 'topics': Trend.objects.all()})
 

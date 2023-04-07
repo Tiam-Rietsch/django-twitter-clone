@@ -349,7 +349,19 @@ a {
 }
 
 .topic-container {
-    margin-bottom: 3rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    transition: 0.2s ease;
+}
+
+.topic-container p {
+    font-size: 0.8rem;
+    color: #96a1a9;
+}
+
+.topic-container:hover {
+    background-color: #2e3a47;
 }
 
 /* suggestion tab end */

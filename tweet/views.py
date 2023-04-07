@@ -7,6 +7,7 @@ from django.utils import timezone
 from .forms import TweetCreationForm
 from .models import Tweet, TweetLike, Repost
 from replies.models import Reply
+from trends.models import Trend
 
 def refresh_tweet_count(request):
     if request.headers['X-Requested-With'] == 'refreshTweetCount':
@@ -39,9 +40,10 @@ def home_page_view(request):
         all_tweets = Tweet.objects.exclude(author=request.user)
     else:
         all_tweets = Tweet.objects.all()
-    
+
+
     following_tweets = Tweet.objects.filter(author__profile__followers=request.user.profile) if request.user.is_authenticated else []
-    context = {'all_tweets': all_tweets, 'following_tweets': following_tweets}
+    context = {'all_tweets': all_tweets, 'following_tweets': following_tweets, 'topics': Trend.objects.all()}
 
     
     return render(request, 'pages/home_page.html', context)

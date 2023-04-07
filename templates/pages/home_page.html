@@ -49,7 +49,7 @@
         {% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}
     </div>
     <div class="suggestions">
-        {% include 'tweet/popular_topics_list.html' %}
+        {% include 'tweet/popular_topics_list.html' with topics=topics %}
     </div>
 </div>
 

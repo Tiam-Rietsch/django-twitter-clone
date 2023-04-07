@@ -1,62 +1,8 @@
 <div class="topics-list">
+    {% for topic in topics %}
     <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
+        <h3>{{ topic.name }}</h3>
+        <p>{{ topic.tweet_count }} tweets</p>
     </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
-    <div class="topic-container">
-        <p>Trending</p>
-        <h5>Popular</h5>
-        <p>1,500 tweets</p>
-    </div>
+    {% endfor %}
 </div>
