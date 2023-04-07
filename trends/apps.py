@@ -7,11 +7,24 @@ class TrendsConfig(AppConfig):
 
 
     def ready(self):
-        from django.db.models.signals import pre_save
+        from django.db.models.signals import pre_save, pre_delete
         from .models import Trend
         from tweet.models import Tweet
 
-        def update_trending_topics(sender, **kwargs):
+        def decrement_trending_topics(sender, **kwargs):
+                tweet = kwargs['instance']
+                word_list = set(word for word in tweet.body.split() if '#' in word)
+
+                for word in word_list:
+                    trend = Trend.objects.get(name=word)
+                    trend.tweet_count -= 1
+                    trend.save()
+
+                    if trend.tweet_count == 0:
+                        trend.delete()
+
+
+        def increment_trending_topics(sender, **kwargs):
                 tweet = kwargs['instance']
                 word_list = set(word for word in tweet.body.split() if '#' in word)
 
@@ -35,4 +48,5 @@ class TrendsConfig(AppConfig):
                     for trend in Trend.objects.all()[26:trends_count - 1]:
                         trend.delete()
 
-        pre_save.connect(update_trending_topics, sender=Tweet)
+        pre_save.connect(increment_trending_topics, sender=Tweet)
+        pre_delete.connect(decrement_trending_topics, sender=Tweet)

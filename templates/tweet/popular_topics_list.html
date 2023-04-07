@@ -1,7 +1,7 @@
 <div class="topics-search-container">
-    <form class="search-form" action="">
-        <label id="label" for="topic-search-box"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input id="topic-search-box" type="text" name="search-topic" placeholder="search topic..." aria-label="#label" onfocus="changeSearchBar(event, 'focused')" onblur="changeSearchBar(event, 'blur')">
+    <form class="search-form" action="{% url 'home' %}">
+        <label id="topic-search-label" for="topic-search-box"><i class="fa-solid fa-magnifying-glass"></i></label>
+        <input id="topic-search-box" value='{{ search_query }}' name="search" type="text" placeholder="search topic..." onfocus="changeSearchBar(event, 'focused')" onblur="changeSearchBar(event, 'blur')" onchange="setSearchBarBackground(event)">
     </form>
 </div>
 

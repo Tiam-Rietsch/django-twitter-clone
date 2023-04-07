@@ -26,7 +26,7 @@ def format_tweet_text(text):
             word_dict['word'] = word
             word_dict['type'] = 'username'
         elif word.startswith('#'):
-            word_dict['type'] = 'has-tag'
+            word_dict['type'] = 'hashtag'
         else:
             word_dict['type'] ='text'
 
@@ -36,6 +36,9 @@ def format_tweet_text(text):
 
     return final_list
    
+@register.filter 
+def remove_decorator(word_dictionary):
+    return ''.join(character for character in word_dictionary['word'] if character.isalnum())
 
 @register.filter    
 def get_value(dictionary, key):

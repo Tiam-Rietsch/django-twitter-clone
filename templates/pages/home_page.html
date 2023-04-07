@@ -16,6 +16,7 @@
 </div>
 
 <input id="tweet-count" value="{{ all_tweets.count }}" class="none">
+<input id="searched-query" value="{{ search_query }}" class="none">
 
 <div class="menu-bar">
     {% if request.user.is_authenticated %}
@@ -96,6 +97,6 @@
             document.querySelector('.main-content').innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=following_tweets %}`
         }
     }
-
+    
 </script>
 {% endblock script %}

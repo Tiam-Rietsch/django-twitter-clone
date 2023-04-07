@@ -50,9 +50,12 @@ a {
     color: #00A770
 }
 
+
 .fa {
     color: #38444D;
 }
+
+
 
 .container {
     height: 100vh;
@@ -360,33 +363,40 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #4c4d4f3f;
-}
-
-.focused-search {
-    background-color: #15202B;
-    border: 2px solid #F7F9F9;
+    background-color: #202b37;
+    transition: border-color 0.4s ease-out;
 }
 
 .search-form input {
     position: relative;
     height: 70%;
-    width: 80%;
-    background-color: transparent;
+    width: 70%;
+    background-color: transparent !important;
     border: 0;
     color: #F7F9F9;
     font-size: 1rem;
 }
 
-
 .search-form input:focus {
     outline: none;
+}
+
+.search-form input:-webkit-autofill,
+.search-form input:-webkit-autofill:hover,
+.search-form input:-webkit-autofill:focus,
+.search-form input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #202b37 inset !important;
+    -webkit-text-fill-color: #F7F9F9;
 }
 
 .search-form label {
     position: relative;
     font-size: 1.3em;
     margin-right: 0.8rem;
+}
+
+.search-form label i {
+    transition: color 0.4s ease-out;
 }
 
 .topics-list {
@@ -978,6 +988,16 @@ label[for="cover-image"] img {
 }
 
 /* login form end */
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #15202B inset !important;
+    -webkit-text-fill-color: #F7F9F9 !important;
+}
 
 /*--------------------------------------------- ANDROID DISPLAY --------------------------------------------------*/
 

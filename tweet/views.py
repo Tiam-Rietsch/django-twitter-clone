@@ -36,14 +36,24 @@ def check_tweet_existence(request):
 
 
 def home_page_view(request):
+    search_query = request.GET.get('search') if request.GET.get('search') else ''
+    print('\n\n\n\n')
+    print(search_query)
+    print('\n\n\n\n')
     if request.user.is_authenticated:
-        all_tweets = Tweet.objects.exclude(author=request.user)
+        all_tweets = Tweet.objects.exclude(author=request.user).filter(body__icontains=search_query)
     else:
-        all_tweets = Tweet.objects.all()
+        all_tweets = Tweet.objects.filter(body__icontains=search_query)
 
 
-    following_tweets = Tweet.objects.filter(author__profile__followers=request.user.profile) if request.user.is_authenticated else []
-    context = {'all_tweets': all_tweets, 'following_tweets': following_tweets, 'topics': Trend.objects.all()}
+    following_tweets = Tweet.objects.filter(Q(author__profile__followers=request.user.profile) & Q(body__icontains=search_query)) if request.user.is_authenticated else []
+
+    context = {
+        'all_tweets': all_tweets, 
+        'following_tweets': following_tweets, 
+        'topics': Trend.objects.all(),
+        'search_query': search_query,
+    }
 
     
     return render(request, 'pages/home_page.html', context)

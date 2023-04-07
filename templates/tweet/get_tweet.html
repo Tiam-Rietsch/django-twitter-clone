@@ -21,11 +21,11 @@
             <p>
                 {% for word in tweet.body|format_tweet_text %}
                 {% if word|get_value:'type' == 'text' %}
-                {{ word|get_value:'word' }}
-                {% elif word|get_value:'type' == 'username' %}
-                <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                    {{ word|get_value:'word' }}
+                {% elif word|get_value:'type' == 'hashtag' %}
+                    <a class="reference-link" href="{% url 'home' %}?search={{ word|remove_decorator }}">{{ word|get_value:'word' }} </a>
                 {% else %}
-                <a class="reference-link" href="">{{ word|get_value:'word' }} </a>
+                    <a class="reference-link" href="{% url 'profile-page' word|remove_decorator %}">{{ word|get_value:'word' }} </a>
                 {% endif %}
                 {% endfor %}
             </p>

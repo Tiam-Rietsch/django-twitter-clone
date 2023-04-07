@@ -18,121 +18,136 @@
 
     {% block content %}
     {% endblock content %}
-    <script>
 
+    <script src="https://kit.fontawesome.com/64fc8803a9.js" crossorigin="anonymous"></script>
+    <script>
         LiveUpdates()
 
+        // this function handles all functionalities that make the website realtime responsive
         function LiveUpdates() {
             setInterval(() => {
                 checkTweetListState()
+                refreshLikes()
+                refreshRepliesCount()
+                refreshTweetCount()
 
-                function checkTweetListState() {
-                    tweetCount = document.querySelector('#tweet-count')
-                    if (tweetCount !== null) {
-                        document.querySelectorAll("input[name='tweet-id']").forEach(async item => {
-                            let tweetBody = document.querySelector(`.body-${item.value}`)
-                            let response = await fetch(`{% url 'check-tweet-existence' %}?pk=${item.value}`, {
-                                method: 'GET',
-                                headers: {
-                                    'X-Requested-With': 'checkTweetExistence',
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-
-                            let data = await response.json()
-                            if (await data['exists'] == false) {
-                                tweetCount.value = `${parseInt(tweetCount.value) - 1}`;
-                                tweetBody.remove()
-                            }
-                        })
-                    }
-                    refreshLikes()
-                    refreshRepliesCount()
-                    refreshTweetCount()
-                }
-
-                function refreshRepliesCount() {
-                    repostButtonList = document.querySelectorAll('.tweet-repost-button')
-                    if (repostButtonList !== null) {
-                        repostButtonList.forEach(async item => {
-
-                            if (item !== null) {
-                                let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'X-Requested-With': 'repostTweetCount',
-                                        'Content-Type': 'application/json',
-                                    }
-                                })
-
-                                let data = await response.json()
-                                let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
-                                let retweetIcon = document.querySelector(`.retweet-icon-${item.value}`)
-
-                                if (await !data['error'] && (await data['action'] == 'reposted' || await data['is_a_repost'] == true)) {
-                                    if (repostCountText !== null) repostCountText.innerHTML = await data['count']
-                                    if (retweetIcon !== null) retweetIcon.classList.add('reposted')
-                                } else if (await !data['error']) {
-                                    if (repostCountText !== null) repostCountText.innerHTML = await data['count']
-                                    if (retweetIcon !== null) retweetIcon.classList.remove('reposted')
-                                }
-                            }
-                        })
-                    }
-                }
-
-                async function refreshTweetCount() {
-                    let countElement = document.querySelector('#tweet-count')
-                    if (countElement !== null) {
-                        let count = parseInt(countElement.value)
-                        let response = await fetch(`{% url 'refresh-tweet-count' %}?count=${count}`, {
-                            method: 'GET',
-                            headers: {
-                                'X-Requested-With': 'refreshTweetCount',
-                                'Content-Type': 'application/json'
-                            }
-                        })
-
-                        data = await response.json()
-
-                        if (await data['has_new']) {
-                            document.querySelector('.new-tweet-message').classList.remove('none')
-                        } else {
-                            document.querySelector('.new-tweet-message').classList.add('none')
-                        }
-
-                    }
-                }
-
-                function refreshLikes() {
-                    document.querySelectorAll('.tweet-like-button').forEach(async item => {
-                        if (item !== null) {
-                            let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
-                                method: 'GET',
-                                headers: {
-                                    'X-Requested-With': 'refreshLikes',
-                                    'Content-Type': 'application/json',
-                                }
-                            })
-
-                            let data = await response.json()
-                            let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
-
-                            if (await !data['error'] && await data['action'] == 'liked') {
-                                if (likeCountText !== null) likeCountText.innerHTML = await data['count']
-                                item.innerHTML = `<i class="fa fa-solid fa-heart"></i>`
-                            } else if (await !data['error']) {
-                                if (likeCountText !== null) likeCountText.innerHTML = await data['count']
-                                item.innerHTML = `<i class="fa fa-regular fa-heart"></i>`
-                            }
-
-                        }
-                    })
-                }
             }, 1000)
+
         }
 
-        //handle the double scrolling effect
+        // iterate through the DOM tree and checks if a tweet currently displayed has been deleted or not
+        function checkTweetListState() {
+            tweetCount = document.querySelector('#tweet-count')
+            if (tweetCount !== null) {
+                document.querySelectorAll("input[name='tweet-id']").forEach(async item => {
+                    let tweetBody = document.querySelector(`.body-${item.value}`)
+                    let response = await fetch(`{% url 'check-tweet-existence' %}?pk=${item.value}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'checkTweetExistence',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+
+                    let data = await response.json()
+                    if (await data['exists'] == false) {
+                        tweetCount.value = `${parseInt(tweetCount.value) - 1}`;
+                        tweetBody.classList.add('.none')
+                    }
+                })
+            }
+        }
+
+        // constantly refreshes the number of replies and helps to highlight if a user has replied a tweet
+        function refreshRepliesCount() {
+            repostButtonList = document.querySelectorAll('.tweet-repost-button')
+            if (repostButtonList !== null) {
+                repostButtonList.forEach(async item => {
+
+                    if (item !== null) {
+                        let response = await fetch(`{% url 'get-repost-count' %}?pk=${parseInt(item.value)}`, {
+                            method: 'GET',
+                            headers: {
+                                'X-Requested-With': 'repostTweetCount',
+                                'Content-Type': 'application/json',
+                            }
+                        })
+
+                        let data = await response.json()
+                        let repostCountText = document.querySelector(`#tweet-repost-${item.value}`)
+                        let retweetIcon = document.querySelector(`.retweet-icon-${item.value}`)
+
+                        if (await !data['error'] && (await data['action'] == 'reposted' || await data['is_a_repost'] == true)) {
+                            if (repostCountText !== null) repostCountText.innerHTML = await data['count']
+                            if (retweetIcon !== null) retweetIcon.classList.add('reposted')
+                        } else if (await !data['error']) {
+                            if (repostCountText !== null) repostCountText.innerHTML = await data['count']
+                            if (retweetIcon !== null) retweetIcon.classList.remove('reposted')
+                        }
+                    }
+                })
+            }
+        }
+
+        // constantly checks if new tweets have beign posted, if yes displays a message to alert user
+        async function refreshTweetCount() {
+            let countElement = document.querySelector('#tweet-count')
+            if (countElement !== null) {
+                let count = parseInt(countElement.value)
+                let response = await fetch(`{% url 'refresh-tweet-count' %}?count=${count}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'refreshTweetCount',
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+                data = await response.json()
+                query = document.querySelector('#searched-query').value
+                if (await data['has_new'] && query == '') {
+                    document.querySelector('.new-tweet-message').classList.remove('none')
+                } else {
+                    document.querySelector('.new-tweet-message').classList.add('none')
+                }
+
+                if (count == 0) {
+                    messageContainer = document.querySelector('.new-tweet-message')
+                    messageContainer.classList.remove('none')
+                    document.querySelector('.new-tweet-message a h5').innerHTML = 'No tweet found ! ( click to Show New tweets)'
+
+                }
+            }
+        }
+
+        // constantly refreshes the number of likes a tweet has and highlights if the user has liked a tweet
+        function refreshLikes() {
+            document.querySelectorAll('.tweet-like-button').forEach(async item => {
+                if (item !== null) {
+                    let response = await fetch(`{% url 'get-like-count' %}?pk=${parseInt(item.value)}`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'refreshLikes',
+                            'Content-Type': 'application/json',
+                        }
+                    })
+
+                    let data = await response.json()
+                    let likeCountText = document.querySelector(`#tweet-like-${item.value}`)
+
+                    if (await !data['error'] && await data['action'] == 'liked') {
+                        if (likeCountText !== null) likeCountText.innerHTML = await data['count']
+                        item.innerHTML = `<i class="fa fa-solid fa-heart"></i>`
+                    } else if (await !data['error']) {
+                        if (likeCountText !== null) likeCountText.innerHTML = await data['count']
+                        item.innerHTML = `<i class="fa fa-regular fa-heart"></i>`
+                    }
+
+                }
+            })
+        }
+
+
+        //handle the double scrolling effect of the mid tab and right-most tab
         window.addEventListener('scroll', () => {
             const standartHeight = document.querySelector('.navbar').offsetHeight
             let suggestionsContainer = document.querySelector('.suggestions')
@@ -142,6 +157,29 @@
 
             suggestionsContainer.scrollTop = window.scrollY * stepLength
         })
+
+
+        // changes the apearance of the search on focus or on blur
+        function changeSearchBar(event, state) {
+            if (state == 'focused') {
+                const form = document.querySelector('.search-form')
+                const formIcon = document.querySelector('.search-form > label > i')
+                form.style.backgroundColor = '#15202B'
+                form.style.border = '2px solid #00A770'
+                formIcon.style.color= '#00A770'
+            } else {
+                const form = document.querySelector('.search-form')
+                const formIcon = document.querySelector('.search-form > label > i')
+                form.style.backgroundColor = '#202b37'
+                form.style.border = 0
+                formIcon.style.color = '#F7F9F9'
+
+            }
+        }
+
+        function setSearchBarBackground(event) {
+            event.currentTarget.style.backgroundcolor = '#15202B'
+        }
 
         //handles the logout form
         function showLogoutForm() {
@@ -159,10 +197,12 @@
         }
 
 
+        // displays the android navbar on trigger by the profile picture on android view
         function showAndroidNavbar() {
             document.querySelector('.android-navbar').style.left = 0
             document.body.style.overflow = 'hidden'
         }
+
 
         function closeAndroidNavbar() {
             document.querySelector('.android-navbar').style.left = '-100%'
@@ -170,20 +210,10 @@
         }
 
 
-        function changeSearchBar(event, state) {
-            if (state == 'focused') {
-                document.querySelector('.search-form').classList.add('focused-search')
-            } else {
-                document.querySelector('.search-form').classList.remove('focused-search')
-            }
-        }
-
 
     </script>
-
     {% block script %}
     {% endblock script %}
-    <script src="https://kit.fontawesome.com/64fc8803a9.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
