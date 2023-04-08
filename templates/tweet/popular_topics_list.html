@@ -1,11 +1,16 @@
 <div class="topics-search-container">
     <form class="search-form" action="{% url 'home' %}">
         <label id="topic-search-label" for="topic-search-box"><i class="fa-solid fa-magnifying-glass"></i></label>
-        <input id="topic-search-box" value='{{ search_query }}' name="search" type="text" placeholder="search topic..." onfocus="changeSearchBar(event, 'focused')" onblur="changeSearchBar(event, 'blur')" onchange="setSearchBarBackground(event)">
+        <input id="topic-search-box" value='{{ search_query }}' name="search" type="text" placeholder="search topic..." onfocus="changeSearchBar(event, 'focused')" onblur="changeSearchBar(event, 'blur')" onkeyup="changeSearchBarSendIcon(event)">
+        <label for="topic-search-submit" id="submit-label" class="none"><i class="fa-solid fa-arrow-right"></i></label>
+        <input type="submit" id="topic-search-submit" class="none"></input>
+
     </form>
 </div>
 
 <div class="topics-list">
+    <h2>Trending Topics</h2>
+    <hr>
     {% for topic in topics %}
     <div class="topic-container">
         <h3>{{ topic.name }}</h3>

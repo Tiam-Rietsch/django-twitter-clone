@@ -375,6 +375,8 @@ a {
     border: 0;
     color: #F7F9F9;
     font-size: 1rem;
+    margin-right: 0.8rem;
+    margin-left: 0.8rem;
 }
 
 .search-form input:focus {
@@ -392,11 +394,14 @@ a {
 .search-form label {
     position: relative;
     font-size: 1.3em;
-    margin-right: 0.8rem;
 }
 
 .search-form label i {
     transition: color 0.4s ease-out;
+}
+
+.search-form #submit-label:hover i {
+    color:#00A770;
 }
 
 .topics-list {

@@ -177,9 +177,14 @@
             }
         }
 
-        function setSearchBarBackground(event) {
-            event.currentTarget.style.backgroundcolor = '#15202B'
+        function changeSearchBarSendIcon(event) {
+            if (event.currentTarget.value != '') {
+                document.querySelector('#submit-label').classList.remove('none')
+            } else {
+                document.querySelector('#submit-label').classList.add('none')
+            }
         }
+
 
         //handles the logout form
         function showLogoutForm() {
