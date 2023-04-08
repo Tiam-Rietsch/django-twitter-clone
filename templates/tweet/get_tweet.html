@@ -33,7 +33,9 @@
     </div>
     {% if tweet.attachement %}
     <div class="attachement-section">
-        <img src="{{ tweet.attachement.url }}" alt="attachement" class="tweet-attachement">
+        <a href="{% url 'tweet-detail' tweet.id %}">
+            <img src="{{ tweet.attachement.url }}" alt="attachement" class="tweet-attachement">
+        </a>
     </div>
     {% endif %}
 

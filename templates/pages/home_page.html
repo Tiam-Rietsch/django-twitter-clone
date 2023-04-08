@@ -7,7 +7,8 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<a href="{% url 'create-tweet' %}"><button class="floating-tweet-button android"><i class="fa fa-plus" aria-hidden="true"></i></button></a>
+<a href="{% url 'create-tweet' %}"><button class="floating-tweet-button android"><i class="fa fa-plus"
+            aria-hidden="true"></i></button></a>
 {% endif %}
 
 
@@ -44,7 +45,7 @@
 <div class="container">
 
     <div class="navbar">
-        {% include 'pages/navbar.html'%}
+        {% include 'pages/navbar.html' with current='home' %}
     </div>
     <div class="main-content">
         {% include 'tweet/tweet_list.html' with tweet_list=all_tweets %}
@@ -97,6 +98,30 @@
             document.querySelector('.main-content').innerHTML = `{% include 'tweet/tweet_list.html' with tweet_list=following_tweets %}`
         }
     }
-    
+
+    let lastScrollOffset = 0
+    let menuBarTop = 0
+    window.addEventListener('scroll', () => {
+        const menuBar = document.querySelector('.menu-bar')
+
+        if (window.pageYOffset > lastScrollOffset) {
+            if (Math.floor(menuBarTop) <= 0 && Math.floor(menuBarTop) > -7) {
+                menuBarTop -= 1
+                menuBar.style.top = `${menuBarTop}%`
+            }
+        } else {
+            if (Math.floor(menuBarTop) >= -7 && Math.floor(menuBarTop) < 0) {
+                menuBarTop += 1
+                menuBar.style.top = `${menuBarTop}%`
+            }
+
+        }
+
+        if (menuBarTop > 0 ) {
+            menuBar.style.top = `0`
+        }
+        lastScrollOffset = window.pageYOffset
+    })
+
 </script>
 {% endblock script %}

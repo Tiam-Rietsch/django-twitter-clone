@@ -37,9 +37,6 @@ def check_tweet_existence(request):
 
 def home_page_view(request):
     search_query = request.GET.get('search') if request.GET.get('search') else ''
-    print('\n\n\n\n')
-    print(search_query)
-    print('\n\n\n\n')
     if request.user.is_authenticated:
         all_tweets = Tweet.objects.exclude(author=request.user).filter(body__icontains=search_query)
     else:
@@ -131,7 +128,8 @@ def tweet_detail_view(request, pk):
     replies = Reply.objects.filter(tweet=tweet)
     context = {
         'tweet': tweet,
-        'replies': replies
+        'replies': replies,
+        'topics': Trend.objects.all()
     }
     return render(request, 'pages/tweet_detail_page.html', context)
 

@@ -65,9 +65,9 @@ a {
 
 .menu-bar {
     position: fixed;
+    top: 0;
     background-color: #15202b73;
     z-index: 2;
-    top: 0;
     left: var(--main-content-left);
     width: var(--main-content-width);
     height: calc(var(--main-content-top) - 1%);
@@ -81,6 +81,7 @@ a {
     font-size: 1rem;
 
 }
+
 
 .profile-menu,
 .tweet-detail-menu {
@@ -401,7 +402,7 @@ a {
 }
 
 .search-form #submit-label:hover i {
-    color:#00A770;
+    color: #00A770;
 }
 
 .topics-list {
@@ -1032,8 +1033,8 @@ input:-webkit-autofill:active {
 
     .floating-tweet-button {
         position: fixed;
-        bottom: 10px;
-        right: 20px;
+        bottom: 100px;
+        right: 30px;
         height: 60px;
         width: 60px;
         border-radius: 50%;
@@ -1127,7 +1128,7 @@ input:-webkit-autofill:active {
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        transition: left 0.1s ease;
+        transition: left 100ms ease-in-out;
     }
 
 

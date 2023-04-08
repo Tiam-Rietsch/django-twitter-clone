@@ -1,15 +1,44 @@
 {% load user_extras %}
 
 <ul class="link-container">
-    <li><a class="nav-link" href="{% url 'home' %}"><i class="fa-solid fa-house-chimney"></i><span>Home</span></a></li>
+    <li>
+        <a class="nav-link" href="{% url 'home' %}">
+            <i class="fa-solid fa-house-chimney" {% if current == 'home' %} style="color:#00BA7C" {% endif %}></i>
+            <span>Home</span>
+        </a>
+    </li>
     {% if request.user.is_authenticated %}
-    <li><a class="nav-link" href="{% url 'profile-page' request.user.username %}"><i class="fa-regular fa-user"></i> <span>Profile</span> </a></li>
-    <li><a class="nav-link" href=""><i class="fa-regular fa-bell"></i></i> <span>Messages</span> </a></li>
-    <a href="{% url 'create-tweet' %}"><button class="tweet-button">Tweet</button></a>
+    <li>
+        <a class="nav-link" href="{% url 'profile-page' request.user.username %}">
+            <i class="fa-regular fa-user" {% if current == 'profile' %} style="color:#00BA7C" {% endif %}></i> 
+            <span>Profile</span> 
+        </a>
+    </li>
+    <li>
+        <a class="nav-link" href="">
+            <i class="fa-regular fa-bell" {% if current == 'messages' %} style="color:#00BA7C" {% endif %}></i>
+            <span>Messages</span>
+        </a>
+    </li>
+    <a href="{% url 'create-tweet' %}">
+        <button class="tweet-button">Tweet</button>
+    </a>
     {% else %}
-    <li><a class="nav-link" href="{% url 'login' %}"><i class="fa-regular fa-user"></i> Profile</a></li>
-    <li><a class="nav-link" href="{% url 'login' %}"><i class="fa-regular fa-bell"></i></i> <span>Messages</span> </a></li>
-    <a href="{% url 'login' %}"><button class="tweet-button">Tweet</button></a>
+    <li>
+        <a class="nav-link" href="{% url 'login' %}">
+            <i class="fa-regular fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </li>
+    <li>
+        <a class="nav-link" href="{% url 'login' %}">
+            <i class="fa-regular fa-envelope"></i>
+            <span>Messages</span>
+        </a>
+    </li>
+    <a href="{% url 'login' %}">
+        <button class="tweet-button">Tweet</button>
+    </a>
     {% endif %} 
 </ul>
 <div class="userinfo-container">
@@ -18,6 +47,7 @@
         <img src="{{ request.user|get_profile_picture }}" alt="">
     </div>
     {% endif %}
+    
     <div class="navbar-profile-info">
         {% if request.user.is_authenticated %}
         <span>{{ request.user.first_name }} {{ request.user.last_name }}</span>
