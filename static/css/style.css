@@ -108,6 +108,22 @@ a {
     color: #F7F9F9;
 }
 
+.nav-link i {
+    position: relative;
+}
+
+.nav-link .notification-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.7rem;
+    background-color: red;
+    border: 3px solid #15202B;
+    border-radius: 10rem;
+    padding: 0.4rem;
+    transform: translate(40%, -40%);
+}
+
 .menu-btn {
     color: #F7F9F9;
     font-size: 1rem;
@@ -305,7 +321,8 @@ a {
 
 .profile-content,
 .tweet-detail-content,
-.connection-content {
+.connection-content,
+.notification-content {
     top: var(--substitute-content-top);
 }
 
@@ -444,7 +461,6 @@ a {
 
 .tweet-body,
 .reply-body,
-.connection-body,
 .new-tweet-message {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -456,6 +472,17 @@ a {
     border-bottom: 1px solid #38444D;
     transition: 0.4s ease-out;
     /* border: 3px solid green; */
+}
+
+
+.notice-body,
+.connection-body {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    border-bottom: 1px solid #38444D;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
 }
 
 .reply-body {
@@ -492,6 +519,7 @@ a {
 .tweet-detail-wrapper,
 .profile-content-wrapper,
 .connections-wrapper,
+.notifications-wrapper,
 .profile-tabs {
     position: relative;
     margin: 0;
@@ -499,7 +527,8 @@ a {
     /* border: 2px solid yellow; */
 }
 
-.profile-container img {
+.profile-container img,
+.sender-profile-container img {
     position: relative;
     width: var(--profile-image-width);
     height: var(--profile-image-width);
@@ -508,6 +537,11 @@ a {
     padding: 0;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.sender-profile-container img {
+    width: calc(var(--profile-image-width) * 0.75);
+    height: calc(var(--profile-image-width) * 0.75);
 }
 
 .name-section {
@@ -553,7 +587,8 @@ a {
 
 .tweet-container,
 .reply-container,
-.connection-container {
+.connection-container,
+.notice-container {
     position: relative;
     min-width: 80%;
     max-width: var(--tweet-container-max-width);
@@ -1174,6 +1209,22 @@ input:-webkit-autofill:active {
         justify-content: center;
         align-items: center;
         border-top: 1px solid #38444D;
+    }
+
+    .bottom-menu i {
+        position: relative;
+    }
+
+    .bottom-menu .notification-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.5rem;
+        background-color: red;
+        border: 2px solid #15202B;
+        border-radius: 10rem;
+        padding: 0.2rem;
+        transform: translate(40%, -40%);
     }
 
     .bm-link-container {

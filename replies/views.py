@@ -2,6 +2,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from tweet.models import Tweet
+from notifications.models import Notification
 
 from .forms import TweetReplyForm
 
@@ -15,6 +16,14 @@ def tweet_reply_view(request, tweet_id):
             reply.author = request.user
             reply.tweet = tweet
             reply.save()
+
+            notice = Notification.objects.create(
+                receiver=tweet.author.profile,
+                sender=request.user.profile,
+                title='New Reply',
+                body=f'user @{tweet.author.username} has repleid to your tweet "{tweet.body[:20]}..."'
+            )
+            notice.save()
 
             return redirect('tweet-detail', pk=tweet_id)
     else:

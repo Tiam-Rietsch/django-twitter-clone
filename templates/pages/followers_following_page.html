@@ -1,4 +1,6 @@
 {% extends 'pages/base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
 {% load user_extras tweet_extras %}
 
 {% block content %}
@@ -13,7 +15,6 @@
 
 
 <div class="container">
-
     <div class="navbar">
         {% include 'pages/navbar.html' %}
     </div>

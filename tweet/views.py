@@ -8,6 +8,7 @@ from .forms import TweetCreationForm
 from .models import Tweet, TweetLike, Repost
 from replies.models import Reply
 from trends.models import Trend
+from notifications.models import Notification
 
 def refresh_tweet_count(request):
     if request.headers['X-Requested-With'] == 'refreshTweetCount':
@@ -70,8 +71,27 @@ def like_action(request):
         if like is None:
             like = TweetLike.objects.create(tweet=Tweet.objects.get(id=tweetID), author=request.user)
             like.save()
+
+            notice = Notification.objects.create(
+                receiver=tweet.author.profile,
+                sender=request.user.profile,
+                title='New Like',
+                body=f'user @{request.user.username} has liked your tweet "{tweet.body[:20]}"'
+            )
+            notice.save()
         elif like is not None:
             like.delete()
+            try:
+                notice = Notification.objects.get(
+                    receiver=tweet.author.profile,
+                    sender=request.user.profile,
+                    title='New Like',
+                    body=f'user @{request.user.username} has liked your tweet "{tweet.body[:20]}"'
+                )
+                notice.delete()
+            except Notification.DoesNotExist:
+                pass
+
             json_context['disliked'] = True
 
         return JsonResponse(json_context)

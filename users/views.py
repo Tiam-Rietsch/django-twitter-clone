@@ -10,7 +10,7 @@ from replies.models import Reply
 from .forms import RegisterForm
 from .models import User, Profile
 from trends.models import Trend
-
+from notifications.models import Notification
 def register_view(request):
 
     if request.method == 'POST':
@@ -76,28 +76,28 @@ def edit_profile_view(request, profile_id):
         bio = request.POST.get('bio')
 
         # use this in development for static files
-        # blank_profile_picture = 'static/img/blank-profile-picture.png'
-        # blank_cover_photo = 'static/img/blank-cover-photo.png'
+        blank_profile_picture = 'static/img/blank-profile-picture.png'
+        blank_cover_photo = 'static/img/blank-cover-photo.png'
 
         # this is used for production
-        blank_profile_picture = '/img/blank-profile-picture.png'
-        blank_cover_photo = '/img/blank-cover-photo.png'
+        # blank_profile_picture = '/img/blank-profile-picture.png'
+        # blank_cover_photo = '/img/blank-cover-photo.png'
 
         if cover_photo:
             if profile.cover_photo.url != blank_cover_photo: 
-                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
+                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
 
                 # in development when MEDIA_ROOT is set
-                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
+                os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
 
             profile.cover_photo = cover_photo
 
         if profile_picture:
             if profile.profile_picture.url != blank_profile_picture:
-                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
+                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
 
                 # in development when MEDIA_ROOT is set
-                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
+                os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
 
 
     
@@ -121,9 +121,27 @@ def follow_user_view(request, user_id):
 
     if request.user.profile in to_follow.profile.followers.all():
         to_follow.profile.followers.remove(request.user.profile)
+        try:
+            notice = Notification.objects.get(
+                receiver=to_follow.profile,
+                sender=request.user.profile,
+                title='New Follower',
+                body=f'user @{request.user.username} started following you'
+            )
+            notice.delete()
+        except Notification.DoesNotExist:
+            pass
+
         return JsonResponse({'followed': False})
     else:
         to_follow.profile.followers.add(request.user.profile)
+        notice = Notification.objects.create(
+            receiver=to_follow.profile,
+            sender=request.user.profile,
+            title='New Follower',
+            body=f'user @{request.user.username} started following you'
+        )
+        notice.save()
         return JsonResponse({'followed': True})
 
 
@@ -132,9 +150,27 @@ def follow_connection_view(request):
 
     if request.user.profile in to_follow.profile.followers.all():
         to_follow.profile.followers.remove(request.user.profile)
+        try:
+            notice = Notification.objects.filter(
+                receiver=to_follow.profile,
+                sender=request.user.profile,
+                title='New Follower',
+                body=f'user @{request.user.username} started following you'
+            )[0]
+            notice.delete()
+        except Notification.DoesNotExist:
+            pass
+
         return JsonResponse({'followed': False})
     else:
         to_follow.profile.followers.add(request.user.profile)
+        notice = Notification.objects.create(
+            receiver=to_follow.profile,
+            sender=request.user.profile,
+            title='New Follower',
+            body=f'user @{request.user.username} started following you'
+        )
+        notice.save()
         return JsonResponse({'followed': True})
 
 

@@ -1,0 +1,45 @@
+{% extends 'pages/base.html' %}
+{% load tweet_extras user_extras %}
+{% block content %}
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="menu-bar tweet-detail-menu">
+    <a class="back-arrow" href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
+    <h2>Notifications</h2>
+</div>
+
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' %}
+    </div>
+    <div class="main-content tweet-detail-content">
+        <div class="notifications-wrapper">
+            {% for notice in notifications %}
+            <div class="notice-body">
+                <div class="sender-profile-container">
+                    <a href="{% url 'profile-page' notice.sender.user.username %}">
+                        <img src="{{ notice.sender.user|get_profile_picture }}" alt="">
+                    </a>
+                </div>
+                <div class="notice-container">
+                    <p>{{ notice.date_created|timesince }} ago</p>
+                    <span>{{ notice.body }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+    <div class="suggestions">
+        {% include 'tweet/popular_topics_list.html' with current='notifications' %}
+    </div>
+</div>
+
+
+{% endblock content %}
+
+

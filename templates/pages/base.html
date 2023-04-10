@@ -28,6 +28,7 @@
         // this function handles all functionalities that make the website realtime responsive
         function LiveUpdates() {
             setInterval(() => {
+                getUnviewedNotifications()
                 checkTweetListState()
                 refreshLikes()
                 refreshRepliesCount()
@@ -35,6 +36,27 @@
 
             }, 1000)
 
+        }
+
+        function getUnviewedNotifications() {
+            document.querySelectorAll('.notification-count').forEach( async item => {
+                let response = await fetch('{% url "get-unviewed-notifications" %}', {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'getUnviewedNotifications',
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+                data = await response.json()
+
+                if (await data['count'] == 0) {
+                    item.classList.add('none')
+                } else {
+                    item.innerHTML = await data['count']
+                    item.classList.remove('none')
+                }
+            })
         }
 
         // iterate through the DOM tree and checks if a tweet currently displayed has been deleted or not
