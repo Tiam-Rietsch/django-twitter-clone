@@ -6,16 +6,37 @@ class UsersConfig(AppConfig):
     name = 'users'
 
     def ready(self):
-        import os
+        import os, subprocess
         from django.conf import settings
         from django.db.models.signals import post_save, pre_delete
         from .models import Profile
 
         def delete_atachement(sender, **kwargs):
+            # use this in development for static files
+            # blank_profile_picture = '../static/img/blank-profile-picture.png'
+            # blank_cover_photo = '../static/img/blank-cover-photo.png'
+
+            # this is used for production
+            blank_profile_picture = '../img/blank-profile-picture.png'
+            blank_cover_photo = '../img/blank-cover-photo.png'
+
             profile = kwargs['instance']
-            os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
-            os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
-    
+
+            if profile.profile_picture != blank_profile_picture:
+                # use this in development for static files
+                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
+
+                # use this in production
+                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
+
+
+            if profile.cover_photo != blank_cover_photo:
+                # use this in development for static files
+                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
+
+                # use this in production
+                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
+   
 
         def set_username(sender, **kwargs):
             if kwargs['created']:
@@ -32,7 +53,19 @@ class UsersConfig(AppConfig):
                 user.email = user.email.lower()
                 user.save()
 
-                Profile.objects.create(user=user).save()
+                # use this in development for static files
+                # blank_profile_picture = '../static/img/blank-profile-picture.png'
+                # blank_cover_photo = '../static/img/blank-cover-photo.png'
+
+                # this is used for production
+                blank_profile_picture = '../img/blank-profile-picture.png'
+                blank_cover_photo = '../img/blank-cover-photo.png'
+
+                profile  = Profile.objects.create(user=user)
+                profile.profile_picture = blank_profile_picture
+                profile.cover_photo = blank_cover_photo
+                profile.save()
+
 
 
         post_save.connect(set_username, sender=get_user_model())

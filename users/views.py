@@ -1,4 +1,4 @@
-import os
+import os, subprocess
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
@@ -75,15 +75,31 @@ def edit_profile_view(request, profile_id):
         username = request.POST.get('username')
         bio = request.POST.get('bio')
 
+        # use this in development for static files
+        # blank_profile_picture = 'static/img/blank-profile-picture.png'
+        # blank_cover_photo = 'static/img/blank-cover-photo.png'
+
+        # this is used for production
+        blank_profile_picture = '/img/blank-profile-picture.png'
+        blank_cover_photo = '/img/blank-cover-photo.png'
+
         if cover_photo:
-            if profile.cover_photo.url != '/static/img/blank-cover-photo.png': 
-                os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
+            if profile.cover_photo.url != blank_cover_photo: 
+                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
+
+                # in development when MEDIA_ROOT is set
+                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
 
             profile.cover_photo = cover_photo
 
         if profile_picture:
-            if profile.profile_picture.url != '/static/img/blank-profile-picture.png':
-                os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
+            if profile.profile_picture.url != blank_profile_picture:
+                subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
+
+                # in development when MEDIA_ROOT is set
+                # os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
+
+
     
             profile.profile_picture = profile_picture
 
