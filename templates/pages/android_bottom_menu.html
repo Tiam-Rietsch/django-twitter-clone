@@ -4,7 +4,7 @@
             <a href="{% url 'home' %}"><i class="fa-solid fa-house-chimney" {% if current == 'home' %} style="color:#00BA7C" {% endif %}></i></a>
         </li>
         <li>
-            <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="{% url 'search-topic' %}"><i class="fa-solid fa-magnifying-glass"></i></a>
         </li>
         <li>
             <a href=""><i class="fa-regular fa-bell" {% if current == 'messages' %} style="color:#00BA7C" {% endif %}></i></a>

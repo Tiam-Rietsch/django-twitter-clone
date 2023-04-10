@@ -35,7 +35,11 @@ def format_tweet_text(text):
         final_list.append(word_dict)
 
     return final_list
-   
+
+@register.filter
+def remove_decorator_word(word):
+    return ''.join(character for character in word if character.isalnum())
+
 @register.filter 
 def remove_decorator(word_dictionary):
     return ''.join(character for character in word_dictionary['word'] if character.isalnum())

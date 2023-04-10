@@ -179,3 +179,8 @@ def retweet_view(request):
 
         
         return JsonResponse({'success': True})
+    
+
+def android_search_page_view(request):
+    topics = Trend.objects.all()
+    return render(request, 'pages/android_search_page.html', {'topics': topics})

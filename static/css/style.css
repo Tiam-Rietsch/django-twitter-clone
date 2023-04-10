@@ -1082,6 +1082,32 @@ input:-webkit-autofill:active {
         display: none;
     }
 
+    .topics-search-container {
+        position: fixed;
+        box-sizing: border-box;
+        padding-right: 10px;
+        left: 0;
+        top: calc(var(--substitute-content-top) - 1%);
+        width: 100%;
+        z-index: 500;
+        background-color: #15202B;
+        height: 10vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .topics-list {
+        position: absolute;
+        background-color: inherit;
+        box-sizing: border-box;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 1.2rem;
+        line-height: 0.5rem;
+    }
+
     .attachement-section img {
         max-width: 100%;
     }
