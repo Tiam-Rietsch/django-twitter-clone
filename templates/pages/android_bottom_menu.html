@@ -1,0 +1,13 @@
+<div class="bottom-menu android">
+    <ul class="bm-link-container">
+        <li>
+            <a href="{% url 'home' %}"><i class="fa-solid fa-house-chimney" {% if current == 'home' %} style="color:#00BA7C" {% endif %}></i></a>
+        </li>
+        <li>
+            <a href=""><i class="fa-solid fa-magnifying-glass"></i></a>
+        </li>
+        <li>
+            <a href=""><i class="fa-regular fa-bell" {% if current == 'messages' %} style="color:#00BA7C" {% endif %}></i></a>
+        </li>
+    </ul>
+</div>

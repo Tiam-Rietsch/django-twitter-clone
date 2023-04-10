@@ -495,6 +495,7 @@ a {
 .profile-tabs {
     position: relative;
     margin: 0;
+    padding-bottom: 60px;
     /* border: 2px solid yellow; */
 }
 
@@ -1131,10 +1132,38 @@ input:-webkit-autofill:active {
         transition: left 100ms ease-in-out;
     }
 
-
-
     .android-navbar a {
         color: #F7F9F9;
+    }
+
+    .bottom-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #15202B;
+        border: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #38444D;
+    }
+
+    .bm-link-container {
+        padding: 0;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        list-style: none;
+    }
+
+    .bm-link-container i {
+        font-size: 1.2rem;
+        color: white;
     }
 
     .an-profile-section {
