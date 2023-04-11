@@ -39,7 +39,7 @@
         }
 
         function getUnviewedNotifications() {
-            document.querySelectorAll('.notification-count').forEach( async item => {
+            document.querySelectorAll('.notification-count').forEach(async item => {
                 let response = await fetch('{% url "get-unviewed-notifications" %}', {
                     method: 'GET',
                     headers: {
@@ -183,6 +183,43 @@
         })
 
 
+        document.querySelectorAll('input[name="attachement"]').forEach(item => {
+            item.addEventListener('change',async () => {
+                const compressImage = async (file, { quality = 1, type = file.type }) => {
+                    const imageBitmap = await createImageBitmap(file)
+
+                    const canvas = document.createElement('canvas')
+                    canvas.width = imageBitmap.width
+                    canvas.height = imageBitmap.height
+                    const ctx = canvas.getContext('2d')
+                    ctx.drawImage(imageBitmap, 0, 0)
+
+                    const blob = await new Promise((resolve) =>
+                        canvas.toBlob(resolve, type, quality)
+                    )
+
+                    return new File([blob], file.name, {
+                        type: blob.type,
+                    })
+                }
+
+                const file = item.files[0]
+
+                const dataTransfer = new DataTransfer();
+                if (!file.type.startsWith('image')) {
+                    dataTransfer.items.add(file)
+                } else {
+                    const compressedFile = await compressImage(file, {
+                        quality: 0.1,
+                        type: 'image/jpeg'
+                    })
+                    dataTransfer.items.add(compressedFile)
+                }
+
+                item.files = dataTransfer.files
+            })
+        })
+
         // changes the apearance of the search on focus or on blur
         function changeSearchBar(event, state) {
             if (state == 'focused') {
@@ -190,7 +227,7 @@
                 const formIcon = document.querySelector('.search-form > label > i')
                 form.style.backgroundColor = '#15202B'
                 form.style.border = '2px solid #00A770'
-                formIcon.style.color= '#00A770'
+                formIcon.style.color = '#00A770'
             } else {
                 const form = document.querySelector('.search-form')
                 const formIcon = document.querySelector('.search-form > label > i')
