@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-$+bbg5=z5(=48e@*(!&58%_i^els0sts-1rg=857g#lu!it=)$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.92.195']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,6 +87,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'twitter_clone.wsgi.application'
 
+ASGI_APPLICATION = 'twitter_clone.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -132,8 +142,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -172,18 +182,18 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-LINODE_BUCKET = 'twitter-clone-storage'
-LINODE_BUCKET_REGION = 'eu-central-1'
-LINODE_BUCKET_ACCESS_KEY = '9AMC60LK939K5U80YX5P'
-LINODE_BUCKET_SECRET_KEY = 'OLR6LM0sQzYue6W1VeWBcegOvwVJ9iMANel6LRqR'
+# LINODE_BUCKET = 'twitter-clone-storage'
+# LINODE_BUCKET_REGION = 'eu-central-1'
+# LINODE_BUCKET_ACCESS_KEY = '9AMC60LK939K5U80YX5P'
+# LINODE_BUCKET_SECRET_KEY = 'OLR6LM0sQzYue6W1VeWBcegOvwVJ9iMANel6LRqR'
 
-AWS_S3_ENDPOINT_URL=f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
-AWS_ACCESS_KEY_ID=LINODE_BUCKET_ACCESS_KEY
-AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY
-AWS_S3_REGION_NAME=LINODE_BUCKET_REGION
-AWS_S3_USE_SSL=True
-AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET
+# AWS_S3_ENDPOINT_URL=f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
+# AWS_ACCESS_KEY_ID=LINODE_BUCKET_ACCESS_KEY
+# AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY
+# AWS_S3_REGION_NAME=LINODE_BUCKET_REGION
+# AWS_S3_USE_SSL=True
+# AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET

@@ -13,10 +13,10 @@ class TweetConfig(AppConfig):
         
         def delete_atachement(sender, **kwargs):
             tweet = kwargs['linstance']
-            # os.remove(os.path.join(settings.MEDIA_ROOT, tweet.attachement.name))
+            os.remove(os.path.join(settings.MEDIA_ROOT, tweet.attachement.name))
 
             # use this in production
-            subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', tweet.attachement.name])
+            # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', tweet.attachement.name])
 
 
         pre_delete.connect(delete_atachement, sender=Tweet)

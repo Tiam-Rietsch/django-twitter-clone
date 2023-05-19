@@ -17,5 +17,8 @@ def notification_page_view(request, username):
 
 
 def get_unviewed_notifications(request):
-    notifications = Notification.objects.filter(Q(receiver__user=request.user) & Q(viewed=False))
-    return JsonResponse({'count': notifications.count()})
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(Q(receiver__user=request.user) & Q(viewed=False))
+        return JsonResponse({'count': notifications.count()})
+    else:
+        return JsonResponse({'count': 0})

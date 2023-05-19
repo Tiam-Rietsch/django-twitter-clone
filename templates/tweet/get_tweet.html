@@ -48,7 +48,7 @@
         </div>
 
         <div class="action pink-action">
-            <button onclick="likeTweet(event)" class="tweet-like-button" value="{{ tweet.id }}">
+            <button onclick="likeTweet(event)" class="tweet-like-button" value="{{ tweet.id }}" id="like-button-{{ tweet.id }}">
                 {% if request.user|has_liked:tweet.id %}
                 <span><i class="fa fa-solid fa-heart"></i></span>
                 {% else %}
