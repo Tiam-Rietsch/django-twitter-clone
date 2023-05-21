@@ -11,6 +11,9 @@ from .forms import RegisterForm
 from .models import User, Profile
 from trends.models import Trend
 from notifications.models import Notification
+from chat.models import ChatRoom
+
+
 def register_view(request):
 
     if request.method == 'POST':
@@ -79,13 +82,8 @@ def edit_profile_view(request, profile_id):
         blank_profile_picture = 'static/img/blank-profile-picture.png'
         blank_cover_photo = 'static/img/blank-cover-photo.png'
 
-        # this is used for production
-        # blank_profile_picture = '/img/blank-profile-picture.png'
-        # blank_cover_photo = '/img/blank-cover-photo.png'
-
         if cover_photo:
             if profile.cover_photo.url != blank_cover_photo: 
-                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
 
                 # in development when MEDIA_ROOT is set
                 os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
@@ -94,7 +92,6 @@ def edit_profile_view(request, profile_id):
 
         if profile_picture:
             if profile.profile_picture.url != blank_profile_picture:
-                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
 
                 # in development when MEDIA_ROOT is set
                 os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
@@ -121,6 +118,17 @@ def follow_user_view(request, user_id):
 
     if request.user.profile in to_follow.profile.followers.all():
         to_follow.profile.followers.remove(request.user.profile)
+
+        names = [to_follow.username, request.user.username]
+        names.sort()
+        room_name = f'{names[0]}_chat_{names[1]}'
+        try:
+            room = ChatRoom.objects.get(name=room_name)
+            room.delete()
+        except ChatRoom.DoesNotExist:
+            pass
+
+
         try:
             notice = Notification.objects.get(
                 receiver=to_follow.profile,
@@ -135,6 +143,15 @@ def follow_user_view(request, user_id):
         return JsonResponse({'followed': False})
     else:
         to_follow.profile.followers.add(request.user.profile)
+
+        if  to_follow.profile in request.user.profile.followers.all():
+            names = [to_follow.username, request.user.username]
+            names.sort()
+            room_name = f'{names[0]}_chat_{names[1]}'
+            room = ChatRoom.objects.create(name=room_name)
+            room.participants.add(to_follow.profile, request.user.profile)
+            room.save()
+        
         notice = Notification.objects.create(
             receiver=to_follow.profile,
             sender=request.user.profile,
@@ -150,13 +167,24 @@ def follow_connection_view(request):
 
     if request.user.profile in to_follow.profile.followers.all():
         to_follow.profile.followers.remove(request.user.profile)
+
+        names = [to_follow.username, request.user.username]
+        names.sort()
+        room_name = f'{names[0]}_chat_{names[1]}'
         try:
-            notice = Notification.objects.filter(
+            room = ChatRoom.objects.get(name=room_name)
+            room.delete()
+        except ChatRoom.DoesNotExist:
+            pass
+
+
+        try:
+            notice = Notification.objects.get(
                 receiver=to_follow.profile,
                 sender=request.user.profile,
                 title='New Follower',
                 body=f'user @{request.user.username} started following you'
-            )[0]
+            )
             notice.delete()
         except Notification.DoesNotExist:
             pass
@@ -164,6 +192,15 @@ def follow_connection_view(request):
         return JsonResponse({'followed': False})
     else:
         to_follow.profile.followers.add(request.user.profile)
+
+        if  to_follow.profile in request.user.profile.followers.all():
+            names = [to_follow.username, request.user.username]
+            names.sort()
+            room_name = f'{names[0]}_chat_{names[1]}'
+            room = ChatRoom.objects.create(name=room_name)
+            room.participants.add(to_follow.profile, request.user.profile)
+            room.save()
+
         notice = Notification.objects.create(
             receiver=to_follow.profile,
             sender=request.user.profile,

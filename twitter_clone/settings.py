@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'replies.apps.RepliesConfig',
     'trends.apps.TrendsConfig',
     'notifications.apps.NotificationsConfig',
+    'chat.apps.ChatConfig',
 
     #3rd party apps
     'allauth',

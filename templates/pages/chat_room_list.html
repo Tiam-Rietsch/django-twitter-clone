@@ -1,0 +1,49 @@
+{% extends 'pages/base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load user_extras %}
+{% load chat_extras %}
+{% block content %}
+
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="menu-bar profile-menu">
+    <a class="back-arrow" href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
+    <h2>Messages</h2>
+</div>
+
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' with current='messages' %}
+    </div>
+    <div class="main-content profile-content">
+        <div class="rooms-wrapper">
+            {% for room in chat_rooms %}
+            <div class="room-body">
+                <div class="sender-profile-container">
+                    <a href="{% url 'chat_room' room.name %}">
+                        <img src="{% with profile=room|get_room_display_profile:request.user %}{{ profile.user|get_profile_picture }}{% endwith %}" alt="">
+                    </a>
+                </div>
+                <div class="room-container">
+                    <span>
+                    {% with profile=room|get_room_display_profile:request.user %}
+                        {{ profile.user.first_name }} {{ profile.user.last_name }}
+                    {% endwith %}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="suggestions">
+        {% include 'tweet/popular_topics_list.html' %}
+    </div>
+</div>
+
+{% endblock content %}

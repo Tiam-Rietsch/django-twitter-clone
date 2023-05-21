@@ -1,0 +1,46 @@
+{% extends 'pages/base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load user_extras %}
+{% load chat_extras %}
+{% block content %}
+
+<div class="logout-form-filter none">
+    {% include 'account/logout_form.html' %}
+</div>
+
+<div class="menu-bar profile-menu">
+    <a class="back-arrow" href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
+    <h2>Messages</h2>
+</div>
+
+<div class="chat-message-input-wrapper">
+    <form action="">
+        <input type="text">
+        <button class="send-message-button"><i class="fa-regular fa-paper-plane"></i></button>
+    </form>
+</div>
+
+
+<div class="container">
+
+    <div class="navbar">
+        {% include 'pages/navbar.html' with current='messages' %}
+    </div>
+    <div class="main-content profile-content">
+        <div class="chat-wrapper">
+            {% for chat_message in chat_messages %}
+            <div class="chat-body">
+                <div class="chat-container">
+   
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="suggestions">
+        {% include 'tweet/popular_topics_list.html' %}
+    </div>
+</div>
+
+{% endblock content %}

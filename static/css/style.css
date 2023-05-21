@@ -322,7 +322,8 @@ a {
 .profile-content,
 .tweet-detail-content,
 .connection-content,
-.notification-content {
+.notification-content,
+.rooms-content {
     top: var(--substitute-content-top);
 }
 
@@ -461,6 +462,7 @@ a {
 
 .tweet-body,
 .reply-body,
+.chat-body,
 .new-tweet-message {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -474,7 +476,7 @@ a {
     /* border: 3px solid green; */
 }
 
-
+.room-body,
 .notice-body,
 .connection-body {
     padding-top: 1rem;
@@ -520,6 +522,7 @@ a {
 .profile-content-wrapper,
 .connections-wrapper,
 .notifications-wrapper,
+.chat-wrapper,
 .profile-tabs {
     position: relative;
     margin: 0;
@@ -588,7 +591,9 @@ a {
 .tweet-container,
 .reply-container,
 .connection-container,
-.notice-container {
+.notice-container,
+.room-container,
+.chat-container {
     position: relative;
     min-width: 80%;
     max-width: var(--tweet-container-max-width);
@@ -797,6 +802,63 @@ a {
 
 
 /* profile page end*/
+
+/* message page start */
+
+
+.chat-message-input-wrapper {
+    position: fixed;
+    bottom: 0px;
+    left: var(--main-content-left);
+    width: var(--main-content-width);
+    height: 60px;
+    background-color: #15202B;
+    border: 0;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+
+.chat-message-input-wrapper form {
+    width: 95%;
+    height: 95%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #24303d;
+    align-items: center;
+}
+
+.chat-message-input-wrapper input {
+    width: 80%;
+    height: 60%;
+    border: none;
+    font-size: 1.2em;
+    color: white;
+    background-color: transparent;
+}
+
+.chat-message-input-wrapper input:focus {
+    outline: none;
+}
+
+.chat-message-input-wrapper form button {
+    height: 60%;
+    width: 10%;
+    border: none;
+    background-color: transparent;
+}
+
+.chat-message-input-wrapper i {
+    font-size: 1.5em;
+    color: white;
+}
+
+
+/* message page end */
 
 /*--------------------------------------------------------------data forms --------------------------------------------------*/
 
@@ -1066,6 +1128,20 @@ input:-webkit-autofill:active {
         width: 100%;
     }
 
+    .chat-message-input-wrapper {
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #acb7c1;
+        border: 0;
+        border-top: 1px solid #38444D;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+    }
 
     .floating-tweet-button {
         position: fixed;

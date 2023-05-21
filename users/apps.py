@@ -16,27 +16,17 @@ class UsersConfig(AppConfig):
             blank_profile_picture = '../static/img/blank-profile-picture.png'
             blank_cover_photo = '../static/img/blank-cover-photo.png'
 
-            # this is used for production
-            # blank_profile_picture = '../img/blank-profile-picture.png'
-            # blank_cover_photo = '../img/blank-cover-photo.png'
-
             profile = kwargs['instance']
 
             if profile.profile_picture != blank_profile_picture:
                 # use this in development for static files
                 os.remove(os.path.join(settings.MEDIA_ROOT, profile.profile_picture.name))
 
-                # use this in production
-                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.profile_picture.name])
-
 
             if profile.cover_photo != blank_cover_photo:
                 # use this in development for static files
                 os.remove(os.path.join(settings.MEDIA_ROOT, profile.cover_photo.name))
 
-                # use this in production
-                # subprocess.run(['linode-cli', 'obj', 'del', 'twitter-clone-storage', profile.cover_photo.name])
-   
 
         def set_username(sender, **kwargs):
             if kwargs['created']:
@@ -57,9 +47,6 @@ class UsersConfig(AppConfig):
                 blank_profile_picture = '../static/img/blank-profile-picture.png'
                 blank_cover_photo = '../static/img/blank-cover-photo.png'
 
-                # this is used for production
-                # blank_profile_picture = '../img/blank-profile-picture.png'
-                # blank_cover_photo = '../img/blank-cover-photo.png'
 
                 profile  = Profile.objects.create(user=user)
                 profile.profile_picture = blank_profile_picture
