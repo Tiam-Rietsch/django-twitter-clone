@@ -9,14 +9,15 @@
     {% include 'account/logout_form.html' %}
 </div>
 
-<div class="menu-bar profile-menu">
+<div class="menu-bar room-menu">
     <a class="back-arrow" href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
-    <h2>Messages</h2>
+    <img src="{% with profile=receiver %}{{ profile.user|get_profile_picture }}{% endwith %}"alt="">
+    <h2>{{ receiver.user.first_name }} {{ receiver.user.last_name }}</h2>
 </div>
 
 <div class="chat-message-input-wrapper">
-    <form action="">
-        <input type="text">
+    <form action="" onsubmit="sendMessage(event)">
+        <input type="text" name="message">
         <button class="send-message-button"><i class="fa-regular fa-paper-plane"></i></button>
     </form>
 </div>
@@ -28,11 +29,13 @@
         {% include 'pages/navbar.html' with current='messages' %}
     </div>
     <div class="main-content profile-content">
+        {{ room.name|json_script:"room-name" }}
+        {{ request.user.email|json_script:"sender"}}
         <div class="chat-wrapper">
             {% for chat_message in chat_messages %}
             <div class="chat-body">
-                <div class="chat-container">
-   
+                <div {% if chat_message.author == self.request.user.profile %}class="chat-container chat-sender-container"{% else %}class="chat-container chat-sender-container" {% endif %}>
+
                 </div>
             </div>
             {% endfor %}
@@ -44,3 +47,50 @@
 </div>
 
 {% endblock content %}
+
+{% block script %}
+<script>
+    let roomName = JSON.parse(document.querySelector('#room-name').textContent)
+    let url = `ws://${window.location.host}/ws/${roomName}/chat/`
+    let chatSocket = new WebSocket(url)
+    let previousChatBody = ''
+
+    chatSocket.onmessage = function (event) {
+        let data = JSON.parse(event.data)
+        let chatWrapper = document.querySelector('.chat-wrapper')
+
+        if (data['sender'] == JSON.parse(document.querySelector('#sender').textContent)) {
+            let newElement = `<div class="chat-body  chat-sender-body"><div class="chat-container"><p>${data['message']}</p></div><div class="time-container"><em>${data['time_sent']}</em></div></div>`
+
+            var previousChatBody = chatWrapper.lastElementChild
+            if (previousChatBody !== null && previousChatBody.classList.contains('chat-receiver-body')) {
+                newElement = `<div class="chat-body  chat-sender-body chat-body-spaced"><div class="chat-container"><p>${data['message']}</p></div><div class="time-container"><em>${data['time_sent']}</em></div></div>`
+            } else if (previousChatBody !== null) {
+                previousChatBody.firstChild.classList.add('chat-container-rounded')
+                previousChatBody.lastElementChild.remove()
+            }
+            chatWrapper.insertAdjacentHTML('beforeend', newElement)
+        } else {
+            let newElement = `<div class="chat-body  chat-receiver-body"><div class="chat-container"><p>${data['message']}</p></div><div class="time-container"><em>${data['time_sent']}</em></div></div>`
+
+            var previousChatBody = chatWrapper.lastElementChild
+            if (previousChatBody !== null && previousChatBody.classList.contains('chat-sender-body')) {
+                newElement = `<div class="chat-body  chat-receiver-body chat-body-spaced"><div class="chat-container"><p>${data['message']}</p></div><div class="time-container"><em>${data['time_sent']}</em></div></div>`
+            } else if (previousChatBody !== null) {
+                previousChatBody.firstChild.classList.add('chat-container-rounded')
+                previousChatBody.lastElementChild.remove()
+            }
+            chatWrapper.insertAdjacentHTML('beforeend', newElement)
+        }
+
+    }
+
+    function sendMessage(event) {
+        event.preventDefault()
+        message = document.querySelector('input[name="message"]')
+
+        chatSocket.send(JSON.stringify({ type: 'message', message: message.value, author: '{{request.user.profile}}'}))
+        message.value = ''
+    }   
+</script>
+{% endblock script %}
